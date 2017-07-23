@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlt.vote" >
+
+    <resultMap id="CampaignDetailMap" type="com.jlt.vote.bis.campaign.vo.CampaignDetailVo">
+        <result property="sponsorPic" column="sponsorPic" />
+        <result property="signCount" column="signCount" />
+        <result property="voteCount" column="voteCount" />
+        <result property="viewCount" column="viewCount" />
+        <result property="startTime" column="startTime" />
+        <result property="endTime" column="endTime" />
+        <result property="sponsorIntro" column="sponsorIntro" />
+        <collection property="sponsorPicUrls" ofType="com.jlt.vote.bis.campaign.vo.SponsorPicVo">
+            <result property="picUrl" column="picUrl" />
+            <result property="id" column="sponsorPicId" />
+        </collection>
+    </resultMap>
+
+    <select id="queryCampaignDetail" resultMap="CampaignDetailMap">
+        SELECT a.sponsorPic,a.signCount,a.startTime,a.endTime,a.sponsorIntro,
+              b.picUrl,b.id AS sponsorPicId,c.viewCount,d.voteCount
+        FROM t_t_campaign a
+        LEFT JOIN t_t_sponsor_pic b ON a.chainId = b.chainId
+        LEFT JOIN t_t_campaign_view c ON a.chainId = c.chainId
+        LEFT JOIN t_t_campaign_vote d ON a.chainId = d.chainId
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
+        ORDER BY b.created ASC
+    </select>
+
+    <resultMap id="SimpleUserMap" type="com.jlt.vote.bis.campaign.vo.SimpleUserVo">
+        <result property="number" column="number" />
+        <result property="voteCount" column="voteCount" />
+        <result property="headPic" column="headPic" />
+        <result property="name" column="name" />
+        <result property="userId" column="id" />
+    </resultMap>
+
+    <select id="querySimpleUserList" resultMap="SimpleUserMap">
+        SELECT a.number,a.voteCount,a.headPic,a.name,a.id
+        FROM t_t_user a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
+            <if test="queryKey != null and queryKey != ''">
+                <trim prefix="AND (" suffix=")">
+                    a.name like CONCAT('%',#{queryKey},'%') OR a.number like CONCAT('%',#{queryKey},'%')
+                </trim>
+            </if>
+        ORDER BY a.voteCount DESC
+        <if test="start != null and start >= 0 and pageSize != null and pageSize >= 0">
+            LIMIT #{start},#{pageSize}
+        </if>
+        <if test="start != null and start > 0 and pageSize == null">
+            LIMIT #{pageSize}
+        </if>
+    </select>
+
+
+    <resultMap id="UserDetailMap" type="com.jlt.vote.bis.campaign.vo.UserDetailVo">
+        <result property="userId" column="userId" />
+        <result property="number" column="number" />
+        <result property="voteCount" column="voteCount" />
+        <result property="viewCount" column="viewCount" />
+        <result property="giftCount" column="giftCount" />
+        <result property="headPic" column="headPic" />
+        <result property="name" column="name" />
+        <collection property="userPicVos" ofType="com.jlt.vote.bis.campaign.vo.UserPicVo">
+            <result property="picUrl" column="picUrl" />
+            <result property="id" column="userPicId" />
+        </collection>
+    </resultMap>
+
+    <select id="queryUserDetail" resultMap="UserDetailMap">
+        SELECT a.id AS userId,a.number,a.voteCount,a.viewCount,a.giftCount,a.name,a.headPic,
+            b.picUrl,b.id AS userPicId
+        FROM t_t_user a
+        LEFT JOIN t_t_user_pic b ON a.chainId = b.chainId AND a.id = b.userId
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.id = #{userId}
+        ORDER BY b.created ASC
+    </select>
+
+    <select id="queryUserCount" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_t_user a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.id = #{userId}
+    </select>
+
+    <resultMap id="UserGiftMap" type="com.jlt.vote.bis.campaign.vo.UserGiftVo">
+        <result property="headImgUrl" column="headImgUrl" />
+        <result property="nickName" column="nickName" />
+        <result property="voteTime" column="voteTime" />
+        <result property="giftCount" column="giftCount" />
+        <result property="giftName" column="giftName" />
+    </resultMap>
+
+    <select id="queryUserGiftList" resultMap="UserGiftMap">
+        SELECT a.headImgUrl,a.nickName,a.voteTime,a.giftCount,a.giftName
+        FROM t_t_user_gift_record a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.userId = #{userId}
+        ORDER BY a.voteTime DESC
+        <if test="start != null and start >= 0 and pageSize != null and pageSize >= 0">
+            LIMIT #{start},#{pageSize}
+        </if>
+        <if test="start != null and start > 0 and pageSize == null">
+            LIMIT #{pageSize}
+        </if>
+    </select>
+    
+    <update id="updateCampaignViewCount">
+        UPDATE t_t_campaign_view a
+        LEFT JOIN t_t_user b ON a.chainId = b.chainId AND b.id = #{userId}
+        SET a.viewCount = a.viewCount + #{incrCampaignViewCount},b.viewCount = b.viewCount + #{incrUserViewCount}
+        WHERE a.chainId = #{chainId}
+    </update>
+
+    <update id="updateVoter">
+        INSERT INTO t_t_voter
+        (`openid`,`nickname`,`headimgurl`,`rawData`,`created`)
+        VALUES
+            (#{openid},#{nickname},#{headimgurl},#{rawData},now())
+        ON DUPLICATE KEY UPDATE
+            `nickname` = #{nickname},
+            `headimgurl` = #{headimgurl},
+            `rawData` = #{rawData},
+            `updated` = now()
+    </update>
+
+    <select id="queryVoter" resultType="com.jlt.vote.bis.campaign.vo.VoterVo">
+        SELECT a.nickname,a.headimgurl
+        FROM t_t_voter a
+        WHERE a.openid = #{openid}
+    </select>
+
+    <select id="queryCampaignGift" resultType="com.jlt.vote.bis.campaign.vo.CampaignGiftDetailVo">
+        SELECT a.id AS giftId,a.giftName,a.giftpic,a.giftPoint,a.voteCount,a.giftFee
+        FROM t_t_campaign_gift a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
+            <if test="giftId != null">
+                AND a.id = #{giftId}
+            </if>
+        ORDER BY a.giftPoint ASC
+    </select>
+
+    <update id="updateGiftRecord">
+        UPDATE t_t_user_gift_record a
+        SET a.dataStatus = 1
+        WHERE a.orderId = #{orderId} AND a.dataStatus = 0
+    </update>
+
+</mapper>
