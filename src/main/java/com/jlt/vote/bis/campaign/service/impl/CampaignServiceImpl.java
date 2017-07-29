@@ -80,6 +80,19 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
+	public boolean checkCampaignExist(Long chainId) {
+		Map<String ,Object> campaignMap = redisDaoSupport.hgetAll(CacheConstants.CAMPAIGN_BASE+chainId);
+		if(MapUtils.isEmpty(campaignMap)){
+			QueryBuilder checkQb = QueryBuilder.where(Restrictions.eq("chainId",chainId))
+					.and(Restrictions.eq("dataStatus",1));
+			int count = baseDaoSupport.queryForInt(checkQb,Campaign.class);
+			return count >0;
+		}else{
+			return true;
+		}
+	}
+
+	@Override
 	public void saveVoter(Map<String, Object> wxUserMap) {
 		String openid = MapUtils.getString(wxUserMap,"openid");
 		String nickname = MapUtils.getString(wxUserMap,"nickname","");

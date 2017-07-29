@@ -2,6 +2,7 @@ package com.jlt.vote.action;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.util.ResponseUtils;
+import com.jlt.vote.util.WebUtils;
 import com.jlt.vote.validation.ValidateFiled;
 import com.jlt.vote.validation.ValidateGroup;
 import com.xcrm.log.Logger;
@@ -130,9 +131,10 @@ public class VoteController {
      * @param request
      * @param response
      */
-    @RequestMapping(value ="/vote/{chainId}/vote",method = {RequestMethod.POST})
-    public void vote(@PathVariable Long chainId,String openId,Long userId,HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.vote,chainId:{},openId:{},userId:{}",chainId,openId,userId);
+    @RequestMapping(value ="/vote/{chainId}/common_vote",method = {RequestMethod.POST})
+    public void vote(@PathVariable Long chainId,Long userId,HttpServletRequest request, HttpServletResponse response){
+        logger.info("VoteController.vote,chainId:{},openId:{},userId:{}",chainId,userId);
+        String openId = WebUtils.getOpenId(request);
         ResponseUtils.createSuccessResponse(response,campaignService.vote(chainId,openId,userId,request.getRemoteAddr()));
     }
 

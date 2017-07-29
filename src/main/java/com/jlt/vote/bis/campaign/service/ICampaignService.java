@@ -25,6 +25,13 @@ public interface ICampaignService {
     Map<String ,Object> queryCampaignDetail(Long chainId);
 
     /**
+     * 校验活动是否存在
+     * @param chainId
+     * @return
+     */
+    boolean checkCampaignExist(Long chainId);
+
+    /**
      * 保存微信用户信息
      * @param wxUserMap
      */

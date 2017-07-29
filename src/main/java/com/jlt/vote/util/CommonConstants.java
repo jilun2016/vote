@@ -10,7 +10,27 @@ public interface CommonConstants {
 	/**
 	 *  cookie中openId
 	 */
-	String WX_OPEN_ID_COOKIE = "_vote_wx";
+	String WX_OPEN_ID_COOKIE = "_vote_wx_openId";
+
+	/**
+	 * HTTP POST请求
+	 */
+	String POST = "POST";
+
+	/**
+	 * HTTP GET请求
+	 */
+	String GET = "GET";
+
+	/**
+	 * UTF-8编码
+	 */
+	String UTF8 = "UTF-8";
+
+	/**
+	 * cookie中的JSESSIONID名称
+	 */
+	String JSESSION_COOKIE = "jsessionid";
 
 
 }

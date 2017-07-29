@@ -46,6 +46,12 @@ public class WxController {
     @Autowired
     private SysConfig sysConfig;
 
+    @RequestMapping(value = "/vote/v_nowx", method= RequestMethod.GET)
+    public String v_s_nowx(HttpServletRequest request ,HttpServletResponse response,ModelMap modelMap){
+        logger.debug("--------------/vote/v_nowx({})--------------------");
+        return "/nowx";
+    }
+
     /**
      * 微信授权 首页登陆
      * @param request
