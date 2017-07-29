@@ -103,10 +103,13 @@ public class WxServiceImpl implements IWxService {
         pay.setPayMoney(giftWxPrePayOrder.getPayMoney());
         pay.setPayStatus(PayStatusEnum.WAIT_BUYER_PAY.value());
         pay.setChainId(chainId);
+        pay.setGiftId(giftWxPrePayOrder.getGiftId());
+        pay.setGiftCount(giftWxPrePayOrder.getGiftCount());
+        pay.setUserId(giftWxPrePayOrder.getUserId());
         pay.setTitle(giftWxPrePayOrder.getTitle());
         wxPayService.saveVotePayOrder(pay);
 
-        //保存礼物记录 打他Status= 0
+        //保存礼物记录 dataStatus= 0
         UserGiftRecord userGiftRecord = new UserGiftRecord();
         userGiftRecord.setChainId(chainId);
         userGiftRecord.setDataStatus(false);
@@ -172,6 +175,7 @@ public class WxServiceImpl implements IWxService {
 
             if(result > 0){
                 campaignService.updateUserGiftRecord(votePayOrder.getId());
+                campaignService.updateUserGiftInfo(votePayOrder.getChainId(),votePayOrder.getUserId(),votePayOrder.getGiftId(),votePayOrder.getGiftCount());
             }
             return RET_S;
         }catch(Exception e){

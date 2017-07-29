@@ -145,4 +145,24 @@
         WHERE a.orderId = #{orderId} AND a.dataStatus = 0
     </update>
 
+    <update id="updateUserVoteInfo">
+        UPDATE t_t_user a
+        SET a.id = #{userId}
+          <if test="giftPoint != null and giftPoint >0">
+            ,a.giftPoint = a.giftPoint + #{giftPoint}
+          </if>
+          <if test="voteCount != null and voteCount >0">
+            ,a.voteCount = a.voteCount + #{voteCount}
+          </if>
+        WHERE a.id = #{userId}
+    </update>
+
+    <select id="getVoteRank" resultType="java.util.Map">
+        SELECT a.headPic,a.name,a.number,a.voteCount,a.giftPoint,a.id AS userId
+        FROM t_t_user a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
+        ORDER BY a.voteCount DESC
+        LIMIT 20
+    </select>
+
 </mapper>

@@ -3,7 +3,7 @@ package com.jlt.vote.bis.campaign.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.jlt.vote.bis.campaign.entity.Campaign;
 import com.jlt.vote.bis.campaign.entity.CampaignAward;
-import com.jlt.vote.bis.campaign.entity.Voter;
+import com.jlt.vote.bis.campaign.entity.UserVoteRecord;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.bis.campaign.vo.*;
 import com.jlt.vote.bis.wx.entity.UserGiftRecord;
@@ -15,6 +15,7 @@ import com.xcrm.cloud.database.db.query.QueryBuilder;
 import com.xcrm.cloud.database.db.query.Ssqb;
 import com.xcrm.cloud.database.db.query.expression.Restrictions;
 import com.xcrm.common.page.Pagination;
+import com.xcrm.common.util.DateFormatUtils;
 import com.xcrm.common.util.ListUtil;
 import com.xcrm.log.Logger;
 import org.apache.commons.collections.MapUtils;
@@ -161,7 +162,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			result.put("name",userDetail.getName());
 			result.put("number",userDetail.getNumber());
 			result.put("userId",userDetail.getUserId());
-			result.put("giftCount",userDetail.getGiftCount());
+			result.put("giftPoint",userDetail.getGiftPoint());
 			result.put("viewCount",userDetail.getViewCount() + 1);
 			result.put("voteCount",userDetail.getVoteCount());
 			result.put("headPic",userDetail.getHeadPic());
@@ -170,7 +171,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			result.put("userPicVos",userDetail.getUserPicVos());
 		}else{
 			//用户浏览量加1
-			redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+chainId,"viewCount",1);
+			redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"viewCount",1);
 			result.put("userPicVos",userPicList);
 			result.putAll(userDetailMap);
 			result.put("viewCount",MapUtils.getInteger(result,"viewCount") + 1);
@@ -289,6 +290,88 @@ public class CampaignServiceImpl implements ICampaignService {
 		Ssqb updateSqb = Ssqb.create("com.jlt.vote.updateGiftRecord")
 				.setParam("orderId",orderId);
 		baseDaoSupport.updateByMybatis(updateSqb);
+	}
+
+	@Override
+	public void updateUserGiftInfo(Long chainId,Long userId, Long giftId, Integer giftCount) {
+		CampaignGiftDetailVo giftDetailVo = redisDaoSupport.get(CacheConstants.CAMPAIGN_GIFT_DETAIL+giftId,CampaignGiftDetailVo.class);
+		if(Objects.isNull(giftDetailVo)){
+			giftDetailVo = queryCampaignGiftDetail(chainId,giftId);
+			Integer voteCount = giftDetailVo.getVoteCount()*giftCount;
+			Integer giftPoint = giftDetailVo.getGiftPoint()*giftCount;
+			int result = updateUserVoteInfo(userId,voteCount,giftPoint);
+			if(result > 0 ){
+				if(voteCount > 0){
+					redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",voteCount);
+				}
+
+				if(giftCount > 0){
+					redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"giftPoint",giftPoint);
+				}
+			}
+		}
+	}
+
+	@Override
+	public int updateUserVoteInfo(Long userId,Integer voteCount,Integer giftPoint) {
+		Ssqb updateSqb = Ssqb.create("com.jlt.vote.updateUserVoteInfo")
+				.setParam("userId",userId)
+				.setParam("voteCount",voteCount)
+				.setParam("giftPoint",giftPoint);
+		return baseDaoSupport.updateByMybatis(updateSqb);
+	}
+
+	@Override
+	public int vote(Long chainId, String openId,Long userId,String ipAddress) {
+		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
+		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 3)){
+			return 1;
+		}
+		Date now = DateFormatUtils.getNow();
+		redisDaoSupport.incr(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId,1);
+		redisDaoSupport.expire(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId,
+				DateFormatUtils.getLastTimeOfDay(new Date()).getTime() - now.getTime());
+		redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",1);
+		taskExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				updateUserVoteInfo(userId,1,0);
+				//增加投票人 普通投票记录
+				UserVoteRecord userVoteRecord = new UserVoteRecord();
+				userVoteRecord.setChainId(chainId);
+				userVoteRecord.setIpAddress(ipAddress);
+				userVoteRecord.setOpenId(openId);
+				userVoteRecord.setUserId(userId);
+				userVoteRecord.setVoteCount(1);
+				userVoteRecord.setVoteTime(now);
+			}
+		});
+
+		return 0;
+	}
+
+	@Override
+	public List<Map<String,Object>> getVoteRank(Long chainId) {
+		Ssqb queryRankSqb = Ssqb.create("com.jlt.vote.getVoteRank")
+				.setParam("chainId",chainId);
+		return baseDaoSupport.findForMapList(queryRankSqb);
+	}
+
+	@Override
+	public Map<String, Object> getCampaignTimeMap(Long chainId) {
+		Map<String ,Object> campaignTimeMap = new HashMap<>();
+		Date startTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"startTime");
+		Date endTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"endTime");
+		if((Objects.nonNull(startTime))&&(Objects.nonNull(endTime))){
+			campaignTimeMap.put("startTime",startTime);
+			campaignTimeMap.put("endTime",endTime);
+		}else{
+			Ssqb queryDetailSqb = Ssqb.create("com.jlt.vote.queryCampaignDetail").setParam("chainId",chainId);
+			CampaignDetailVo campaignDetail = baseDaoSupport.findForObj(queryDetailSqb,CampaignDetailVo.class);
+			campaignTimeMap.put("startTime",campaignDetail.getStartTime());
+			campaignTimeMap.put("endTime",campaignDetail.getEndTime());
+		}
+		return  campaignTimeMap;
 	}
 
 	@Override

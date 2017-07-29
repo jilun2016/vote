@@ -45,9 +45,14 @@ public interface CacheConstants {
 
 	/**
 	 * cache 投票活动投票人信息
-	 * 使用实例:vvo_{openId}
+	 * 使用实例:vvd_{openId}
 	 */
 	String VOTE_VOTER_DETAIL = "vvd_";
 
+	/**
+	 * cache 投票活动投票人 每天的投票数
+	 * 使用实例:cvc_{chainId}_{openId}
+	 */
+	String CAMPAIGN_VOTER_COUNT = "cvc_";
 
 }

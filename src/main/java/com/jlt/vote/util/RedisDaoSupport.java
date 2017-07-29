@@ -227,7 +227,7 @@ public class RedisDaoSupport {
 	 */
 	public void expire(String key, long  expireTime) {
 		if(expireTime > 0){
-			redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
+			redisTemplate.expire(key, expireTime, TimeUnit.MILLISECONDS);
 		}
 	}
 	

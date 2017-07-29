@@ -114,8 +114,49 @@ public interface ICampaignService {
     void updateUserGiftRecord(Long orderId);
 
     /**
+     * 更新用户礼物信息
+     * @param userId
+     * @param giftId
+     * @param giftCount
+     */
+    void updateUserGiftInfo(Long chainId,Long userId,Long giftId,Integer giftCount);
+
+    /**
+     * 更新用户投票信息
+     * @param userId
+     * @param voteCount
+     * @param giftPoint
+     */
+    int updateUserVoteInfo(Long userId,Integer voteCount,Integer giftPoint);
+
+    /**
+     * 投票人投票
+     * @param chainId
+     * @param openId
+     * @param userId
+     */
+    int vote(Long chainId, String openId,Long userId,String ipAddress);
+
+
+    /**
+     * 投票排行
+     * @param chainId
+     * @return
+     */
+    List<Map<String,Object>> getVoteRank(Long chainId);
+
+    /**
+     * 查询活动时间
+     * @param chainId
+     * @return
+     */
+    Map<String,Object> getCampaignTimeMap(Long chainId);
+
+    /**
      * 删除所有redis的key
      */
     void deleteAllRedisKeys();
+
+
 }
 

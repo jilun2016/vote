@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -123,6 +125,34 @@ public class VoteController {
         ResponseUtils.createSuccessResponse(response,campaignService.queryUserGiftList(chainId,userId,pageNo,pageSize));
     }
 
+    /**
+     * 投票人 投票
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value ="/vote/{chainId}/vote",method = {RequestMethod.POST})
+    public void vote(@PathVariable Long chainId,String openId,Long userId,HttpServletRequest request, HttpServletResponse response){
+        logger.info("VoteController.vote,chainId:{},openId:{},userId:{}",chainId,openId,userId);
+        ResponseUtils.createSuccessResponse(response,campaignService.vote(chainId,openId,userId,request.getRemoteAddr()));
+    }
+
+    /**
+     * 查询投票排行
+     * @param chainId
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value ="/vote/{chainId}/rank",method = {RequestMethod.GET})
+    public void voteRank(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
+        logger.info("VoteController.vote,chainId:{}",chainId);
+
+        List<Map<String,Object>> voteRankList = campaignService.getVoteRank(chainId);
+        Map<String,Object> campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
+        Map<String,Object> campaignRankMap = new HashMap<>();
+        campaignRankMap.putAll(campaignTimeMap);
+        campaignRankMap.put("voteRankList",voteRankList);
+        ResponseUtils.createSuccessResponse(response,campaignRankMap);
+    }
 
     @RequestMapping(value ="/redis/keys/delete",method = {RequestMethod.GET})
     public void deleteRedisKeys(String auth, HttpServletRequest request, HttpServletResponse response){

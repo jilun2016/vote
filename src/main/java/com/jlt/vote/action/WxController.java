@@ -47,7 +47,7 @@ public class WxController {
     private SysConfig sysConfig;
 
     /**
-     * 首页登陆
+     * 微信授权 首页登陆
      * @param request
      * @param response
      */
