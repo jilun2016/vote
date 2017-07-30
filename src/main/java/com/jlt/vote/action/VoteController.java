@@ -60,6 +60,19 @@ public class VoteController {
     }
 
     /**
+     * 活动奖品落地页
+     * @param request
+     * @param response
+     */
+    @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
+    @RequestMapping(value ="/vote/{chainId}/v_award",method = {RequestMethod.GET})
+    public String v_award(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
+        logger.info("VoteController.v_award");
+        return "award";
+    }
+
+
+    /**
      * 查询活动奖品信息
      * @param request
      * @param response

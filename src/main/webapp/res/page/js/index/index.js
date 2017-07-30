@@ -1,59 +1,61 @@
- var IndexModel = Vue.extend({
-     template: '#indexTemplateId',
-     data: function() {
-         return {
-             top: {
-                 signCount: 0,
-                 viewCount: 0,
-                 voteCount: 0,
-                 sponsorPic: ''
-             },
-             pagecfg: {
-                 pageNo: 1,
-                 pageSize: 10
-             },
-             queryKey: '',
-             userList: []
-         }
-     },
-     mounted: function() {
-         var _this = this;
-         _this.top.signCount = campaignDetail.signCount || 0;
-         _this.top.viewCount = campaignDetail.viewCount || 0;
-         _this.top.voteCount = campaignDetail.voteCount || 0;
-         _this.top.sponsorPic = campaignDetail.sponsorPic || '';
-         _this.ajaxData();
-     },
-     methods: {
-         rearch: function() {
-             var _this = this;
-             _this.pagecfg.pageNo = 1;
-             _this.ajaxData();
+ $(document).ready(function() {
+     var timer = null;
+     var indexVm = avalon.define({
+         $id: "vote",
+         top: {
+             signCount: 0,
+             viewCount: 0,
+             voteCount: 0,
+             sponsorPic: ''
          },
-         ajaxData: function() {
-
-             var _this = this;
-             var param = {
-                 pageNo: _this.pagecfg.pageNo,
-                 pageSize: _this.pagecfg.pageSize
+         timer: {
+             days: 0,
+             hours: 0,
+             minutes: 0,
+             seconds: 0
+         },
+         bottom: {
+             sponsorIntro: '',
+             sponsorPicUrls: []
+         },
+         pagecfg: {
+             pageNo: 1,
+             pageSize: 10
+         },
+         queryKey: '',
+         userList: [],
+         methods: {
+             more: function() {
+                 indexOpt.more();
+             },
+             rearch: function() {
+                 indexOpt.rearch();
              }
-             _this.queryKey && (param.queryKey = _this.queryKey);
+         }
+     });
 
-             mtAjax.get('users', param, function(res) {
-                     var data = res.data; // {states:1,msg:'',data:{}}
-                     console.log(data)
-                     if (data.status) {
-                         if (_this.pagecfg.pageNo == 1) {
-                             _this.userList.length > 0 && (_this.userList = []);
-                             if (data.data.list.length === 0) {
-                                 _this.pagecfg.pageNo--;
-                             }
-                         } else {
-                             _this.pagecfg.pageNo++;
-                         }
-                         var tempArr = _.clone(_this.userList, true);
-                         _this.userList = tempArr.concat(data.data.list);
+     var indexOpt = (function() {
+         var opt = {
+             queryUsers: function() {
+                 var param = {
+                     pageNo: indexVm.pagecfg.pageNo,
+                     pageSize: indexVm.pagecfg.pageSize
+                 }
+                 indexVm.queryKey && (param.queryKey = indexVm.queryKey);
 
+                 vote.jqAjax('users', param, function(data) {
+                     if (indexVm.pagecfg.pageNo == 1) {
+                         indexVm.userList.length > 0 && (indexVm.userList = []);
+                     }
+                     indexVm.pagecfg.pageNo++;
+                     if (data.data.list.length === 0) {
+                         indexVm.pagecfg.pageNo--;
+                     }
+
+                     var tempArr = _.clone(indexVm.userList, true);
+                     indexVm.userList = tempArr.concat(data.data.list);
+
+                     setTimeout(function() {
                          var $container = $('#masonry');
                          $container.imagesLoaded(function() {
                              $container.masonry({
@@ -61,9 +63,62 @@
                                  columnWidth: 5 //每两列之间的间隙为5像素
                              });
                          });
+                         if (indexVm.pagecfg.pageNo > 1) {
+                             $container.masonry('reloadItems');
+                         }
+                     }, 800);
+                 }, function(err) {
+                     console.log(err)
+                 }, 'GET', true);
+             },
+             timer: {
+                 creat: function() {
+                     var isAfter = moment().isAfter(campaignDetail.endTime);
+                     if (!isAfter) {
+                         timer = window.setInterval(function() {
+                             opt.timer.loop();
+                         }, 1000);
                      }
                  },
-                 function(err) {});
+                 loop: function() {
+                     var startTime = moment();
+                     var endTime = moment(campaignDetail.endTime);
+                     var millisecond = endTime.diff(startTime);
+                     var temp = moment(millisecond);
+
+                     var hours = temp.hours();
+
+                     timer.seconds = temp.seconds();
+                     timer.minutes = temp.minutes();
+
+                     timer.days = hours % 24;
+                     timer.hours = hours - (timer.days * 24)
+                 }
+             },
+             build: function() {
+                 indexVm.top.signCount = campaignDetail.signCount || 0;
+                 indexVm.top.viewCount = campaignDetail.viewCount || 0;
+                 indexVm.top.voteCount = campaignDetail.voteCount || 0;
+                 indexVm.top.sponsorPic = campaignDetail.sponsorPic || '';
+
+                 indexVm.bottom.sponsorIntro = campaignDetail.sponsorIntro || '';
+                 indexVm.bottom.imageList = campaignDetail.sponsorPicUrls || [];
+
+                 opt.timer.creat();
+                 opt.queryUsers();
+             }
+         };
+         return {
+             build: opt.build,
+             more: function() {
+                 opt.queryUsers();
+             },
+             rearch: function() {
+                 indexVm.pagecfg.pageNo = 1;
+                 opt.queryUsers();
+             }
          }
-     }
+     })();
+
+     indexOpt.build();
  });

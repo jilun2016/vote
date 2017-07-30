@@ -8,116 +8,128 @@
                 <meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-                <link rel="stylesheet" href="/res/page/fonts/iconfont.css">
-                <link href="/res/page/css/custom.css" rel="stylesheet">
+
                 <title>首页</title>
-                <style type="text/css">
-                    @-webkit-keyframes v-pulseStretchDelay {
-                        0%,
-                        80% {
-                            -webkit-transform: scale(1);
-                            transform: scale(1);
-                            -webkit-opacity: 1;
-                            opacity: 1;
-                        }
-                        45% {
-                            -webkit-transform: scale(0.1);
-                            transform: scale(0.1);
-                            -webkit-opacity: 0.7;
-                            opacity: 0.7;
-                        }
-                    }
-                    
-                    @keyframes v-pulseStretchDelay {
-                        0%,
-                        80% {
-                            -webkit-transform: scale(1);
-                            transform: scale(1);
-                            -webkit-opacity: 1;
-                            opacity: 1;
-                        }
-                        45% {
-                            -webkit-transform: scale(0.1);
-                            transform: scale(0.1);
-                            -webkit-opacity: 0.7;
-                            opacity: 0.7;
-                        }
-                    }
-                    
-                    .loading-bg {
-                        position: fixed;
-                        top: 0;
-                        right: 0;
-                        bottom: 0;
-                        left: 0;
-                        background: rgba(0, 0, 0, .1);
-                        z-index: 99;
-                    }
-                    
-                    .loading {
-                        position: fixed;
-                        width: 100px;
-                        height: 100px;
-                        border-radius: 5px;
-                        left: 50%;
-                        margin-left: -50px;
-                        top: 50%;
-                        margin-top: -50px;
-                        z-index: 100;
-                    }
-                </style>
+
+                <%@ include file="./common/header.jsp" %>
 
             </head>
 
-            <body>
+            <body ms-controller="vote">
                 <script>
                     var campaignDetail = '${campaignDetail}';
                     campaignDetail = campaignDetail && JSON.parse('${campaignDetail}');
                 </script>
-                <div id="appContent">
-                    <router-view></router-view>
 
-                </div>
-
-                <div class="loading-bg" id="divLoading" style="display:none;">
-                    <div class="loading">
-                        <div style="text-align: center;">
-                            <div class="v-pulse v-pulse1" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.12s;">
-                            </div>
-                            <div class="v-pulse v-pulse2" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.24s;">
-                            </div>
-                            <div class="v-pulse v-pulse3" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.36s;">
+                <div class="content">
+                    <div class="show-img">
+                        <img :src="top.sponsorPic">
+                    </div>
+                    <div class="show-info">
+                        <ul>
+                            <li>
+                                <div class="show-info-title"> <span class="iconfont icon-baoming"></span>已报名 </div>
+                                <div class="show-info-num"> {{top.signCount}} </div>
+                            </li>
+                            <li>
+                                <div class="show-info-title"> <span class="iconfont icon-like"></span>累计投票 </div>
+                                <div class="show-info-num"> {{top.voteCount}} </div>
+                            </li>
+                            <li>
+                                <div class="show-info-title"> <span class="iconfont icon-fangwenliang"></span>访问量 </div>
+                                <div class="show-info-num"> {{top.viewCount}} </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="time">
+                        <div class="time-title"> 活动时间倒计时 </div>
+                        <div class="time-input">
+                            <span class="time-box"> {{timer.days}}天 </span>
+                            <span class="time-box"> {{timer.hours}}时 </span>
+                            <span class="time-box"> {{timer.minutes}}分 </span>
+                            <span class="time-box"> {{timer.seconds}}秒 </span>
+                        </div>
+                    </div>
+                    <div class="search-input">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <div class="col-xs-8" style="padding-right: 0;">
+                                            <input type="text" class="form-control" placeholder="请输入编号或姓名" maxlength="8" ms-duplex="queryKey">
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <button type="button" class="btn btn-default btn-block" ms-click="methods.rearch()">搜索</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
+
+                    <div class="wrapper">
+                        <div id="masonry">
+                            <div class="item" ms-for="item in userList">
+                                <div class="item-num">编号：{{item.number}}号</div>
+                                <div class="item-name">{{item.name}}
+                                    <div class="item-ticket-num"><span class="ticket-num">152</span>票</div>
+                                </div>
+                                <img ms-attr="{src: @item.headPic}">
+                                <a class="ticket-link" href="javascript:;;">为TA拉票</a>
+                                <div class="ticket-btn">
+                                    <a class="btn btn-block btn-red" ms-attr="{href:'v_user?userId='+ @item.userId}">给TA投票</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="search-input">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-default btn-block" ms-click="methods.more()">加载更多</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rule">
+                        <div class="rule-title">
+                            <span class="iconfont icon-guize"></span>活动规则
+                        </div>
+                        <div class="rule-body">
+                            {{bottom.sponsorIntro}}
+                            <img ms-attr="{src: @item.picUrl}" ms-for="item in bottom.imageList">
+                        </div>
+                    </div>
+
+                    <div class="bar-tab">
+                        <ul>
+                            <li class="active">
+                                <a href="home">
+                                    <div class="tab-icon"> <span class="iconfont icon-shouye"></span> </div>
+                                    <div class="tab-title"> 首页 </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="gift">
+                                    <div class="tab-icon"> <span class="iconfont icon-jiangpin"></span> </div>
+                                    <div class="tab-title"> 奖品 </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="ban">
+                                    <div class="tab-icon"> <span class="iconfont icon-tubiao-"></span> </div>
+                                    <div class="tab-title"> 榜单 </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-                <%@ include file="./template/index.jsp" %>
-                    <%@ include file="./template/list.jsp" %>
-                        <%@ include file="./template/member.jsp" %>
-                            <%@ include file="./template/gif.jsp" %>
 
-                                <!-- build:lib -->
+                <%@ include file="./common/footer.jsp" %>
 
-                                <!-- endbuild -->
 
-                                <!-- build:js -->
-                                <script src="/res/lib/js/lodash.min.js"></script>
-                                <script src="/res/lib/js/moment.min.js"></script>
-                                <script src="/res/lib/js/axios.min.js"></script>
-                                <script src="/res/lib/js/vue.min.js"></script>
-                                <script src="/res/lib/js/vue-router.js"></script>
-                                <script src="/res/lib/js/axios.helper.js?v=0004"></script>
-                                <script src="/res/lib/js/vote_helper.js?v=0004"></script>
-
-                                <script src="/res/lib/js/jquery.min.js"></script>
-                                <script src="/res/lib/js/masonry-docs.min.js"></script>
-
-                                <script src="/res/page/js/index/index.js?v=0004"></script>
-
-                                <script src="/res/page/js/app.js?v=0004"></script>
-
-                                <!-- endbuild -->
+                    <script src="/res/page/js/index/index.js?v=0004"></script>
 
             </body>
 
