@@ -39,7 +39,7 @@ public class VoteController {
         //通过chainId 查询 发起人信息
         Map<String ,Object> campaignDetail = campaignService.queryCampaignDetail(chainId);
         campaignDetail.put("chainId",chainId);
-        model.putAll(campaignDetail);
+        model.addAttribute("campaignDetail", JSON.toJSONString(campaignDetail));
         return "index";
     }
 

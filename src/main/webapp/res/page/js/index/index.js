@@ -8,7 +8,7 @@
              voteCount: 0,
              sponsorPic: ''
          },
-         timer: {
+         time: {
              days: 0,
              hours: 0,
              minutes: 0,
@@ -87,12 +87,11 @@
                      var temp = moment(millisecond);
 
                      var hours = temp.hours();
+                     time.seconds = temp.seconds();
+                     time.minutes = temp.minutes();
 
-                     timer.seconds = temp.seconds();
-                     timer.minutes = temp.minutes();
-
-                     timer.days = hours % 24;
-                     timer.hours = hours - (timer.days * 24)
+                     time.days = hours % 24;
+                     time.hours = hours - (time.days * 24)
                  }
              },
              build: function() {
