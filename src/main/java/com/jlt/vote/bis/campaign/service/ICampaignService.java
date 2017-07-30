@@ -118,7 +118,7 @@ public interface ICampaignService {
      * @param orderId
      * @return
      */
-    void updateUserGiftRecord(Long orderId);
+    void updateUserGiftRecord(Long orderId,String openId);
 
     /**
      * 更新用户礼物信息
@@ -142,7 +142,7 @@ public interface ICampaignService {
      * @param openId
      * @param userId
      */
-    int vote(Long chainId, String openId,Long userId,String ipAddress);
+    void vote(Long chainId, String openId,Long userId,String ipAddress);
 
 
     /**

@@ -1,5 +1,6 @@
 package com.jlt.vote.action;
 
+import com.alibaba.fastjson.JSON;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.util.ResponseUtils;
 import com.jlt.vote.util.WebUtils;
@@ -54,7 +55,7 @@ public class VoteController {
         //通过chainId userId查询用户详情,同时用户热度+1,活动热度+2
         Map<String,Object> userDetail = campaignService.queryUserDetail(chainId,userId);
         userDetail.put("chainId",chainId);
-        model.putAll(userDetail);
+        model.addAttribute("userDetail", JSON.toJSONString(userDetail));
         return "user";
     }
 
@@ -135,7 +136,8 @@ public class VoteController {
     public void vote(@PathVariable Long chainId,Long userId,HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.vote,chainId:{},openId:{},userId:{}",chainId,userId);
         String openId = WebUtils.getOpenId(request);
-        ResponseUtils.createSuccessResponse(response,campaignService.vote(chainId,openId,userId,request.getRemoteAddr()));
+        campaignService.vote(chainId,openId,userId,request.getRemoteAddr());
+        ResponseUtils.defaultSuccessResponse(response);
     }
 
     /**

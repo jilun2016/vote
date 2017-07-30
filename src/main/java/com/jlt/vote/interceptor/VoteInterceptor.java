@@ -4,6 +4,7 @@ import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.util.*;
 import com.xcrm.log.Logger;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -31,7 +33,7 @@ public class VoteInterceptor implements HandlerInterceptor {
     //微信授权首页
     private String voteWxAuthUrl = "/vote/{0}/index";
 
-    private String[] excludeUrls = {"/auth/callback"};
+    private String[] excludeUrls = {"/auth/callback","/pay/callback"};
 
     @Autowired
     private SysConfig sysConfig;
@@ -76,18 +78,20 @@ public class VoteInterceptor implements HandlerInterceptor {
 
         }
 
-        Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
+        if(CommonConstants.POST.equals(request.getMethod().toUpperCase())) {
+            //POST方法保护
+            Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
+            //如果cookie openId为空,而且是投票post请求,那么重新授权
 
-        //如果cookie openId为空,而且是投票post请求,那么重新授权
-
-        if(Objects.isNull(cookieFromOpenId)){
-            if((RequestUtils.isAjaxRequest(request))
-                    &&(request.getRequestURL().indexOf("common_vote") > 0)){
-                RequestUtils.issueRedirect(request, response, MessageFormat.format(voteWxAuthUrl,String.valueOf(chainId)));
-                return false;
+            if(Objects.isNull(cookieFromOpenId)){
+                if((RequestUtils.isAjaxRequest(request))
+                        &&(request.getRequestURL().indexOf("common_vote") > 0)){
+                    RequestUtils.issueRedirect(request, response, MessageFormat.format(voteWxAuthUrl,String.valueOf(chainId)));
+                    return false;
+                }
+            }else{
+                WebUtils.setOpenId(request,cookieFromOpenId.getValue());
             }
-        }else{
-            WebUtils.setOpenId(request,cookieFromOpenId.getValue());
         }
 
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
@@ -135,6 +139,15 @@ public class VoteInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
+        if(CommonConstants.GET.equals(request.getMethod().toUpperCase())) {
+            //返回活动结束时间
+            String uri = getURI(request);
+            //判断chainId 是否存在
+            String chainIdUri = uri.substring(1,11);
+            Long chainId = Long.valueOf(chainIdUri);
+            Map<String,Object>  campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
+            modelAndView.addObject("campaignEndTime", campaignTimeMap.get("endTime"));
+        }
     }
 
     @Override

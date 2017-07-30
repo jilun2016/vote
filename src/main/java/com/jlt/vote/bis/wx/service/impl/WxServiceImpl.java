@@ -57,9 +57,6 @@ public class WxServiceImpl implements IWxService {
     private ICampaignService campaignService;
 
     @Autowired
-    private BaseDaoSupport baseDaoSupport;
-
-    @Autowired
     private SysConfig sysConfig;
 
 
@@ -152,7 +149,7 @@ public class WxServiceImpl implements IWxService {
             BigDecimal totalFee = BigDecimal.valueOf(paymentNotification.getTotalFee()).divide(BigDecimal.valueOf(100));
             BigDecimal cashFee = BigDecimal.valueOf(paymentNotification.getCashFee()).divide(BigDecimal.valueOf(100));
             String sellerId = paymentNotification.getMchId();
-
+            String openId = paymentNotification.getOpenId();
             VotePayOrder votePayOrder = wxPayService.queryOrderByPayCode(payCode);
             if (votePayOrder == null) {
                 //支付信息未找到
@@ -163,7 +160,7 @@ public class WxServiceImpl implements IWxService {
                     , nonce
                     , tradeNo
                     , PayStatusEnum.TRADE_SUCCESS.value()
-                    , paymentNotification.getOpenId()
+                    , openId
                     , votePayOrder.getPayMoney()
                     , totalFee
                     , cashFee
@@ -174,7 +171,7 @@ public class WxServiceImpl implements IWxService {
                     , paymentNotification.getIsSubscribed());
 
             if(result > 0){
-                campaignService.updateUserGiftRecord(votePayOrder.getId());
+                campaignService.updateUserGiftRecord(votePayOrder.getId(),openId);
                 campaignService.updateUserGiftInfo(votePayOrder.getChainId(),votePayOrder.getUserId(),votePayOrder.getGiftId(),votePayOrder.getGiftCount());
             }
             return RET_S;

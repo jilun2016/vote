@@ -141,7 +141,7 @@
 
     <update id="updateGiftRecord">
         UPDATE t_t_user_gift_record a
-        SET a.dataStatus = 1
+        SET a.dataStatus = 1,a.openId = #{openId}
         WHERE a.orderId = #{orderId} AND a.dataStatus = 0
     </update>
 

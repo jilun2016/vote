@@ -138,7 +138,7 @@ public class WxController {
         }
     }
 
-    @RequestMapping(value = "/vote/pay/{chainId}/v_pay", method = RequestMethod.GET)
+    @RequestMapping(value = "/vote/{chainId}/pay/v_pay", method = RequestMethod.GET)
     public String v_pay(@PathVariable Long chainId,Long userId,HttpServletRequest request,HttpServletResponse response,ModelMap model) {
         logger.info("--------------/vote/v_pay({},{})--------------------",chainId,userId);
         String openId = "";
@@ -159,8 +159,8 @@ public class WxController {
      * @param request
      * @param response
      */
-    @RequestMapping(value ="/vote/pay/prepay",method = {RequestMethod.POST})
-    public void votePrepay(@RequestBody @Valid VotePrepayRequest votePrepayRequest,BindingResult bindingResult,
+    @RequestMapping(value ="/vote/{chainId}/pay/prepay",method = {RequestMethod.POST})
+    public void votePrepay(@PathVariable Long chainId,@RequestBody @Valid VotePrepayRequest votePrepayRequest,BindingResult bindingResult,
                            HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.votePrepay({})",votePrepayRequest);
         if (bindingResult.hasErrors()) {
@@ -168,7 +168,6 @@ public class WxController {
             return;
         }
         Long giftId = votePrepayRequest.getGiftId();
-        Long chainId = votePrepayRequest.getChainId();
         Integer giftCount = votePrepayRequest.getGiftCount();
         //查询礼物是否存在
         CampaignGiftDetailVo giftDetailVo = campaignService.queryCampaignGiftDetail(chainId,giftId);

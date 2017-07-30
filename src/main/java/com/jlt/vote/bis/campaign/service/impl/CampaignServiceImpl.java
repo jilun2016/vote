@@ -7,6 +7,7 @@ import com.jlt.vote.bis.campaign.entity.UserVoteRecord;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.bis.campaign.vo.*;
 import com.jlt.vote.bis.wx.entity.UserGiftRecord;
+import com.jlt.vote.exception.VoteRuntimeException;
 import com.jlt.vote.util.CacheConstants;
 import com.jlt.vote.util.RedisDaoSupport;
 import com.xcrm.cloud.database.db.BaseDaoSupport;
@@ -300,9 +301,10 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public void updateUserGiftRecord(Long orderId) {
+	public void updateUserGiftRecord(Long orderId,String openId) {
 		Ssqb updateSqb = Ssqb.create("com.jlt.vote.updateGiftRecord")
-				.setParam("orderId",orderId);
+				.setParam("orderId",orderId)
+				.setParam("openId",openId);
 		baseDaoSupport.updateByMybatis(updateSqb);
 	}
 
@@ -336,10 +338,16 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public int vote(Long chainId, String openId,Long userId,String ipAddress) {
+	public void vote(Long chainId, String openId,Long userId,String ipAddress) {
+		//查看 openId 是否存在
+		VoterVo voterVo = queryVoter(openId);
+		if(Objects.isNull(voterVo)){
+			logger.error("common_vote error.chainId:{},openid:{},userId:{},ipAddress:{}",chainId,openId,userId,ipAddress);
+			throw new VoteRuntimeException("10000");
+		}
 		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
 		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 3)){
-			return 1;
+			throw new VoteRuntimeException("10001");
 		}
 		Date now = DateFormatUtils.getNow();
 		redisDaoSupport.incr(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId,1);
@@ -360,8 +368,6 @@ public class CampaignServiceImpl implements ICampaignService {
 				userVoteRecord.setVoteTime(now);
 			}
 		});
-
-		return 0;
 	}
 
 	@Override
