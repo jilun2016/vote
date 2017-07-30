@@ -67,33 +67,35 @@ public class VoteInterceptor implements HandlerInterceptor {
 
         }
 
-        //
-        if(Objects.isNull(chainId)){
-            //当前chainId 为空,跳转
-        }
+//        //
+//        if(Objects.isNull(chainId)){
+//            //当前chainId 为空,跳转
+//        }
         boolean isExist = campaignService.checkCampaignExist(chainId);
 
         //如果活动不存在,那么跳转
         if(!isExist){
 
         }
+        if(!Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value())){
+            WebUtils.setOpenId(request,"oTMo21YNuO1BZqdPOIWGO1l6c5v0");
+        }else{
+            if(CommonConstants.POST.equals(request.getMethod().toUpperCase())) {
+                //POST方法保护
+                Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
+                //如果cookie openId为空,而且是投票post请求,那么重新授权
 
-        if(CommonConstants.POST.equals(request.getMethod().toUpperCase())) {
-            //POST方法保护
-            Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
-            //如果cookie openId为空,而且是投票post请求,那么重新授权
-
-            if(Objects.isNull(cookieFromOpenId)){
-                if((RequestUtils.isAjaxRequest(request))
-                        &&(request.getRequestURL().indexOf("common_vote") > 0)){
-                    RequestUtils.issueRedirect(request, response, MessageFormat.format(voteWxAuthUrl,String.valueOf(chainId)));
-                    return false;
+                if(Objects.isNull(cookieFromOpenId)){
+                    if((RequestUtils.isAjaxRequest(request))
+                            &&(request.getRequestURL().indexOf("common_vote") > 0)){
+                        RequestUtils.issueRedirect(request, response, MessageFormat.format(voteWxAuthUrl,String.valueOf(chainId)));
+                        return false;
+                    }
+                }else{
+                    WebUtils.setOpenId(request,cookieFromOpenId.getValue());
                 }
-            }else{
-                WebUtils.setOpenId(request,cookieFromOpenId.getValue());
             }
         }
-
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
     }
 
