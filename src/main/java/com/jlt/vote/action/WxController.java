@@ -48,7 +48,7 @@ public class WxController {
 
     @RequestMapping(value = "/vote/v_nowx", method= RequestMethod.GET)
     public String v_s_nowx(HttpServletRequest request ,HttpServletResponse response,ModelMap modelMap){
-        logger.debug("--------------/vote/v_nowx({})--------------------");
+        logger.info("--------------/vote/v_nowx({})--------------------");
         return "/nowx";
     }
 
@@ -140,7 +140,7 @@ public class WxController {
 
     @RequestMapping(value = "/vote/pay/{chainId}/v_pay", method = RequestMethod.GET)
     public String v_pay(@PathVariable Long chainId,Long userId,HttpServletRequest request,HttpServletResponse response,ModelMap model) {
-        logger.debug("--------------/vote/v_pay({},{})--------------------",chainId,userId);
+        logger.info("--------------/vote/v_pay({},{})--------------------",chainId,userId);
         String openId = "";
         Cookie cookie = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
         if (cookie != null) {
@@ -220,13 +220,13 @@ public class WxController {
      * @param response
      */
     @RequestMapping(value ="/vote/pay/callback",method = {RequestMethod.POST})
-    public void wxPayCallback(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void wxPayCallback(HttpServletRequest request, HttpServletResponse response) {
         try {
             String xml = InputStreamUtils.InputStreamTOString(request.getInputStream(), "UTF-8");
             logger.info("~~~~~~~~~~~~~~~~~~callback_xml:" + xml);
             wxService.optWxPayCallback(xml);
         } catch (Exception e) {
-            logger.error("wxAuthReceive occurs exception ",e);
+            logger.error("wxPayCallback occurs exception ",e);
         }
     }
 

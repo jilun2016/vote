@@ -1,7 +1,6 @@
 package com.jlt.vote.action;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
-import com.jlt.vote.exception.VoteRuntimeException;
 import com.jlt.vote.util.ResponseUtils;
 import com.jlt.vote.util.WebUtils;
 import com.jlt.vote.validation.ValidateFiled;
@@ -147,8 +146,7 @@ public class VoteController {
      */
     @RequestMapping(value ="/vote/{chainId}/rank",method = {RequestMethod.GET})
     public void voteRank(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.vote,chainId:{}",chainId);
-
+        logger.info("VoteController.voteRank,chainId:{}",chainId);
         List<Map<String,Object>> voteRankList = campaignService.getVoteRank(chainId);
         Map<String,Object> campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
         Map<String,Object> campaignRankMap = new HashMap<>();
