@@ -1,6 +1,7 @@
 package com.jlt.vote.action;
 
 import com.alibaba.fastjson.JSON;
+import com.jlt.vote.bis.campaign.entity.CampaignAward;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.util.ResponseUtils;
 import com.jlt.vote.util.WebUtils;
@@ -66,11 +67,15 @@ public class VoteController {
      */
     @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
     @RequestMapping(value ="/vote/{chainId}/v_award",method = {RequestMethod.GET})
-    public String v_award(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
+    public String v_award(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response,ModelMap model) {
         logger.info("VoteController.v_award");
+        List<CampaignAward> campaignAwards = campaignService.queryCampaignAward(chainId);
+        Map<String, Object> awardResultMap = new HashMap<>();
+        awardResultMap.put("campaignAwards", campaignAwards);
+        awardResultMap.put("chainId", chainId);
+        model.addAttribute("userDetail", JSON.toJSONString(awardResultMap));
         return "award";
     }
-
 
     /**
      * 查询活动奖品信息

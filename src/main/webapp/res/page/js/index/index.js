@@ -87,11 +87,12 @@
                      var temp = moment(millisecond);
 
                      var hours = temp.hours();
-                     time.seconds = temp.seconds();
-                     time.minutes = temp.minutes();
+                     indexVm.time.seconds = temp.seconds();
+                     indexVm.time.minutes = temp.minutes();
 
-                     time.days = hours % 24;
-                     time.hours = hours - (time.days * 24)
+                     indexVm.time.days = hours % 24;
+
+                     indexVm.time.hours = hours - (indexVm.time.days * 24);
                  }
              },
              build: function() {

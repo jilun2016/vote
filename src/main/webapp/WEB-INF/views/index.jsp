@@ -44,10 +44,10 @@
                     <div class="time">
                         <div class="time-title"> 活动时间倒计时 </div>
                         <div class="time-input">
-                            <span class="time-box"> {{timer.days}}天 </span>
-                            <span class="time-box"> {{timer.hours}}时 </span>
-                            <span class="time-box"> {{timer.minutes}}分 </span>
-                            <span class="time-box"> {{timer.seconds}}秒 </span>
+                            <span class="time-box"> {{time.days}}天 </span>
+                            <span class="time-box"> {{time.hours}}时 </span>
+                            <span class="time-box"> {{time.minutes}}分 </span>
+                            <span class="time-box"> {{time.seconds}}秒 </span>
                         </div>
                     </div>
                     <div class="search-input">
