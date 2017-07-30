@@ -56,7 +56,6 @@ public class VoteInterceptor implements HandlerInterceptor {
         }
 
         //判断chainId 是否存在
-
         String chainIdUri = uri.substring(1,11);
         Long chainId = null;
         try {

@@ -159,11 +159,12 @@ public class CampaignServiceImpl implements ICampaignService {
 				.setParam("chainId",chainId)
 				.setParam("pageNo",pageNo)
 				.setParam("pageSize",pageSize);
+		queryUsersSqb.setIncludeTotalCount(true);
 		return baseDaoSupport.findForPage(queryUsersSqb);
 	}
 
 	@Override
-	public Map<String,Object> queryUserDetail(Long chainId, Long userId) {redisDaoSupport.del(CacheConstants.VOTE_USER_DETAIL+userId);
+	public Map<String,Object> queryUserDetail(Long chainId, Long userId) {
 		Map<String,Object> result = new HashMap<>();
 		Map<String,Object> userDetailMap = redisDaoSupport.hgetAll(CacheConstants.VOTE_USER_DETAIL+userId);
 		List userPicList = redisDaoSupport.getList(CacheConstants.VOTE_USER_PICS+userId, UserPicVo.class);

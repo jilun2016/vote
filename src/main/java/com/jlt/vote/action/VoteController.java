@@ -1,6 +1,7 @@
 package com.jlt.vote.action;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
+import com.jlt.vote.exception.VoteRuntimeException;
 import com.jlt.vote.util.ResponseUtils;
 import com.jlt.vote.util.WebUtils;
 import com.jlt.vote.validation.ValidateFiled;
