@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -57,9 +58,12 @@ public class RedisDaoSupport {
 	 * @return
 	 */
 	public Integer getInt(String key){
-		String value = String.valueOf(get(key));
-		if(StringUtils.isNotBlank(value)){
-			return Integer.valueOf(value);
+		Object valueObject = get(key);
+		if(Objects.nonNull(valueObject)){
+			String value = String.valueOf(valueObject);
+			if(StringUtils.isNotBlank(value)){
+				return Integer.valueOf(value);
+			}
 		}
 		return null;
 	}

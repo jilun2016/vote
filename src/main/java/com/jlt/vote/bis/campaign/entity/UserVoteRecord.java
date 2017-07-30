@@ -1,5 +1,6 @@
 package com.jlt.vote.bis.campaign.entity;
 
+import com.xcrm.cloud.database.db.annotation.PrimaryKeyField;
 import com.xcrm.cloud.database.db.annotation.Table;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ public class UserVoteRecord {
   /**
    * 主办方id
    */
+  @PrimaryKeyField
   private Long id;
 
   /**

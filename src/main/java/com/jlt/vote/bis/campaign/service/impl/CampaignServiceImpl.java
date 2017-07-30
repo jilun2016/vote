@@ -366,6 +366,7 @@ public class CampaignServiceImpl implements ICampaignService {
 				userVoteRecord.setUserId(userId);
 				userVoteRecord.setVoteCount(1);
 				userVoteRecord.setVoteTime(now);
+				baseDaoSupport.save(userVoteRecord);
 			}
 		});
 	}
