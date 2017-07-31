@@ -70,7 +70,7 @@ var giftModule = (function() {
         queryGiftList: function() {
             var _this = this;
             giftList = [];
-            mtAjax.get('gift', '', function(res) {
+            mtAjax.get('../gift', '', function(res) {
                 var data = res.data;
                 if (data.status) {
                     var arr = [];
@@ -88,7 +88,7 @@ var giftModule = (function() {
             }, function(err) { opt.loading.hide(); });
         },
         queryUserInfo: function(callback) {
-            mtAjax.get('user', { userId: userId }, function(res) {
+            mtAjax.get('../user', { userId: userId }, function(res) {
                 var data = res.data;
                 if (data.status) {
                     var user = data.data;
@@ -130,7 +130,7 @@ var giftModule = (function() {
                     openid: openId
                 }
                 console.log(param);
-                vote.jqAjax('/vote/prepay', param, function(res) {
+                vote.jqAjax('prepay', param, function(res) {
                     if (res.status) {
                         var item = res.data;
                         var payResult = JSON.parse(item.payResult);

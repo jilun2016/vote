@@ -1,5 +1,6 @@
 package com.jlt.vote.action;
 
+import com.alibaba.fastjson.JSON;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.bis.campaign.vo.CampaignGiftDetailVo;
 import com.jlt.vote.bis.wx.service.IWxService;
@@ -150,8 +151,8 @@ public class WxController {
         model.put("chainId", chainId);
         //通过chainId userId查询用户详情,同时用户热度+1,活动热度+2
         Map<String,Object> userDetail = campaignService.queryUserDetail(chainId,userId);
-        model.putAll(userDetail);
-        return "gift";
+        model.addAttribute("userDetail", JSON.toJSONString(userDetail));
+        return "pay";
     }
 
     /**

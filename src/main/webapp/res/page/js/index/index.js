@@ -90,9 +90,12 @@
                      indexVm.time.seconds = temp.seconds();
                      indexVm.time.minutes = temp.minutes();
 
-                     indexVm.time.days = hours % 24;
+                     indexVm.time.days = parseInt(hours / 24);
 
-                     indexVm.time.hours = hours - (indexVm.time.days * 24);
+                     console.log(indexVm.time.days);
+
+                     indexVm.time.hours = indexVm.time.days == 0 ? hours : (indexVm.time.days * 24) - hours;
+
                  }
              },
              build: function() {
