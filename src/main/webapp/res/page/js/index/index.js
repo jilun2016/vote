@@ -84,17 +84,20 @@
                      var startTime = moment();
                      var endTime = moment(campaignDetail.endTime);
                      var millisecond = endTime.diff(startTime);
-                     var temp = moment(millisecond);
 
-                     var hours = temp.hours();
-                     indexVm.time.seconds = temp.seconds();
-                     indexVm.time.minutes = temp.minutes();
+                     var days = millisecond / 1000 / 60 / 60 / 24;
+                     var daysRound = Math.floor(days);
+                     var hours = millisecond / 1000 / 60 / 60 - (24 * daysRound);
+                     var hoursRound = Math.floor(hours);
+                     var minutes = millisecond / 1000 / 60 - (24 * 60 * daysRound) - (60 * hoursRound);
+                     var minutesRound = Math.floor(minutes);
+                     var seconds = millisecond / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound);
 
-                     indexVm.time.days = parseInt(hours / 24);
 
-                     console.log(indexVm.time.days);
-
-                     indexVm.time.hours = indexVm.time.days == 0 ? hours : (indexVm.time.days * 24) - hours;
+                     indexVm.time.days = days;
+                     indexVm.time.hours = hours;
+                     indexVm.time.minutes = minutes;
+                     indexVm.time.seconds = seconds;
 
                  }
              },
