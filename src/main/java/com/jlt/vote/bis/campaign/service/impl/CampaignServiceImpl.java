@@ -208,7 +208,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			int userCount = baseDaoSupport.findForInt(queryUserCountSqb);
 			return userCount >0;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
