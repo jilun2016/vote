@@ -110,7 +110,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="gift">
+                                <a href="pay/v_pay">
                                     <div class="tab-icon"> <span class="iconfont icon-jiangpin"></span> </div>
                                     <div class="tab-title"> 奖品 </div>
                                 </a>

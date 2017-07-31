@@ -56,3 +56,7 @@
             z-index: 100;
         }
     </style>
+
+    <script>
+        var campaignEndTime = '${campaignEndTime}';
+    </script>

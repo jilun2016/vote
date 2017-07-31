@@ -175,6 +175,25 @@ public class VoteController {
         ResponseUtils.createSuccessResponse(response,campaignRankMap);
     }
 
+
+    /**
+     * 活动奖品落地页
+     * @param request
+     * @param response
+     */
+    @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
+    @RequestMapping(value ="/vote/{chainId}/v_rank",method = {RequestMethod.GET})
+    public String v_rank(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response,ModelMap model) {
+        logger.info("VoteController.v_award");
+        List<CampaignAward> campaignAwards = campaignService.queryCampaignAward(chainId);
+        Map<String, Object> awardResultMap = new HashMap<>();
+        awardResultMap.put("campaignAwards", campaignAwards);
+        awardResultMap.put("chainId", chainId);
+        model.addAttribute("userDetail", JSON.toJSONString(awardResultMap));
+        return "rank";
+    }
+
+
     @RequestMapping(value ="/redis/keys/delete",method = {RequestMethod.GET})
     public void deleteRedisKeys(String auth, HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.deleteRedisKeys,deleteRedisKeys:{}",auth);
