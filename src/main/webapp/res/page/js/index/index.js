@@ -92,12 +92,12 @@
                      var minutes = millisecond / 1000 / 60 - (24 * 60 * daysRound) - (60 * hoursRound);
                      var minutesRound = Math.floor(minutes);
                      var seconds = millisecond / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound);
+                     var secondsRound = Math.floor(seconds);
 
-
-                     indexVm.time.days = days;
-                     indexVm.time.hours = hours;
-                     indexVm.time.minutes = minutes;
-                     indexVm.time.seconds = seconds;
+                     indexVm.time.days = daysRound;
+                     indexVm.time.hours = hoursRound;
+                     indexVm.time.minutes = minutesRound;
+                     indexVm.time.seconds = secondsRound;
 
                  }
              },
