@@ -21,7 +21,7 @@
                           if (json.status) {
                               success && success(json);
                           } else {
-                              message.msg(json.message);
+                              message.msg(json.message || json.msg);
                               error && error(json);
                           }
                       },
