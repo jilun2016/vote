@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.security.auth.callback.Callback;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +68,8 @@ public class WxController {
         wxAuthUrl.append("&redirect_uri="+ URLEncoder.encode(sysConfig.getWxCallbackUrl()));
         wxAuthUrl.append("&response_type=code");
         wxAuthUrl.append("&scope=snsapi_userinfo");
-        wxAuthUrl.append("&state="+chainId);
+        String state = response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId)));;
+        wxAuthUrl.append("&state="+state);
         wxAuthUrl.append("#wechat_redirect");
         response.sendRedirect(wxAuthUrl.toString());
     }
@@ -81,7 +83,7 @@ public class WxController {
     public void wxRedirect(String code, String state,HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("VoteController.wxRedirect({},{})",code,state);
         if(StringUtils.isNotBlank(code) && StringUtils.isNotBlank(state)) {
-            Long chainId = Long.valueOf(state);
+            String redirectUrl = String.valueOf(state);
             //通过回调获取的code,获取授权的accessToken和openId
             Map<String,Object> outhTokenParaMap = new HashMap<>();
             outhTokenParaMap.put("appid",sysConfig.getWxAppId());
@@ -116,21 +118,20 @@ public class WxController {
                     if(MapUtils.isNotEmpty(wxUserMap)){
                         if(wxUserMap.containsKey("errmsg")){
                             String errmsg = MapUtils.getString(wxUserMap,"errmsg","获取用户信息失败");
-                            logger.error("WxAuthController.queryWxUser occurs error.chainId:{},openId:{},userInfoParaMap:{},errmsg:{}",
-                                    chainId,openId,userInfoParaMap,errmsg);
+                            logger.error("WxAuthController.queryWxUser occurs error.redirectUrl:{},openId:{},userInfoParaMap:{},errmsg:{}",
+                                    redirectUrl,openId,userInfoParaMap,errmsg);
                             ResponseUtils.createBadResponse(response,errmsg);
                             return;
                         }
                         logger.info("WxAuthController.queryWxUser user:" + wxUserMap);
                         //保存用户信息到redis db
                         campaignService.saveVoter(wxUserMap);
-                        String redirectHomeUrl = MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId));
-                        logger.info("WxAuthController reirect url:" + redirectHomeUrl);
-                        response.sendRedirect(response.encodeRedirectURL(redirectHomeUrl));
+                        logger.info("WxAuthController reirect url:" + redirectUrl);
+                        response.sendRedirect(response.encodeRedirectURL(redirectUrl));
 
                     }else{
-                        logger.error("WxAuthController.queryWxUser occurs error.chainId:{},openId:{},userInfoParaMap:{}",
-                                chainId,openId,userInfoParaMap);
+                        logger.error("WxAuthController.queryWxUser occurs error.redirectUrl:{},openId:{},userInfoParaMap:{}",
+                                redirectUrl,openId,userInfoParaMap);
                         ResponseUtils.createBadResponse(response,"获取用户信息失败");
                     }
                 }

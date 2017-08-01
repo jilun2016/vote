@@ -63,6 +63,21 @@ public class ResponseUtils {
         render(response,responseMap, HttpServletResponse.SC_OK);
     }
 
+    public static void createForbiddenResponse(HttpServletResponse response,String msg) {
+        Map<String,Object> responseMap = new HashMap<>();
+        responseMap.put("status", 0);
+        responseMap.put("msg", msg);
+        render(response,responseMap, HttpServletResponse.SC_FORBIDDEN);
+    }
+
+    public static void createUnauthorizedResponse(HttpServletResponse response,String msg) {
+        Map<String,Object> responseMap = new HashMap<>();
+        responseMap.put("status", 0);
+        responseMap.put("msg", msg);
+        render(response,responseMap, HttpServletResponse.SC_UNAUTHORIZED);
+    }
+
+
     /**
      * 发送内容,默认使用UTF-8编码。
      * @param response

@@ -16,14 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 /**
  * 投票拦截器
+ *
  * @Author gaoyan
  * @Date: 2017/7/29
- */    
+ */
 public class VoteInterceptor implements HandlerInterceptor {
 
     private static Logger logger = Logger.getLogger(VoteInterceptor.class);
@@ -34,7 +36,7 @@ public class VoteInterceptor implements HandlerInterceptor {
     //微信授权首页
     private String voteWxAuthUrl = "/vote/{0}/index";
 
-    private String[] excludeUrls = {"/auth/callback","/pay/callback"};
+    private String[] excludeUrls = {"/auth/callback", "/pay/callback"};
 
     @Autowired
     private SysConfig sysConfig;
@@ -47,8 +49,8 @@ public class VoteInterceptor implements HandlerInterceptor {
             throws Exception {
         String agent = request.getHeader("user-agent");
         //判断是否微信登录,非微信登陆的话 跳转提示
-        if((Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value()))
-            &&(!agent.toLowerCase().contains("micromessenger"))){
+        if ((Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value()))
+                && (!agent.toLowerCase().contains("micromessenger"))) {
             RequestUtils.issueRedirect(request, response, voteNowxUrl);
             return false;
         }
@@ -59,41 +61,37 @@ public class VoteInterceptor implements HandlerInterceptor {
         }
 
         //判断chainId 是否存在
-        String chainIdUri = uri.substring(1,11);
+        String chainIdUri = uri.substring(1, 11);
         Long chainId = null;
         try {
             chainId = Long.valueOf(chainIdUri);
-        }catch (NumberFormatException ex){
-            //当前chainId错误,跳转
-
+        } catch (NumberFormatException ex) {
+            //当前chainId错误,跳转活动宣传页
+            ResponseUtils.createForbiddenResponse(response, "活动不存在");
+            return false;
         }
 
-//        //
-//        if(Objects.isNull(chainId)){
-//            //当前chainId 为空,跳转
-//        }
         boolean isExist = campaignService.checkCampaignExist(chainId);
 
-        //如果活动不存在,那么跳转
-        if(!isExist){
-
+        //如果活动不存在,跳转活动宣传页
+        if (!isExist) {
+            ResponseUtils.createForbiddenResponse(response, "活动不存在");
+            return false;
         }
-        if(!Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value())){
-            WebUtils.setOpenId(request,"oTMo21YNuO1BZqdPOIWGO1l6c5v0");
-        }else{
-            if(CommonConstants.POST.equals(request.getMethod().toUpperCase())) {
+        if (!Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value())) {
+            WebUtils.setOpenId(request, "oTMo21YNuO1BZqdPOIWGO1l6c5v0");
+        } else {
+            if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
+                    && ((uri.indexOf("common_vote") > 0)
+                    || (uri.indexOf("/pay/prepay") > 0))) {
                 //POST方法保护
                 Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
                 //如果cookie openId为空,而且是投票post请求,那么重新授权
-
-                if(Objects.isNull(cookieFromOpenId)){
-                    if((RequestUtils.isAjaxRequest(request))
-                            &&(request.getRequestURL().indexOf("common_vote") > 0)){
-                        RequestUtils.issueRedirect(request, response, MessageFormat.format(voteWxAuthUrl,String.valueOf(chainId)));
-                        return false;
-                    }
-                }else{
-                    WebUtils.setOpenId(request,cookieFromOpenId.getValue());
+                if (Objects.isNull(cookieFromOpenId)) {
+                    ResponseUtils.createUnauthorizedResponse(response, "数据不存在");
+                    return false;
+                } else {
+                    WebUtils.setOpenId(request, cookieFromOpenId.getValue());
                 }
             }
         }
@@ -121,7 +119,7 @@ public class VoteInterceptor implements HandlerInterceptor {
         }
         if (start <= 0) {
             throw new IllegalStateException(
-                    "admin access path not like '/jeeadmin/jspgou/...' pattern: " + uri);
+                    "admin access path not like '/vote/...' pattern: " + uri);
         }
         return uri.substring(start);
     }
@@ -139,7 +137,7 @@ public class VoteInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-            ModelAndView mav) throws Exception {
+                           ModelAndView mav) throws Exception {
         if (mav != null
                 && mav.getModelMap() != null
                 && mav.getViewName() != null
@@ -147,9 +145,9 @@ public class VoteInterceptor implements HandlerInterceptor {
             //返回活动结束时间
             String uri = getURI(request);
             //判断chainId 是否存在
-            String chainIdUri = uri.substring(1,11);
+            String chainIdUri = uri.substring(1, 11);
             Long chainId = Long.valueOf(chainIdUri);
-            Map<String,Date>  campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
+            Map<String, Date> campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
             mav.addObject("campaignEndTime", campaignTimeMap.get("endTime").getTime());
         }
     }
