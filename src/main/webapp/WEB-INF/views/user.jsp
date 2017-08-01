@@ -9,7 +9,7 @@
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-                <title>首页</title>
+                <title>个人中心</title>
 
                 <%@ include file="./common/header.jsp" %>
 
@@ -74,7 +74,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li>
+                                <li ms-if="isMore">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <button type="button" class="btn btn-default btn-block" ms-click="methods.more()">加载更多</button>
@@ -82,16 +82,25 @@
                                     </div>
                                 </li>
                             </ul>
+                            <div ms-if="giftList.length==0">
+                                空页面
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="bottom-bar">
                     <a href="javascript:history.go(-1)" class="back"><span class="iconfont icon-fanhui"></span>返回</a>
-                    <div class="top-bar-title" ms-click="methods.send()">
+                    <div class="top-bar-title" ms-click="methods.send()" ng-if="!userVm.isover">
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
                     </div>
-                    <div class="pull-right">
+                    <div class="top-bar-title" ng-if="userVm.isover" onclick="alert('活动已结束.')">
+                        <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
+                    </div>
+                    <div class="pull-right" ng-if="!userVm.isover">
                         <a ms-attr="{href: 'pay/v_pay?userId='+@userId}" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
+                    </div>
+                    <div class="pull-right" ng-if="userVm.isover">
+                        <a href="javascript:alert('活动已结束.')" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
                     </div>
                 </div>
 

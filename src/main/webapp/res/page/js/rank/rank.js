@@ -60,14 +60,14 @@
                  return query.substring(iStart, iEnd);
              },
              queryRanks: function() {
-                 opt.loading.show();
+                 vote.loading.show();
 
                  vote.jqAjax('rank', "", function(res) {
                      rankVm.list = res.data.voteRankList;
-                     opt.loading.hide();
+                     vote.loading.hide();
                  }, function(err) {
                      console.log(err)
-                     opt.loading.hide();
+                     vote.loading.hide();
                  }, 'GET', true);
              },
              build: function() {

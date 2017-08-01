@@ -73,7 +73,7 @@
              },
              timer: {
                  creat: function() {
-                     var isAfter = moment().isAfter(campaignDetail.endTime);
+                     var isAfter = moment().isAfter(campaignEndTime);
                      if (!isAfter) {
                          timer = window.setInterval(function() {
                              opt.timer.loop();
@@ -82,7 +82,7 @@
                  },
                  loop: function() {
                      var startTime = moment();
-                     var endTime = moment(campaignDetail.endTime);
+                     var endTime = moment(campaignEndTime);
                      var millisecond = endTime.diff(startTime);
 
                      var days = millisecond / 1000 / 60 / 60 / 24;
@@ -94,11 +94,10 @@
                      var seconds = millisecond / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound);
                      var secondsRound = Math.floor(seconds);
 
-                     indexVm.time.days = daysRound;
-                     indexVm.time.hours = hoursRound;
-                     indexVm.time.minutes = minutesRound;
-                     indexVm.time.seconds = secondsRound;
-
+                     indexVm.time.days = ('0' + daysRound).slice(-2);
+                     indexVm.time.hours = ('0' + hoursRound).slice(-2);
+                     indexVm.time.minutes = ('0' + minutesRound).slice(-2);
+                     indexVm.time.seconds = ('0' + secondsRound).slice(-2);
                  }
              },
              build: function() {

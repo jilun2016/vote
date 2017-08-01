@@ -26,18 +26,6 @@ var giftModule = (function() {
             }
             return c;
         },
-        getQueryString: function(param) {
-            var query = window.location.search;
-            var iLen = param.length;
-            var iStart = query.indexOf(param);
-            if (iStart == -1)
-                return "";
-            iStart += iLen + 1;
-            var iEnd = query.indexOf("&", iStart);
-            if (iEnd == -1)
-                return query.substring(iStart);
-            return query.substring(iStart, iEnd);
-        },
         downImg: function(url, callback) {
             if (url == '') {
                 return false;
@@ -50,10 +38,6 @@ var giftModule = (function() {
                 }
             };
             img.src = url;
-        },
-        loading: {
-            show: function() { document.getElementById('divLoading').style.display = ''; },
-            hide: function() { document.getElementById('divLoading').style.display = 'none'; }
         },
         hasClass: function(obj, cls) {
             return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
@@ -80,12 +64,12 @@ var giftModule = (function() {
                         arr.push(opt.format(gift, { giftName: item.giftName, giftPoint: item.giftPoint, giftId: item.giftId, giftpic: item.giftpic }));
                     });
                     document.getElementById("ulGiftList").innerHTML = arr.join('');
-                    opt.loading.hide();
+                    vote.loading.hide();
                 } else {
                     message.msg(data.msg);
-                    opt.loading.hide();
+                    vote.loading.hide();
                 }
-            }, function(err) { opt.loading.hide(); });
+            }, function(err) { vote.loading.hide(); });
         },
         queryUserInfo: function(callback) {
             mtAjax.get('../user', { userId: userId }, function(res) {
@@ -102,10 +86,10 @@ var giftModule = (function() {
                     callback && callback();
                 } else {
                     message.msg(data.msg);
-                    opt.loading.hide();
+                    vote.loading.hide();
                 }
             }, function(err) {
-                opt.loading.hide();
+                vote.loading.hide();
             });
         },
         giftClick: function(giftId, _this) {
@@ -121,7 +105,7 @@ var giftModule = (function() {
         },
         divPrePay: function() {
             if (cur) {
-                opt.loading.show();
+                vote.loading.show();
                 var param = {
                     chainId: chainId,
                     userId: userId,
@@ -151,7 +135,7 @@ var giftModule = (function() {
                                 "paySign": _paySign
                             },
                             function(res) {
-                                opt.loading.hide();
+                                vote.loading.hide();
                                 if (res.err_msg == "get_brand_wcpay_request:ok") {
                                     alert('支付成功');
                                     //window.location.href = CONFIG.WAP_PAY_URL + "/pay/v_suc?orderId=" + item.orderId + "&serviceType=" + payInfo.serviceType;
@@ -169,10 +153,10 @@ var giftModule = (function() {
 
                     } else {
                         message.msg(data.msg);
-                        opt.loading.hide();
+                        vote.loading.hide();
                     }
                 }, function(err) {
-                    opt.loading.hide();
+                    vote.loading.hide();
                 }, 'POST', false);
             } else {
                 message.msg('请选择要购买的礼物.');
@@ -182,8 +166,8 @@ var giftModule = (function() {
             cur = null;
             openId = document.getElementById('inputOpenId').value;
             chainId = document.getElementById('inputChainId').value;
-            userId = opt.getQueryString('userId');
-            opt.loading.show();
+            userId = vote.getQueryString('userId');
+            vote.loading.show();
             opt.queryUserInfo(function() {
                 opt.queryGiftList();
             });

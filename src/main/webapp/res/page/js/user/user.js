@@ -8,6 +8,8 @@
          },
          giftList: [],
          userId: 0,
+         isover: false, //是否结束
+         isMore: false, //是否加载更多
          methods: {
              send: function() {
                  userOpt.send();
@@ -20,24 +22,8 @@
      //未达到 10条  隐藏 加载更多
      var userOpt = (function() {
          var opt = {
-             loading: {
-                 show: function() { document.getElementById('divLoading').style.display = ''; },
-                 hide: function() { document.getElementById('divLoading').style.display = 'none'; }
-             },
-             getQueryString: function(param) {
-                 var query = window.location.search;
-                 var iLen = param.length;
-                 var iStart = query.indexOf(param);
-                 if (iStart == -1)
-                     return "";
-                 iStart += iLen + 1;
-                 var iEnd = query.indexOf("&", iStart);
-                 if (iEnd == -1)
-                     return query.substring(iStart);
-                 return query.substring(iStart, iEnd);
-             },
              queryGifts: function() {
-                 opt.loading.show();
+                 vote.loading.show();
                  var param = {
                      pageNo: userVm.pagecfg.pageNo,
                      pageSize: userVm.pagecfg.pageSize,
@@ -53,29 +39,32 @@
                          userVm.pagecfg.pageNo--;
                      }
                      var list = res.data.list;
+                     userVm.isMore = !(list.length < userVm.pagecfg.pageSize);
                      _.forEach(list, function(item) {
                          item.voteTimeStr = moment(item.voteTime).format('YYYY-MM-DD HH:mm');
                      });
                      var tempArr = _.clone(userVm.giftList, true);
                      userVm.giftList = tempArr.concat(res.data.list);
-                     opt.loading.hide();
+                     vote.loading.hide();
                  }, function(err) {
                      console.log(err)
-                     opt.loading.hide();
+                     vote.loading.hide();
                  }, 'GET', true);
              },
              send: function() {
-                 opt.loading.show();
+                 vote.loading.show();
                  vote.jqAjax('common_vote', 'userId=' + userVm.userId, function(res) {
                      message.msg('投票成功.');
-                     opt.loading.hide();
+                     location.reload();
+                     vote.loading.hide();
                  }, function(err) {
                      console.log(err)
-                     opt.loading.hide();
+                     vote.loading.hide();
                  }, 'POST', false);
              },
              build: function() {
-                 userVm.userId = opt.getQueryString('userId');
+                 userVm.isover = moment().isAfter(campaignEndTime);
+                 userVm.userId = vote.getQueryString('userId');
                  userVm.top = userDetail;
                  opt.queryGifts();
              }

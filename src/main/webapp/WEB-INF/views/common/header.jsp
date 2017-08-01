@@ -58,5 +58,5 @@
     </style>
 
     <script>
-        var campaignEndTime = '${campaignEndTime}';
+        var campaignEndTime = Number('${campaignEndTime}');
     </script>

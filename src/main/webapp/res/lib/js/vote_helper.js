@@ -1,5 +1,17 @@
   var vote = (function() {
       var opt = {
+          getQueryString: function(param) {
+              var query = window.location.search;
+              var iLen = param.length;
+              var iStart = query.indexOf(param);
+              if (iStart == -1)
+                  return "";
+              iStart += iLen + 1;
+              var iEnd = query.indexOf("&", iStart);
+              if (iEnd == -1)
+                  return query.substring(iStart);
+              return query.substring(iStart, iEnd);
+          },
           loading: {
               show: function() { document.getElementById('divLoading').style.display = ''; },
               hide: function() { document.getElementById('divLoading').style.display = 'none'; }
@@ -73,6 +85,7 @@
 
       return {
           loading: opt.loading,
+          getQueryString: opt.getQueryString,
           jqAjax: opt.jqAjax
       }
   })();
