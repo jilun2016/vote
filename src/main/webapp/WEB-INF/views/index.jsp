@@ -110,13 +110,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="pay/v_pay">
+                                <a href="v_award">
                                     <div class="tab-icon"> <span class="iconfont icon-jiangpin"></span> </div>
                                     <div class="tab-title"> 奖品 </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="ban">
+                                <a href="v_rank">
                                     <div class="tab-icon"> <span class="iconfont icon-tubiao-"></span> </div>
                                     <div class="tab-title"> 榜单 </div>
                                 </a>

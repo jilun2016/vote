@@ -3,10 +3,10 @@
      var rankVm = avalon.define({
          $id: "rank",
          time: {
-             days: 0,
-             hours: 0,
-             minutes: 0,
-             seconds: 0
+             days: "00",
+             hours: "00",
+             minutes: "00",
+             seconds: "00"
          },
          list: []
      });
@@ -19,32 +19,13 @@
              },
              timer: {
                  creat: function() {
-                     var isAfter = moment().isAfter(campaignEndTime);
-                     if (!isAfter) {
+                     if (!vote.isOver()) {
                          timer = window.setInterval(function() {
-                             opt.timer.loop();
+                             vote.endTimeLoop(rankVm)
                          }, 1000);
+                     } else {
+
                      }
-                 },
-                 loop: function() {
-                     var startTime = moment();
-                     var endTime = moment(campaignEndTime);
-                     var millisecond = endTime.diff(startTime);
-
-                     var days = millisecond / 1000 / 60 / 60 / 24;
-                     var daysRound = Math.floor(days);
-                     var hours = millisecond / 1000 / 60 / 60 - (24 * daysRound);
-                     var hoursRound = Math.floor(hours);
-                     var minutes = millisecond / 1000 / 60 - (24 * 60 * daysRound) - (60 * hoursRound);
-                     var minutesRound = Math.floor(minutes);
-                     var seconds = millisecond / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound);
-                     var secondsRound = Math.floor(seconds);
-
-                     rankVm.time.days = daysRound;
-                     rankVm.time.hours = hoursRound;
-                     rankVm.time.minutes = minutesRound;
-                     rankVm.time.seconds = secondsRound;
-
                  }
              },
              getQueryString: function(param) {

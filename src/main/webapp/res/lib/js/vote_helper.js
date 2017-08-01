@@ -16,6 +16,28 @@
               show: function() { document.getElementById('divLoading').style.display = ''; },
               hide: function() { document.getElementById('divLoading').style.display = 'none'; }
           },
+          endTimeLoop: function(indexVm) {
+              var startTime = moment();
+              var endTime = moment(campaignEndTime);
+              var millisecond = endTime.diff(startTime);
+
+              var days = millisecond / 1000 / 60 / 60 / 24;
+              var daysRound = Math.floor(days);
+              var hours = millisecond / 1000 / 60 / 60 - (24 * daysRound);
+              var hoursRound = Math.floor(hours);
+              var minutes = millisecond / 1000 / 60 - (24 * 60 * daysRound) - (60 * hoursRound);
+              var minutesRound = Math.floor(minutes);
+              var seconds = millisecond / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound);
+              var secondsRound = Math.floor(seconds);
+
+              indexVm.time.days = ('0' + daysRound).slice(-2);
+              indexVm.time.hours = ('0' + hoursRound).slice(-2);
+              indexVm.time.minutes = ('0' + minutesRound).slice(-2);
+              indexVm.time.seconds = ('0' + secondsRound).slice(-2);
+          },
+          isOver: function() {
+              return moment().isAfter(campaignEndTime);
+          },
           jqAjax: function(url, data, success, error, type, flage) {
               if (!url) {
                   message.msg("ajax请求未发现请求地址.");
@@ -86,6 +108,8 @@
       return {
           loading: opt.loading,
           getQueryString: opt.getQueryString,
+          endTimeLoop: opt.endTimeLoop,
+          isOver: opt.isOver,
           jqAjax: opt.jqAjax
       }
   })();
