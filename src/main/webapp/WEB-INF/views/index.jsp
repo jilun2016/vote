@@ -104,7 +104,7 @@
                     <div class="bar-tab">
                         <ul>
                             <li class="active">
-                                <a href="home">
+                                <a href="javascript:;;">
                                     <div class="tab-icon"> <span class="iconfont icon-shouye"></span> </div>
                                     <div class="tab-title"> 首页 </div>
                                 </a>

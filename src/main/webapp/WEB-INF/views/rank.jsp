@@ -46,20 +46,20 @@
                 </div>
                 <div class="bar-tab">
                     <ul>
-                        <li class="">
-                            <a href="index.html">
+                        <li>
+                            <a href="home">
                                 <div class="tab-icon"> <span class="iconfont icon-shouye"></span> </div>
                                 <div class="tab-title"> 首页 </div>
                             </a>
                         </li>
-                        <li class="">
-                            <a href="gift.html">
+                        <li>
+                            <a href="v_award">
                                 <div class="tab-icon"> <span class="iconfont icon-jiangpin"></span> </div>
                                 <div class="tab-title"> 奖品 </div>
                             </a>
                         </li>
                         <li class="active">
-                            <a href="list.html">
+                            <a href="javascript:;;">
                                 <div class="tab-icon"> <span class="iconfont icon-tubiao-"></span> </div>
                                 <div class="tab-title"> 榜单 </div>
                             </a>
