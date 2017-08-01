@@ -379,8 +379,8 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public Map<String, Object> getCampaignTimeMap(Long chainId) {
-		Map<String ,Object> campaignTimeMap = new HashMap<>();
+	public Map<String, Date> getCampaignTimeMap(Long chainId) {
+		Map<String ,Date> campaignTimeMap = new HashMap<>();
 		Date startTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"startTime");
 		Date endTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"endTime");
 		if((Objects.nonNull(startTime))&&(Objects.nonNull(endTime))){

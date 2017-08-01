@@ -8,6 +8,7 @@ import com.jlt.vote.bis.campaign.vo.VoterVo;
 import com.jlt.vote.bis.wx.entity.UserGiftRecord;
 import com.xcrm.common.page.Pagination;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -157,7 +158,7 @@ public interface ICampaignService {
      * @param chainId
      * @return
      */
-    Map<String,Object> getCampaignTimeMap(Long chainId);
+    Map<String,Date> getCampaignTimeMap(Long chainId);
 
     /**
      * 删除所有redis的key

@@ -15,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -104,7 +105,6 @@ public class VoteInterceptor implements HandlerInterceptor {
      *
      * @param request
      * @throws IllegalStateException
-     *             访问路径错误，没有三(四)个'/'
      */
     private static String getURI(HttpServletRequest request)
             throws IllegalStateException {
@@ -121,8 +121,7 @@ public class VoteInterceptor implements HandlerInterceptor {
         }
         if (start <= 0) {
             throw new IllegalStateException(
-                    "admin access path not like '/jeeadmin/jspgou/...' pattern: "
-                            + uri);
+                    "admin access path not like '/jeeadmin/jspgou/...' pattern: " + uri);
         }
         return uri.substring(start);
     }
@@ -140,17 +139,21 @@ public class VoteInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-            ModelAndView modelAndView) throws Exception {
-        if(CommonConstants.GET.equals(request.getMethod().toUpperCase())) {
+            ModelAndView mav) throws Exception {
+        if (mav != null
+                && mav.getModelMap() != null
+                && mav.getViewName() != null
+                && !mav.getViewName().startsWith("redirect:")) {
             //返回活动结束时间
             String uri = getURI(request);
             //判断chainId 是否存在
             String chainIdUri = uri.substring(1,11);
             Long chainId = Long.valueOf(chainIdUri);
-            Map<String,Object>  campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
-            modelAndView.addObject("campaignEndTime", campaignTimeMap.get("endTime"));
+            Map<String,Date>  campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
+            mav.addObject("campaignEndTime", campaignTimeMap.get("endTime").getTime());
         }
     }
+
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)

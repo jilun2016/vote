@@ -14,9 +14,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,14 +167,9 @@ public class VoteController {
      * @param response
      */
     @RequestMapping(value ="/vote/{chainId}/rank",method = {RequestMethod.GET})
-    public void voteRank(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
+    public void voteRank(@PathVariable Long chainId, ModelAndView mav,HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.voteRank,chainId:{}",chainId);
-        List<Map<String,Object>> voteRankList = campaignService.getVoteRank(chainId);
-        Map<String,Object> campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
-        Map<String,Object> campaignRankMap = new HashMap<>();
-        campaignRankMap.putAll(campaignTimeMap);
-        campaignRankMap.put("voteRankList",voteRankList);
-        ResponseUtils.createSuccessResponse(response,campaignRankMap);
+        ResponseUtils.createSuccessResponse(response,campaignService.getVoteRank(chainId));
     }
 
 
