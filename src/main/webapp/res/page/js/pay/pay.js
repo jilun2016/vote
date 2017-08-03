@@ -1,185 +1,107 @@
-var giftModule = (function() {
-    var userId = '';
-    var chainId = '';
-    var giftList = [];
-    var cur = null;
-    var orderId = -1;
-    var gift = '<li class="gift-li-cls" did="#{giftId}"  onclick="giftModule.giftClick(\'#{giftId}\',this)">\
-                        <div class="product-img"><img src="#{giftpic}"> </div>\
-                        <div class="product-title">#{giftName}</div>\
-                        <div class="product-price"><span class="cl-red">#{giftPoint}</span>点 </div>\
-                    </li>';
-    var opt = {
-        format: function(c, a) {
-            c = String(c);
-            var b = Array.prototype.slice.call(arguments, 1),
-                d = Object.prototype.toString;
-            if (b.length) {
-                b = b.length == 1 ? (a !== null && (/\[object Array\]|\[object Object\]/.test(d.call(a))) ? a : b) : b;
-                return c.replace(/#\{(.+?)\}/g, function(f, h) {
-                    var g = b[h];
-                    if ("[object Function]" == d.call(g)) {
-                        g = g(h);
-                    }
-                    return ("undefined" == typeof g ? "" : g);
-                });
-            }
-            return c;
-        },
-        downImg: function(url, callback) {
-            if (url == '') {
-                return false;
-            }
-            var img = new Image();
-            img.onload = function() {
-                img.onload = null;
-                if (callback) {
-                    callback();
-                }
-            };
-            img.src = url;
-        },
-        hasClass: function(obj, cls) {
-            return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-        },
-        addClass: function(obj, cls) {
-            if (!this.hasClass(obj, cls)) obj.className += " " + cls;
-        },
-        removeClass: function(obj, cls) {
-            if (this.hasClass(obj, cls)) {
-                var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-                obj.className = obj.className.replace(reg, ' ');
-            }
-        },
-        queryGiftList: function() {
-            var _this = this;
-            giftList = [];
-            mtAjax.get('../gift', '', function(res) {
-                var data = res.data;
-                if (data.status) {
-                    var arr = [];
-                    giftList = data.data;
-                    _.forEach(data.data, function(item) {
-                        item.giftpic = 'http://pic.jilunxing.com/vote/b.jpg';
-                        arr.push(opt.format(gift, { giftName: item.giftName, giftPoint: item.giftPoint, giftId: item.giftId, giftpic: item.giftpic }));
-                    });
-                    document.getElementById("ulGiftList").innerHTML = arr.join('');
-                    vote.loading.hide();
-                } else {
-                    message.msg(data.msg);
-                    vote.loading.hide();
-                }
-            }, function(err) { vote.loading.hide(); });
-        },
-        queryUserInfo: function(callback) {
-            mtAjax.get('../user', { userId: userId }, function(res) {
-                var data = res.data;
-                if (data.status) {
-                    var user = data.data;
-                    document.getElementById('divUserName').innerHTML = user.name || '';
-                    document.getElementById('divUserCode').innerHTML = user.number || '';
-                    document.getElementById('divVoteCount').innerHTML = user.voteCount || '0';
-                    document.getElementById('divViewCount').innerHTML = user.viewCount || '0';
-                    opt.downImg(user.headPic, function() {
-                        document.getElementById('imgHeadPic').src = user.headPic;
-                    });
-                    callback && callback();
-                } else {
-                    message.msg(data.msg);
-                    vote.loading.hide();
-                }
-            }, function(err) {
-                vote.loading.hide();
-            });
-        },
-        giftClick: function(giftId, _this) {
-            var findItem = _.find(giftList, function(item) { return item.giftId == giftId; });
-            if (findItem) {
-                var liArr = document.getElementsByClassName('gift-li-cls');
-                _.forEach(liArr, function(item) {
-                    opt.removeClass(item, 'active');
-                });
-                opt.addClass(_this, 'active');
-                cur = findItem;
-            }
-        },
-        divPrePay: function() {
-            if (cur) {
-                vote.loading.show();
-                var param = {
-                    chainId: chainId,
-                    userId: userId,
-                    giftId: cur.giftId,
-                    giftCount: document.getElementById('selectCnt').value,
-                    openid: openId
-                }
-                console.log(param);
-                vote.jqAjax('prepay', param, function(res) {
-                    if (res.status) {
-                        var item = res.data;
-                        var payResult = JSON.parse(item.payResult);
-                        console.log('payResult', ':', payResult);
-                        var _appid = payResult.appId;
-                        var _timeStamp = payResult.timeStamp;
-                        var _nonceStr = payResult.nonceStr;
-                        var _package = payResult.package;
-                        var _signType = payResult.signType;
-                        var _paySign = payResult.paySign;
+ $(document).ready(function() {
+     var payVm = avalon.define({
+         $id: "pay",
+         top: {
+             signCount: 0,
+             viewCount: 0,
+             voteCount: 0,
+             sponsorPic: ''
+         },
+         giftList: [],
+         giftId: 0,
+         amount: 1,
+         curIndex: -1,
+         methods: {
+             itemClick: function(index) {
+                 payVm.curIndex = index;
+                 var cur = payVm.giftList[index];
+                 if (cur) {
+                     payVm.giftId = cur.giftId;
+                 }
+             },
+             pay: function() {
+                 if (payVm.curIndex >= 0) {
+                     var cur = payVm.giftList[payVm.curIndex];
+                     if (cur) {
+                         vote.loading.show();
+                         var param = {
+                             chainId: chainId,
+                             userId: userDetail.userId,
+                             giftId: cur.giftId,
+                             giftCount: payVm.amount,
+                             openid: openId
+                         }
+                         vote.jqAjax('prepay', param, function(res) {
+                             if (res.status) {
+                                 var item = res.data;
+                                 var payResult = JSON.parse(item.payResult);
+                                 var _appid = payResult.appId;
+                                 var _timeStamp = payResult.timeStamp;
+                                 var _nonceStr = payResult.nonceStr;
+                                 var _package = payResult.package;
+                                 var _signType = payResult.signType;
+                                 var _paySign = payResult.paySign;
 
-                        WeixinJSBridge.invoke('getBrandWCPayRequest', {
-                                "appId": _appid,
-                                "timeStamp": _timeStamp,
-                                "nonceStr": _nonceStr,
-                                "package": _package,
-                                "signType": _signType,
-                                "paySign": _paySign
-                            },
-                            function(res) {
-                                vote.loading.hide();
-                                if (res.err_msg == "get_brand_wcpay_request:ok") {
-                                    alert('支付成功');
-                                    //window.location.href = CONFIG.WAP_PAY_URL + "/pay/v_suc?orderId=" + item.orderId + "&serviceType=" + payInfo.serviceType;
-                                } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-                                    message.msg("交易已取消");
-                                    orderId = -1;
-                                } else if (res.err_msg == "get_brand_wcpay_request:fail") {
-                                    message.msg("支付失败");
-                                    orderId = -1;
-                                } else {
-                                    message.msg(res.err_msg || res.errMsg);
-                                    orderId = -1;
-                                }
-                            });
+                                 WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                                         "appId": _appid,
+                                         "timeStamp": _timeStamp,
+                                         "nonceStr": _nonceStr,
+                                         "package": _package,
+                                         "signType": _signType,
+                                         "paySign": _paySign
+                                     },
+                                     function(res) {
+                                         vote.loading.hide();
+                                         if (res.err_msg == "get_brand_wcpay_request:ok") {
+                                             alert('支付成功');
+                                         } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                                             message.msg("交易已取消");
+                                             orderId = -1;
+                                         } else if (res.err_msg == "get_brand_wcpay_request:fail") {
+                                             message.msg("支付失败");
+                                             orderId = -1;
+                                         } else {
+                                             message.msg(res.err_msg || res.errMsg);
+                                             orderId = -1;
+                                         }
+                                     });
+                             } else {
+                                 message.msg(data.msg);
+                                 vote.loading.hide();
+                             }
+                         }, function(err) {
+                             vote.loading.hide();
+                         }, 'POST', false);
+                     }
+                 } else {
+                     message.msg('请选择要购买的礼物.');
+                 }
+             }
+         }
+     });
 
-                    } else {
-                        message.msg(data.msg);
-                        vote.loading.hide();
-                    }
-                }, function(err) {
-                    vote.loading.hide();
-                }, 'POST', false);
-            } else {
-                message.msg('请选择要购买的礼物.');
-            }
-        },
-        build: function() {
-            cur = null;
-            openId = document.getElementById('inputOpenId').value;
-            chainId = document.getElementById('inputChainId').value;
-            userId = vote.getQueryString('userId');
-            vote.loading.show();
-            opt.queryUserInfo(function() {
-                opt.queryGiftList();
-            });
-        }
-    };
+     var payOpt = (function() {
+         var opt = {
+             queryGiftList: function() {
+                 vote.loading.show();
+                 vote.jqAjax('../gift', '', function(res) {
+                     if (res.status) {
+                         payVm.giftList = res.data;
+                     } else {
+                         message.msg(res.msg);
+                     }
+                     vote.loading.hide();
+                 }, function(err) { vote.loading.hide(); }, 'GET', false);
+             },
+             build: function() {
+                 payVm.top = userDetail;
+                 opt.queryGiftList();
+             }
+         };
+         return {
+             build: opt.build,
+         }
+     })();
 
-    return {
-        build: opt.build,
-        giftClick: opt.giftClick,
-        divPrePay: opt.divPrePay
-    }
-
-})();
-
-giftModule.build()
+     payOpt.build();
+ });

@@ -16,28 +16,10 @@
             </head>
 
             <body ms-controller="user">
-                <script>
-                    var campaignEndTime = '${campaignEndTime}';
-                    var userDetail = '${userDetail}';
-                    userDetail = userDetail && JSON.parse('${userDetail}');
-                </script>
-
-                <div class="loading-bg" id="divLoading" style="display:none;">
-                    <div class="loading">
-                        <div style="text-align: center;">
-                            <div class="v-pulse v-pulse1" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.12s;">
-                            </div>
-                            <div class="v-pulse v-pulse2" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.24s;">
-                            </div>
-                            <div class="v-pulse v-pulse3" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.36s;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="content">
                     <div class="show-info">
                         <div class="user-info">
-                            <img <img ms-attr="{src: @top.headPic}" class="img-circle" style="width:30px;">{{top.name}}
+                            <img ms-attr="{src:top.headPic}" class="img-circle" style="width:30px;">{{top.name}}
                         </div>
                         <ul>
                             <li>
@@ -58,7 +40,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="show-img"> <img ms-attr="{src: @top.userPicVos[0].picUrl}"> </div>
+                    <div class="show-img"> <img ms-if="top.userPicVos.length>0" ms-attr="{src: top.userPicVos[0].picUrl}"> </div>
                     <div class="gift-list">
                         <div class="gift-list-title">
                             <span class="iconfont icon-jiangpin"></span>礼物列表
@@ -81,25 +63,36 @@
                                         </div>
                                     </div>
                                 </li>
+                                <li ms-if="giftList.length==0">
+                                    <div class="empty-box">
+                                        <div class="empty-img"><img ms-attr="{src:'/res/page/img/no_records.png'}"></div>
+                                        <div class="empty-title">
+                                            Ta还有获得过礼物，快去给Ta送个礼物吧！
+                                        </div>
+                                        <a ms-attr="{href: 'pay/v_pay?userId='+@userId}" ms-if="!isover">
+                                            <div class="empty-btn">挑选礼物</div>
+                                        </a>
+                                        <a href="javascript:alert('活动已结束.')" ms-if="isover">
+                                            <div class="empty-btn">挑选礼物</div>
+                                        </a>
+                                    </div>
+                                </li>
                             </ul>
-                            <div ms-if="giftList.length==0">
-                                空页面
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="bottom-bar">
                     <a href="javascript:history.go(-1)" class="back"><span class="iconfont icon-fanhui"></span>返回</a>
-                    <div class="top-bar-title" ms-click="methods.send()" ng-if="!userVm.isover">
+                    <div class="top-bar-title" ms-click="methods.send()" ms-if="!isover">
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
                     </div>
-                    <div class="top-bar-title" ng-if="userVm.isover" onclick="alert('活动已结束.')">
+                    <div class="top-bar-title" ms-if="isover" onclick="alert('活动已结束.')">
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
                     </div>
-                    <div class="pull-right" ng-if="!userVm.isover">
+                    <div class="pull-right" ms-if="!isover">
                         <a ms-attr="{href: 'pay/v_pay?userId='+@userId}" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
                     </div>
-                    <div class="pull-right" ng-if="userVm.isover">
+                    <div class="pull-right" ms-if="isover">
                         <a href="javascript:alert('活动已结束.')" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
                     </div>
                 </div>

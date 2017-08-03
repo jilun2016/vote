@@ -8,28 +8,11 @@
                 <meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-                <title>个人中心</title>
-                <link rel="stylesheet" href="/res/page/fonts/iconfont.css">
-                <link href="/res/page/css/custom.css" rel="stylesheet">
+                <title>购买礼物</title>
+                <%@ include file="./common/header.jsp" %>
             </head>
 
-            <body>
-                <input type="hidden" id="inputOpenId" value="${openId}" />
-                <input type="hidden" id="inputChainId" value="${chainId}" />
-
-                <div class="loading-bg" id="divLoading" style="display:none;">
-                    <div class="loading">
-                        <div style="text-align: center;">
-                            <div class="v-pulse v-pulse1" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.12s;">
-                            </div>
-                            <div class="v-pulse v-pulse2" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.24s;">
-                            </div>
-                            <div class="v-pulse v-pulse3" style="animation-fill-mode: both; animation-timing-function: cubic-bezier(0.2, 0.68, 0.18, 1.08); animation-iteration-count: infinite; animation-duration: 0.75s; animation-name: v-pulseStretchDelay; display: inline-block; border-radius: 100%; margin: 2px; height: 15px; width: 15px; background-color: rgb(58, 185, 130); animation-delay: 0.36s;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <body ms-controller="pay">
                 <div class="content">
                     <div class="gift-list">
                         <div class="gift-list-content">
@@ -37,15 +20,14 @@
                                 <li>
                                     <a href="javascript:;;" class="b-b-line">
                                         <span class="icon-box"> 
-                                            <img  class="user-img" id="imgHeadPic"> 
+                                            <img  class="user-img" ms-attr="{src:top.headPic}"> 
                                         </span>
                                         <div class="inner">
-                                            <div class="inner-title" id="divUserName"></div>
+                                            <div class="inner-title">{{top.name}}</div>
                                             <div class="inner-content">给Ta送上一份礼物吧</div>
                                         </div>
                                         <div class=""><span class="iconfont icon-jiantou"></span> </div>
                                     </a>
-
                                 </li>
                             </ul>
                         </div>
@@ -54,26 +36,30 @@
                         <ul>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-geren"></span>编号 </div>
-                                <div class="show-info-num" id="divUserCode"> </div>
+                                <div class="show-info-num"> {{top.number}} </div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-like"></span>票数 </div>
-                                <div class="show-info-num" id="divVoteCount"> </div>
+                                <div class="show-info-num"> {{top.voteCount}} </div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-fangwenliang"></span>热度 </div>
-                                <div class="show-info-num" id="divViewCount"> </div>
+                                <div class="show-info-num"> {{top.viewCount}} </div>
                             </li>
                         </ul>
                     </div>
                     <div class="buy-list">
                         <ul id="ulGiftList">
-
+                            <li class="gift-li-cls" ms-click="methods.itemClick($index)" ms-class="{active:item.giftId==giftId}" ms-for="($index,item) in giftList">
+                                <div class="product-img"><img ms-attr="{src:item.giftpic}"> </div>
+                                <div class="product-title">{{item.giftName}}</div>
+                                <div class="product-price"><span class="cl-red">{{item.giftPoint}}</span>点 </div>
+                            </li>
                         </ul>
                         <div class="product-intro">
                             <span> 单价1元，抵5票</span>
                             <div class="pull-right">数量：
-                                <select id="selectCnt">
+                                <select ms-duplex="amount">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -82,16 +68,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="pay-btn" onclick="giftModule.divPrePay()">去支付</div>
+                <div class="pay-btn" ms-click="methods.pay()">去支付</div>
 
-                <script src="/res/lib/js/lodash.min.js"></script>
-                <script src="/res/lib/js/axios.min.js"></script>
-                <script src="/res/lib/js/jquery.min.js"></script>
-                <script src="/res/lib/js/axios.helper.js?v=0007"></script>
-                <script src="/res/lib/js/vote_helper.js?v=00007"></script>
-
-                <script src="/res/page/js/pay/pay.js?v=00007"></script>
-
+                <%@ include file="./common/footer.jsp" %>
+                    <script src="/res/page/js/pay/pay.js?v=00007"></script>
 
             </body>
 

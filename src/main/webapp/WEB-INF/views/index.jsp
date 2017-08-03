@@ -16,14 +16,9 @@
             </head>
 
             <body ms-controller="vote">
-                <script>
-                    var campaignDetail = '${campaignDetail}';
-                    campaignDetail = campaignDetail && JSON.parse('${campaignDetail}');
-                </script>
-
                 <div class="content">
                     <div class="show-img">
-                        <img :src="top.sponsorPic">
+                        <img ms-attr="{src:top.sponsorPic}">
                     </div>
                     <div class="show-info">
                         <ul>
@@ -83,7 +78,7 @@
                         </div>
                     </div>
 
-                    <div class="search-input">
+                    <div class="search-input" ms-if="isShowMore">
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="button" class="btn btn-default btn-block" ms-click="methods.more()">加载更多</button>

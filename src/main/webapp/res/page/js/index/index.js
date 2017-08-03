@@ -24,6 +24,7 @@
          },
          queryKey: '',
          userList: [],
+         isShowMore: false,
          methods: {
              more: function() {
                  indexOpt.more();
@@ -37,6 +38,7 @@
      var indexOpt = (function() {
          var opt = {
              queryUsers: function() {
+                 vote.loading.show();
                  var param = {
                      pageNo: indexVm.pagecfg.pageNo,
                      pageSize: indexVm.pagecfg.pageSize
@@ -51,7 +53,7 @@
                      if (data.data.list.length === 0) {
                          indexVm.pagecfg.pageNo--;
                      }
-
+                     indexVm.isShowMore = data.data.list.length == indexVm.pagecfg.pageSize;
                      var tempArr = _.clone(indexVm.userList, true);
                      indexVm.userList = tempArr.concat(data.data.list);
 
@@ -66,9 +68,11 @@
                          if (indexVm.pagecfg.pageNo > 1) {
                              $container.masonry('reloadItems');
                          }
+                         vote.loading.hide();
                      }, 800);
                  }, function(err) {
                      console.log(err)
+                     vote.loading.hide();
                  }, 'GET', true);
              },
              timer: {

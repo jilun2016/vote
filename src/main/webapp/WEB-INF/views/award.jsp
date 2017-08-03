@@ -15,7 +15,7 @@
 
             </head>
 
-            <body ms-controller="gift">
+            <body ms-controller="award">
 
                 <div class="content">
                     <div class="gift-item">

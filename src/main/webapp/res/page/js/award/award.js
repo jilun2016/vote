@@ -1,7 +1,7 @@
  $(document).ready(function() {
      var timer = null;
-     var giftVm = avalon.define({
-         $id: "gift",
+     var awardVm = avalon.define({
+         $id: "award",
          list: []
      });
 
@@ -9,7 +9,7 @@
          var opt = {
              query: function() {
                  vote.jqAjax('award', '', function(data) {
-                     giftVm.list = data;
+                     awardVm.list = data;
                  }, function(err) {
                      console.log(err)
                  }, 'GET', false);

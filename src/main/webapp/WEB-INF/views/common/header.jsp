@@ -59,4 +59,11 @@
 
     <script>
         var campaignEndTime = Number('${campaignEndTime}');
+        var userDetail = '${userDetail}';
+        userDetail = userDetail && JSON.parse('${userDetail}');
+        var campaignDetail = '${campaignDetail}';
+        campaignDetail = campaignDetail && JSON.parse('${campaignDetail}');
+
+        var openId = '${openId}';
+        var chainId = '${chainId}';
     </script>
