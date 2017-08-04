@@ -49,9 +49,9 @@ public class WxController {
     private SysConfig sysConfig;
 
     @RequestMapping(value = "/vote/v_nowx", method= RequestMethod.GET)
-    public String v_s_nowx(HttpServletRequest request ,HttpServletResponse response,ModelMap modelMap){
+    public String v_s_nowx(HttpServletRequest request ,HttpServletResponse response){
         logger.info("--------------/vote/v_nowx({})--------------------");
-        return "/nowx";
+        return "nowx";
     }
 
     /**

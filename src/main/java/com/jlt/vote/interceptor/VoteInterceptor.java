@@ -4,7 +4,6 @@ import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.util.*;
 import com.xcrm.log.Logger;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,9 +13,7 @@ import org.springframework.web.util.UrlPathHelper;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.MessageFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -36,7 +33,7 @@ public class VoteInterceptor implements HandlerInterceptor {
     //微信授权首页
     private String voteWxAuthUrl = "/vote/{0}/index";
 
-    private String[] excludeUrls = {"/auth/callback", "/pay/callback"};
+    private String[] excludeUrls = {"/auth/callback", "/pay/callback","/v_nowx"};
 
     @Autowired
     private SysConfig sysConfig;
@@ -48,16 +45,19 @@ public class VoteInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String agent = request.getHeader("user-agent");
-        //判断是否微信登录,非微信登陆的话 跳转提示
-        if ((Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value()))
-                && (!agent.toLowerCase().contains("micromessenger"))) {
-            RequestUtils.issueRedirect(request, response, voteNowxUrl);
-            return false;
-        }
+
         String uri = getURI(request);
         //授权回调排除
         if (exclude(uri)) {
             return true;
+        }
+
+        //判断是否微信登录,非微信登陆的话 跳转提示
+//        if ((Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value()))
+//                && (!agent.toLowerCase().contains("micromessenger"))) {
+        if (!agent.toLowerCase().contains("micromessenger")) {
+            RequestUtils.issueRedirect(request, response, voteNowxUrl);
+            return false;
         }
 
         //判断chainId 是否存在
@@ -138,12 +138,13 @@ public class VoteInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView mav) throws Exception {
-        if (mav != null
+        String uri = getURI(request);
+        if ((!exclude(uri))
+                &&mav != null
                 && mav.getModelMap() != null
                 && mav.getViewName() != null
                 && !mav.getViewName().startsWith("redirect:")) {
             //返回活动结束时间
-            String uri = getURI(request);
             //判断chainId 是否存在
             String chainIdUri = uri.substring(1, 11);
             Long chainId = Long.valueOf(chainIdUri);
