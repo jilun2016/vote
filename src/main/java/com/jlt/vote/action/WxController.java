@@ -62,16 +62,20 @@ public class WxController {
     @RequestMapping(value ="/vote/{chainId}/index",method = {RequestMethod.GET})
     public void index(@PathVariable Long chainId, HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("VoteController.index({})",chainId);
+        if(StringUtils.isNotEmpty(WebUtils.getOpenId(request))){
+            response.sendRedirect(response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId))));
+        }else{
+            StringBuffer wxAuthUrl = new StringBuffer(sysConfig.getWxAuthUrl());
+            wxAuthUrl.append("?appid="+sysConfig.getWxAppId());
+            wxAuthUrl.append("&redirect_uri="+ URLEncoder.encode(sysConfig.getWxCallbackUrl()));
+            wxAuthUrl.append("&response_type=code");
+            wxAuthUrl.append("&scope=snsapi_userinfo");
+            String state = response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId)));
+            wxAuthUrl.append("&state="+state);
+            wxAuthUrl.append("#wechat_redirect");
+            response.sendRedirect(wxAuthUrl.toString());
+        }
 
-        StringBuffer wxAuthUrl = new StringBuffer(sysConfig.getWxAuthUrl());
-        wxAuthUrl.append("?appid="+sysConfig.getWxAppId());
-        wxAuthUrl.append("&redirect_uri="+ URLEncoder.encode(sysConfig.getWxCallbackUrl()));
-        wxAuthUrl.append("&response_type=code");
-        wxAuthUrl.append("&scope=snsapi_userinfo");
-        String state = response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId)));;
-        wxAuthUrl.append("&state="+state);
-        wxAuthUrl.append("#wechat_redirect");
-        response.sendRedirect(wxAuthUrl.toString());
     }
 
     /**

@@ -35,9 +35,6 @@ public class VoteInterceptor implements HandlerInterceptor {
     private String[] specialUrls = {"/pay/v_pay"};
 
     @Autowired
-    private SysConfig sysConfig;
-
-    @Autowired
     private ICampaignService campaignService;
 
     @Override
@@ -61,6 +58,7 @@ public class VoteInterceptor implements HandlerInterceptor {
         try{
             chainId = getChainId(request,uri);
         }catch (Exception e){
+            logger.error("VoteInterceptor.preHandle error.uri:"+uri,e);
             ResponseUtils.createForbiddenResponse(response, "活动不存在");
             return false;
         }
@@ -69,6 +67,7 @@ public class VoteInterceptor implements HandlerInterceptor {
 
         //如果活动不存在,跳转活动宣传页
         if (!isExist) {
+            logger.error("VoteInterceptor.preHandle error.Campaign is not exist.uri is:{}",uri);
             ResponseUtils.createForbiddenResponse(response, "活动不存在");
             return false;
         }
@@ -80,6 +79,7 @@ public class VoteInterceptor implements HandlerInterceptor {
             Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
             //如果cookie openId为空,而且是投票post请求,那么重新授权
             if (Objects.isNull(cookieFromOpenId)) {
+                logger.error("VoteInterceptor.preHandle error.cookieFromOpenId is null.uri is:{}",uri);
                 ResponseUtils.createUnauthorizedResponse(response, "数据不存在");
                 return false;
             } else {
