@@ -69,7 +69,7 @@
                                         <div class="empty-title">
                                             Ta还有获得过礼物，快去给Ta送个礼物吧！
                                         </div>
-                                        <a ms-attr="{href: 'pay/v_pay?userId='+@userId}" ms-if="!isover">
+                                        <a ms-attr="{href: '../pay/v_pay?chainId=${chainId}&userId='+@userId}" ms-if="!isover">
                                             <div class="empty-btn">挑选礼物</div>
                                         </a>
                                         <a href="javascript:alert('活动已结束.')" ms-if="isover">
@@ -90,7 +90,7 @@
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
                     </div>
                     <div class="pull-right" ms-if="!isover">
-                        <a ms-attr="{href: 'pay/v_pay?userId='+@userId}" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
+                        <a ms-attr="{href: '../pay/v_pay?chainId=${chainId}&userId='+@userId}" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
                     </div>
                     <div class="pull-right" ms-if="isover">
                         <a href="javascript:alert('活动已结束.')" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>

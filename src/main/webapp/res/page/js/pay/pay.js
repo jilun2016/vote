@@ -14,7 +14,6 @@
          methods: {
              itemClick: function(index) {
                  try {
-                     alert('index=>' + index);
                      payVm.curIndex = index;
                      var cur = payVm.giftList[index];
                      if (cur) {
@@ -36,7 +35,7 @@
                              giftCount: payVm.amount,
                              openid: openId
                          }
-                         vote.jqAjax('prepay', param, function(res) {
+                         vote.jqAjax('/vote/' + chainId + '/pay/prepay', param, function(res) {
                              if (res.status) {
                                  var item = res.data;
                                  var payResult = JSON.parse(item.payResult);
@@ -89,7 +88,7 @@
          var opt = {
              queryGiftList: function() {
                  vote.loading.show();
-                 vote.jqAjax('../gift', '', function(res) {
+                 vote.jqAjax('/vote/' + chainId + '/gift', '', function(res) {
                      if (res.status) {
                          payVm.giftList = res.data;
                      } else {
