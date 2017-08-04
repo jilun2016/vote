@@ -5,7 +5,7 @@
          list: []
      });
 
-     var giftOpt = (function() {
+     var awardOpt = (function() {
          var opt = {
              query: function() {
                  vote.jqAjax('award', '', function(data) {
@@ -23,5 +23,5 @@
          }
      })();
 
-     giftOpt.build();
+     awardOpt.build();
  });

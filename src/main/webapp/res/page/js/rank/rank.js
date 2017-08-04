@@ -44,7 +44,7 @@
                  vote.loading.show();
 
                  vote.jqAjax('rank', "", function(res) {
-                     rankVm.list = res.data.voteRankList;
+                     rankVm.list = res.data || [];
                      vote.loading.hide();
                  }, function(err) {
                      console.log(err)

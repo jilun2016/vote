@@ -38,7 +38,14 @@
                                         </div>
                                         <div class="num">{{$index + 1}}</div>
                                     </a>
-
+                                </li>
+                                <li ms-if="list.length==0">
+                                    <div class="empty-box">
+                                        <div class="empty-img"><img ms-attr="{src:'/res/page/img/no_records.png'}"></div>
+                                        <div class="empty-title">
+                                            榜单上还没有上榜的她(他)<br/> 找到她(他),给她投票,早日金榜题名
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
