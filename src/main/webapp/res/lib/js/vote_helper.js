@@ -102,6 +102,24 @@
                   }
                   $.ajax(obj);
               }
+          },
+          wxShareCfg: function(onMenuShareTimeline, onMenuShareAppMessage) {
+              wx.onMenuShareTimeline({
+                  title: onMenuShareTimeline.title, // 分享标题
+                  link: onMenuShareTimeline.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                  imgUrl: onMenuShareTimeline.imgUrl, // 分享图标
+                  success: function() {},
+                  cancel: function() {}
+              })
+
+              wx.onMenuShareAppMessage({
+                  title: onMenuShareAppMessage.title, // 分享标题
+                  desc: onMenuShareAppMessage.desc, // 分享描述
+                  link: onMenuShareAppMessage.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                  imgUrl: onMenuShareAppMessage.imgUrl, // 分享图标
+                  success: function() {},
+                  cancel: function() {}
+              })
           }
       }
 

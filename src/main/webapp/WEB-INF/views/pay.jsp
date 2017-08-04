@@ -71,7 +71,7 @@
                 <div class="pay-btn" ms-click="methods.pay()">去支付</div>
 
                 <%@ include file="./common/footer.jsp" %>
-                    <script src="/res/page/js/pay/pay.js?v=00007"></script>
+                    <script src="/res/page/js/pay/pay.js<%=CDN_VERSION%>"></script>
 
             </body>
 

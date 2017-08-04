@@ -124,7 +124,7 @@
                 <%@ include file="./common/footer.jsp" %>
 
 
-                    <script src="/res/page/js/index/index.js?v=0004"></script>
+                    <script src="/res/page/js/index/index.js<%=CDN_VERSION%>"></script>
 
             </body>
 

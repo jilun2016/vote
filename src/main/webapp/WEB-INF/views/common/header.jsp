@@ -66,4 +66,21 @@
 
         var openId = '${openId}';
         var chainId = '${chainId}';
+
+
+        /*
+         *分享的model
+         */
+        // var wxShareCfg = '{''}'
+        // let wxCfg = {
+        //     'timestamp': data.timestamp,
+        //     'nonceStr': data.nonce_str,
+        //     'signature': data.signature,
+        //     'appId': data.appId,
+        //     'jsApiList': ['onMenuShareTimeline', 'onMenuShareAppMessage', 'previewImage']
+        // }
     </script>
+
+    <%
+	    String 	CDN_VERSION 	=   "?cdnversion=mo-1-1-2017080302";
+    %>

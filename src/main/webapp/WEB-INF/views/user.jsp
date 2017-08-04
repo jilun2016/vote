@@ -99,7 +99,7 @@
 
                 <%@ include file="./common/footer.jsp" %>
 
-                    <script src="/res/page/js/user/user.js?v=0005"></script>
+                    <script src="/res/page/js/user/user.js<%=CDN_VERSION%>"></script>
 
             </body>
 

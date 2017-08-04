@@ -95,6 +95,8 @@
 
                  opt.timer.creat();
                  opt.queryUsers();
+
+                 //分享设定
              }
          };
          return {

@@ -75,7 +75,7 @@
                 </div>
 
                 <%@ include file="./common/footer.jsp" %>
-                    <script src="/res/page/js/rank/rank.js?v=0004"></script>
+                    <script src="/res/page/js/rank/rank.js<%=CDN_VERSION%>"></script>
 
             </body>
 
