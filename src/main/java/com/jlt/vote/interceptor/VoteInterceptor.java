@@ -72,19 +72,20 @@ public class VoteInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
         if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
                 && ((uri.indexOf("common_vote") > 0)
                 || (uri.indexOf("/pay/prepay") > 0))) {
             //POST方法保护
-            Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
             //如果cookie openId为空,而且是投票post请求,那么重新授权
             if (Objects.isNull(cookieFromOpenId)) {
                 logger.error("VoteInterceptor.preHandle error.cookieFromOpenId is null.uri is:{}",uri);
                 ResponseUtils.createUnauthorizedResponse(response, "数据不存在");
                 return false;
-            } else {
-                WebUtils.setOpenId(request, cookieFromOpenId.getValue());
             }
+        }
+        if(Objects.nonNull(cookieFromOpenId)){
+            WebUtils.setOpenId(request, cookieFromOpenId.getValue());
         }
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
     }

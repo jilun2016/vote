@@ -63,6 +63,7 @@ public class WxController {
     public void index(@PathVariable Long chainId, HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("VoteController.index({})",chainId);
         if(StringUtils.isNotEmpty(WebUtils.getOpenId(request))){
+            logger.info("VoteController login without open auth.openid :{}",WebUtils.getOpenId(request));
             response.sendRedirect(response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId))));
         }else{
             StringBuffer wxAuthUrl = new StringBuffer(sysConfig.getWxAuthUrl());
@@ -107,7 +108,7 @@ public class WxController {
                     String openId = MapUtils.getString(resultMap,"openid");
 
                     if(StringUtils.isNotBlank(openId)) {
-                        logger.debug("get openId from wx and save it to cookie, openId is ={}" ,openId);
+                        logger.info("get openId from wx and save it to cookie, openId is ={}" ,openId);
                         CookieUtils.addCookie(request, response, CommonConstants.WX_OPEN_ID_COOKIE
                                 , openId, null, sysConfig.getVoteCookieHost());
                     }
