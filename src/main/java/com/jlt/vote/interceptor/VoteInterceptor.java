@@ -30,10 +30,9 @@ public class VoteInterceptor implements HandlerInterceptor {
     //非微信登陆
     private String voteNowxUrl = "/vote/v_nowx";
 
-    //微信授权首页
-    private String voteWxAuthUrl = "/vote/{0}/index";
+    private String[] excludeUrls = {"/auth/callback", "/pay/callback", "/v_nowx"};
 
-    private String[] excludeUrls = {"/auth/callback", "/pay/callback","/v_nowx"};
+    private String[] specialUrls = {"/pay/v_pay"};
 
     @Autowired
     private SysConfig sysConfig;
@@ -53,20 +52,15 @@ public class VoteInterceptor implements HandlerInterceptor {
         }
 
         //判断是否微信登录,非微信登陆的话 跳转提示
-//        if ((Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value()))
-//                && (!agent.toLowerCase().contains("micromessenger"))) {
         if (!agent.toLowerCase().contains("micromessenger")) {
             RequestUtils.issueRedirect(request, response, voteNowxUrl);
             return false;
         }
 
-        //判断chainId 是否存在
-        String chainIdUri = uri.substring(1, 11);
         Long chainId = null;
-        try {
-            chainId = Long.valueOf(chainIdUri);
-        } catch (NumberFormatException ex) {
-            //当前chainId错误,跳转活动宣传页
+        try{
+            chainId = getChainId(request,uri);
+        }catch (Exception e){
             ResponseUtils.createForbiddenResponse(response, "活动不存在");
             return false;
         }
@@ -78,24 +72,32 @@ public class VoteInterceptor implements HandlerInterceptor {
             ResponseUtils.createForbiddenResponse(response, "活动不存在");
             return false;
         }
-        if (!Objects.equals(sysConfig.getProjectProfile(), SystemProfileEnum.PRODUCT.value())) {
-            WebUtils.setOpenId(request, "oTMo21YNuO1BZqdPOIWGO1l6c5v0");
-        } else {
-            if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
-                    && ((uri.indexOf("common_vote") > 0)
-                    || (uri.indexOf("/pay/prepay") > 0))) {
-                //POST方法保护
-                Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
-                //如果cookie openId为空,而且是投票post请求,那么重新授权
-                if (Objects.isNull(cookieFromOpenId)) {
-                    ResponseUtils.createUnauthorizedResponse(response, "数据不存在");
-                    return false;
-                } else {
-                    WebUtils.setOpenId(request, cookieFromOpenId.getValue());
-                }
+
+        if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
+                && ((uri.indexOf("common_vote") > 0)
+                || (uri.indexOf("/pay/prepay") > 0))) {
+            //POST方法保护
+            Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
+            //如果cookie openId为空,而且是投票post请求,那么重新授权
+            if (Objects.isNull(cookieFromOpenId)) {
+                ResponseUtils.createUnauthorizedResponse(response, "数据不存在");
+                return false;
+            } else {
+                WebUtils.setOpenId(request, cookieFromOpenId.getValue());
             }
         }
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
+    }
+
+    private Long getChainId(HttpServletRequest request,String uri) throws Exception{
+        String chainIdStr = null;
+        if (special(uri)) {
+            chainIdStr = RequestUtils.getQueryParam(request,"chainId");
+        }else{
+            //判断chainId 是否存在
+            chainIdStr = uri.substring(1, 11);
+        }
+        return Long.valueOf(chainIdStr);
     }
 
     /**
@@ -135,19 +137,35 @@ public class VoteInterceptor implements HandlerInterceptor {
         return false;
     }
 
+    private boolean special(String uri) {
+        if (specialUrls != null) {
+            for (String spec : specialUrls) {
+                if (spec.equals(uri)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView mav) throws Exception {
         String uri = getURI(request);
         if ((!exclude(uri))
-                &&mav != null
+                && mav != null
                 && mav.getModelMap() != null
                 && mav.getViewName() != null
                 && !mav.getViewName().startsWith("redirect:")) {
             //返回活动结束时间
             //判断chainId 是否存在
-            String chainIdUri = uri.substring(1, 11);
-            Long chainId = Long.valueOf(chainIdUri);
+            Long chainId = null;
+            try{
+                chainId = getChainId(request,uri);
+            }catch (Exception e){
+                ResponseUtils.createForbiddenResponse(response, "活动不存在");
+                return;
+            }
             Map<String, Date> campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
             mav.addObject("campaignEndTime", campaignTimeMap.get("endTime").getTime());
         }

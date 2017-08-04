@@ -155,7 +155,7 @@ public class VoteController {
      */
     @RequestMapping(value ="/vote/{chainId}/common_vote",method = {RequestMethod.POST})
     public void vote(@PathVariable Long chainId,Long userId,HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.vote,chainId:{},openId:{},userId:{}",chainId,userId);
+        logger.info("VoteController.vote,chainId:{},userId:{}",chainId,userId);
         String openId = WebUtils.getOpenId(request);
         campaignService.vote(chainId,openId,userId,request.getRemoteAddr());
         ResponseUtils.defaultSuccessResponse(response);

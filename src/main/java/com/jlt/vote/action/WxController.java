@@ -140,14 +140,10 @@ public class WxController {
         }
     }
 
-    @RequestMapping(value = "/vote/{chainId}/pay/v_pay", method = RequestMethod.GET)
-    public String v_pay(@PathVariable Long chainId,Long userId,HttpServletRequest request,HttpServletResponse response,ModelMap model) {
+    @RequestMapping(value = "/vote/pay/v_pay", method = RequestMethod.GET)
+    public String v_pay(Long chainId,Long userId,HttpServletRequest request,HttpServletResponse response,ModelMap model) {
         logger.info("--------------/vote/v_pay({},{})--------------------",chainId,userId);
-        String openId = "";
-        Cookie cookie = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
-        if (cookie != null) {
-            openId = cookie.getValue();
-        }
+        String openId = WebUtils.getOpenId(request);
         model.put("openId", openId);
         model.put("chainId", chainId);
         //通过chainId userId查询用户详情,同时用户热度+1,活动热度+2
