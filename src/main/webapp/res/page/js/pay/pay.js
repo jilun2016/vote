@@ -13,10 +13,17 @@
          curIndex: -1,
          methods: {
              itemClick: function(index) {
-                 payVm.curIndex = index;
-                 var cur = payVm.giftList[index];
-                 if (cur) {
-                     payVm.giftId = cur.giftId;
+                 try {
+                     alert('index=>' + index);
+                     payVm.curIndex = index;
+                     var cur = payVm.giftList[index];
+                     if (cur) {
+                         alert('giftId=>' + cur.giftId);
+                         payVm.giftId = cur.giftId;
+                     }
+                     alert("*********")
+                 } catch (error) {
+                     message.msg(error.message);
                  }
              },
              pay: function() {
