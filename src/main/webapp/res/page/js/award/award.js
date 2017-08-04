@@ -8,8 +8,8 @@
      var awardOpt = (function() {
          var opt = {
              query: function() {
-                 vote.jqAjax('award', '', function(data) {
-                     awardVm.list = data;
+                 vote.jqAjax('award', '', function(res) {
+                     awardVm.list = res.data;
                  }, function(err) {
                      console.log(err)
                  }, 'GET', false);
