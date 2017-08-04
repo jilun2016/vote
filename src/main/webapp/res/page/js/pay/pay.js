@@ -34,6 +34,7 @@
                          vote.jqAjax('prepay', param, function(res) {
                              if (res.status) {
                                  var item = res.data;
+                                 alert(item)
                                  var payResult = JSON.parse(item.payResult);
                                  var _appid = payResult.appId;
                                  var _timeStamp = payResult.timeStamp;
@@ -51,6 +52,7 @@
                                          "paySign": _paySign
                                      },
                                      function(res) {
+                                         alert(JSON.stringify(res));
                                          vote.loading.hide();
                                          if (res.err_msg == "get_brand_wcpay_request:ok") {
                                              alert('支付成功');
