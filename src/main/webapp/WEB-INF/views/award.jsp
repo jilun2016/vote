@@ -9,7 +9,7 @@
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-                <title>首页</title>
+                <title>活动奖品</title>
 
                 <%@ include file="./common/header.jsp" %>
 
@@ -32,6 +32,29 @@
                                ${campaignRule}
                             </span>
                         </div>
+                    </div>
+
+                    <div class="bar-tab">
+                        <ul>
+                            <li>
+                                <a href="home">
+                                    <div class="tab-icon"> <span class="iconfont icon-shouye"></span> </div>
+                                    <div class="tab-title"> 首页 </div>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="javascript:;;">
+                                    <div class="tab-icon"> <span class="iconfont icon-jiangpin"></span> </div>
+                                    <div class="tab-title"> 奖品 </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="v_rank">
+                                    <div class="tab-icon"> <span class="iconfont icon-tubiao-"></span> </div>
+                                    <div class="tab-title"> 榜单 </div>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
