@@ -26,6 +26,12 @@ public interface ICampaignService {
     Map<String ,Object> queryCampaignDetail(Long chainId);
 
     /**
+     * 查询活动规则
+     * @param chainId 店铺标识
+     */
+    String queryCampaignRule(Long chainId);
+
+    /**
      * 校验活动是否存在
      * @param chainId
      * @return

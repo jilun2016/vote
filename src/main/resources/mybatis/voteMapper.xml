@@ -27,6 +27,12 @@
         ORDER BY b.created ASC
     </select>
 
+    <select id="queryCampaignRule" resultType="java.lang.String">
+        SELECT a.summary
+        FROM t_t_campaign_rule a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
+    </select>
+
     <resultMap id="SimpleUserMap" type="com.jlt.vote.bis.campaign.vo.SimpleUserVo">
         <result property="number" column="number" />
         <result property="voteCount" column="voteCount" />

@@ -81,6 +81,18 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
+	public String queryCampaignRule(Long chainId) {
+		String campaignRule = redisDaoSupport.get(CacheConstants.CAMPAIGN_RULE+chainId,String.class);
+		if(StringUtils.isEmpty(campaignRule)){
+			Ssqb queryCampaignRuleSqb = Ssqb.create("com.jlt.vote.queryCampaignRule")
+					.setParam("chainId",chainId);
+			campaignRule = baseDaoSupport.findForObj(queryCampaignRuleSqb,String.class);
+			redisDaoSupport.set(CacheConstants.CAMPAIGN_RULE+chainId,campaignRule);
+		}
+		return campaignRule;
+	}
+
+	@Override
 	public boolean checkCampaignExist(Long chainId) {
 		Map<String ,Object> campaignMap = redisDaoSupport.hgetAll(CacheConstants.CAMPAIGN_BASE+chainId);
 		if(MapUtils.isEmpty(campaignMap)){
