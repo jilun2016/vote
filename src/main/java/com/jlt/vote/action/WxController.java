@@ -197,7 +197,7 @@ public class WxController {
         GiftWxPrePayOrder wxPrePayOrder = new GiftWxPrePayOrder();
         wxPrePayOrder.setChainId(chainId);
         wxPrePayOrder.setOrderCode(OrderCodeCreater.createTradeNO());
-        wxPrePayOrder.setOpenId(votePrepayRequest.getOpenid());
+        wxPrePayOrder.setOpenId(WebUtils.getOpenId(request));
         wxPrePayOrder.setTitle("礼物-"+giftDetailVo.getGiftName()+"支付");
         wxPrePayOrder.setPayMoney(giftFee.multiply(BigDecimal.valueOf(giftCount)));
         wxPrePayOrder.setGiftCount(giftCount);
