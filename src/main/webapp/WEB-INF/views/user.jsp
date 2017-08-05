@@ -24,19 +24,19 @@
                         <ul>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-geren"></span>编号 </div>
-                                <div class="show-info-num">{{top.number}} </div>
+                                <div class="show-info-num" ms-text="top.number"> </div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-like"></span>票数 </div>
-                                <div class="show-info-num">{{top.voteCount}} </div>
+                                <div class="show-info-num" ms-text="top.voteCount"></div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-fangwenliang"></span>访问量 </div>
-                                <div class="show-info-num">{{top.viewCount}} </div>
+                                <div class="show-info-num" ms-text="top.viewCount"></div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-jiangpin"></span>礼物 </div>
-                                <div class="show-info-num"> {{top.giftPoint}} </div>
+                                <div class="show-info-num" ms-text="top.giftPoint"> </div>
                             </li>
                         </ul>
                     </div>
@@ -51,8 +51,8 @@
                                     <a href="javascript:;;" class="b-b-line"> <span class="icon-box "> 
                                         <img ms-attr="{src: @item.headImgUrl}"> </span>
                                         <div class="inner">
-                                            <div class="inner-title">{{item.nickName}}，给TA送了一份{{item.giftName}}！</div>
-                                            <div class="inner-content">{{item.voteTimeStr}}</div>
+                                            <div class="inner-title" ms-text="item|titleFilter"></div>
+                                            <div class="inner-content" ms-text="item.voteTimeStr"></div>
                                         </div>
                                     </a>
                                 </li>

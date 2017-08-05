@@ -20,9 +20,9 @@
                 <div class="content">
                     <div class="gift-item">
                         <div ms-for="gift in list">
-                            <div class="gift-title">【{{gift.summary}}】</div>
+                            <div class="gift-title" ms-text="'【' + gift.summary + '】'"></div>
                             <div class="gift-content">
-                                {{gift.detail}}
+                                <div ms-html="gift.detail"></div>
                                 <img ms-attr="{src: gift.awardpic}">
                             </div>
                         </div>

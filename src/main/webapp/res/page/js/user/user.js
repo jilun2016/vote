@@ -19,6 +19,9 @@
              }
          }
      });
+     avalon.filters.titleFilter = function(item) {
+         return item.nickName + "，给TA送了一份" + item.giftName + '！';
+     };
      //未达到 10条  隐藏 加载更多
      var userOpt = (function() {
          var opt = {

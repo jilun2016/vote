@@ -12,7 +12,7 @@
 
     <body>
         <div class="empty-box">
-            <div class="empty-img"><img ms-attr="{src:'/res/page/img/open_way.png'}"></div>
+            <div class="empty-img"><img src="/res/page/img/open_way.png"></div>
             <div class="empty-title">该页面仅支持微信内打开</div>
         </div>
     </body>

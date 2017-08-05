@@ -24,25 +24,25 @@
                         <ul>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-baoming"></span>已报名 </div>
-                                <div class="show-info-num"> {{top.signCount}} </div>
+                                <div class="show-info-num" ms-text="top.signCount"></div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-like"></span>累计投票 </div>
-                                <div class="show-info-num"> {{top.voteCount}} </div>
+                                <div class="show-info-num" ms-text="top.voteCount"></div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-fangwenliang"></span>访问量 </div>
-                                <div class="show-info-num"> {{top.viewCount}} </div>
+                                <div class="show-info-num" ms-text="top.viewCount"></div>
                             </li>
                         </ul>
                     </div>
                     <div class="time">
                         <div class="time-title"> 活动时间倒计时 </div>
                         <div class="time-input">
-                            <span class="time-box"> {{time.days}}天 </span>
-                            <span class="time-box"> {{time.hours}}时 </span>
-                            <span class="time-box"> {{time.minutes}}分 </span>
-                            <span class="time-box"> {{time.seconds}}秒 </span>
+                            <span class="time-box" ms-text="time.days+'天'"></span>
+                            <span class="time-box" ms-text="time.hours+'时'"></span>
+                            <span class="time-box" ms-text="time.minutes+'分'"></span>
+                            <span class="time-box" ms-text="time.seconds+'秒'"></span>
                         </div>
                     </div>
                     <div class="search-input">
@@ -65,9 +65,10 @@
                     <div class="wrapper">
                         <div id="masonry">
                             <div class="item" ms-for="item in userList">
-                                <div class="item-num">编号：{{item.number}}号</div>
-                                <div class="item-name">{{item.name}}
-                                    <div class="item-ticket-num"><span class="ticket-num">152</span>票</div>
+                                <div class="item-num" ms-text="'编号：' + item.number + '号'"></div>
+                                <div class="item-name">
+                                    <span ms-text="item.name"></span>
+                                    <div class="item-ticket-num"><span class="ticket-num" ms-text="item.voteCount"></span>票</div>
                                 </div>
                                 <img ms-attr="{src: @item.headPic}">
                                 <a class="ticket-link" href="javascript:;;">为TA拉票</a>
@@ -91,7 +92,7 @@
                             <span class="iconfont icon-guize"></span>活动规则
                         </div>
                         <div class="rule-body">
-                            {{bottom.sponsorIntro}}
+                            <div ms-html="bottom.sponsorIntro"></div>
                             <img ms-attr="{src: @item.picUrl}" ms-for="item in bottom.imageList">
                         </div>
                     </div>

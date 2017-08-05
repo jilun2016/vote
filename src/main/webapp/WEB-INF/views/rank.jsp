@@ -20,10 +20,10 @@
                     <div class="time">
                         <div class="time-title"> 活动时间倒计时 </div>
                         <div class="time-input">
-                            <span class="time-box"> {{time.days}}天 </span>
-                            <span class="time-box"> {{time.hours}}时 </span>
-                            <span class="time-box"> {{time.minutes}}分 </span>
-                            <span class="time-box"> {{time.seconds}}秒 </span>
+                            <span class="time-box" ms-text="time.days + '天'"></span>
+                            <span class="time-box" ms-text="time.hours + '时'"></span>
+                            <span class="time-box" ms-text="time.minutes + '分'"></span>
+                            <span class="time-box" ms-text="time.seconds + '秒'"></span>
                         </div>
                     </div>
                     <div class="list-content">
@@ -33,10 +33,10 @@
                                     <a href="javascript:;;" class="b-b-line">
                                         <span class="icon-box"> <img ms-attr="{src: @item.headPic}"> </span>
                                         <div class="inner">
-                                            <div class="inner-title">{{item.name}} {{item.number}}号</div>
-                                            <div class="inner-content">票数 {{item.voteCount}} 礼物{{item.giftPoint}}点</div>
+                                            <div class="inner-title" ms-text="item.name +' ' + item.number +'号' "></div>
+                                            <div class="inner-content" ms-text="'票数:' + item.voteCount + ' 礼物:' + item.giftPoint + '点'"></div>
                                         </div>
-                                        <div class="num">{{$index + 1}}</div>
+                                        <div class="num" ms-text="$index +1"></div>
                                     </a>
                                 </li>
                                 <li ms-if="list.length==0">

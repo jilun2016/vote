@@ -23,7 +23,7 @@
                                             <img  class="user-img" ms-attr="{src:top.headPic}"> 
                                         </span>
                                         <div class="inner">
-                                            <div class="inner-title">{{top.name}}</div>
+                                            <div class="inner-title" ms-text="top.name"></div>
                                             <div class="inner-content">给Ta送上一份礼物吧</div>
                                         </div>
                                         <div class=""><span class="iconfont icon-jiantou"></span> </div>
@@ -36,15 +36,15 @@
                         <ul>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-geren"></span>编号 </div>
-                                <div class="show-info-num"> {{top.number}} </div>
+                                <div class="show-info-num" ms-text="top.number"></div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-like"></span>票数 </div>
-                                <div class="show-info-num"> {{top.voteCount}} </div>
+                                <div class="show-info-num" ms-text="top.voteCount"></div>
                             </li>
                             <li>
                                 <div class="show-info-title"> <span class="iconfont icon-fangwenliang"></span>热度 </div>
-                                <div class="show-info-num"> {{top.viewCount}} </div>
+                                <div class="show-info-num" ms-text="top.viewCount"></div>
                             </li>
                         </ul>
                     </div>
@@ -52,8 +52,8 @@
                         <ul id="ulGiftList">
                             <li class="gift-li-cls" ms-click="methods.itemClick($index)" ms-class="{active:item.giftId==giftId}" ms-for="($index,item) in giftList">
                                 <div class="product-img"><img ms-attr="{src:item.giftpic}"> </div>
-                                <div class="product-title">{{item.giftName}}</div>
-                                <div class="product-price"><span class="cl-red">{{item.giftPoint}}</span>点 </div>
+                                <div class="product-title" ms-text="item.giftName"></div>
+                                <div class="product-price"><span class="cl-red" ms-text="item.giftPoint"></span>点 </div>
                             </li>
                         </ul>
                         <div class="product-intro">
