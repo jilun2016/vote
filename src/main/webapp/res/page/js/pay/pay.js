@@ -100,6 +100,17 @@
              build: function() {
                  payVm.top = userDetail;
                  opt.queryGiftList();
+
+                 vote.wxShareCfg({
+                     title: '分享标题',
+                     link: '分享链接',
+                     imgUrl: 'imgUrl',
+                 }, {
+                     title: '分享标题',
+                     desc: '分享描述',
+                     link: '享链接',
+                     imgUrl: '分享图标',
+                 });
              }
          };
          return {

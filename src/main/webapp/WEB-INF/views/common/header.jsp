@@ -63,22 +63,29 @@
         userDetail = userDetail && JSON.parse('${userDetail}');
         var campaignDetail = '${campaignDetail}';
         campaignDetail = campaignDetail && JSON.parse('${campaignDetail}');
+        var appId = 'wx54e7794a0657d2c7';
 
         var openId = '${openId}';
         var chainId = '${chainId}';
 
-
-        /*
-         *分享的model
-         */
-        // var wxShareCfg = '{''}'
-        // let wxCfg = {
-        //     'timestamp': data.timestamp,
-        //     'nonceStr': data.nonce_str,
-        //     'signature': data.signature,
-        //     'appId': data.appId,
-        //     'jsApiList': ['onMenuShareTimeline', 'onMenuShareAppMessage', 'previewImage']
-        // }
+        var timestamp = '';
+        var nonce_str = '';
+        var signature = '';
+        //可以点击浏览对应图片
+        $(document).ready(function() {
+            // wx.config({
+            //     debug: false,
+            //     appId: appId,
+            //     timestamp: Number(timestamp),
+            //     nonceStr: nonce_str,
+            //     signature: signature,
+            //     jsApiList: [
+            //         'onMenuShareTimeline',
+            //         'onMenuShareAppMessage',
+            //         'previewImage',
+            //     ]
+            // });
+        });
     </script>
 
     <%

@@ -70,6 +70,18 @@
                  userVm.userId = vote.getQueryString('userId');
                  userVm.top = userDetail;
                  opt.queryGifts();
+
+                 vote.wxShareCfg({
+                     title: '分享标题',
+                     link: '分享链接',
+                     imgUrl: 'imgUrl',
+                 }, {
+                     title: '分享标题',
+                     desc: '分享描述',
+                     link: '享链接',
+                     imgUrl: '分享图标',
+                 });
+
              }
          };
          return {
