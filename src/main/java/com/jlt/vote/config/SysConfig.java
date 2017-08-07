@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
  * @Date: 2017/5/23
  */
 @Configuration
-@PropertySource("classpath:sys-config.properties")
+@PropertySource({"classpath:sys-config.properties","classpath:sys-common-config.properties"})
 public class SysConfig {
 
     /**
