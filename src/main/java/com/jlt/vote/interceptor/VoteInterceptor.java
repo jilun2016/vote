@@ -1,7 +1,6 @@
 package com.jlt.vote.interceptor;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
-import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.util.*;
 import com.xcrm.log.Logger;
 import org.apache.commons.lang.StringUtils;

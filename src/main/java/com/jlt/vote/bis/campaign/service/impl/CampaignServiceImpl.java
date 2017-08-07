@@ -325,6 +325,8 @@ public class CampaignServiceImpl implements ICampaignService {
 		CampaignGiftDetailVo giftDetailVo = redisDaoSupport.get(CacheConstants.CAMPAIGN_GIFT_DETAIL+giftId,CampaignGiftDetailVo.class);
 		if(Objects.isNull(giftDetailVo)){
 			giftDetailVo = queryCampaignGiftDetail(chainId,giftId);
+		}
+		if(Objects.nonNull(giftDetailVo)){
 			Integer voteCount = giftDetailVo.getVoteCount()*giftCount;
 			Integer giftPoint = giftDetailVo.getGiftPoint()*giftCount;
 			int result = updateUserVoteInfo(userId,voteCount,giftPoint);

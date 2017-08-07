@@ -3,6 +3,7 @@ package com.jlt.vote.action;
 import com.alibaba.fastjson.JSON;
 import com.jlt.vote.bis.campaign.entity.CampaignAward;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
+import com.jlt.vote.util.RequestUtils;
 import com.jlt.vote.util.ResponseUtils;
 import com.jlt.vote.util.WebUtils;
 import com.jlt.vote.validation.ValidateFiled;
@@ -157,9 +158,10 @@ public class VoteController {
     public void vote(@PathVariable Long chainId,Long userId,HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.vote,chainId:{},userId:{}",chainId,userId);
         String openId = WebUtils.getOpenId(request);
-        campaignService.vote(chainId,openId,userId,request.getRemoteAddr());
+        campaignService.vote(chainId,openId,userId, RequestUtils.getIpAddr(request));
         ResponseUtils.defaultSuccessResponse(response);
     }
+
 
     /**
      * 查询投票排行
