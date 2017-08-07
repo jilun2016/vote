@@ -326,7 +326,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			if(result > 0 ){
 				if(voteCount > 0){
 					redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",voteCount);
-					redisDaoSupport.hinc(CacheConstants.CAMPAIGN_BASE+chainId,"voteCount",1);
+					redisDaoSupport.hinc(CacheConstants.CAMPAIGN_BASE+chainId,"voteCount",voteCount);
 				}
 
 				if(giftCount > 0){
