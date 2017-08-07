@@ -87,12 +87,6 @@ public interface ICampaignService {
     Pagination queryUserGiftList(Long chainId,Long userId, Integer pageNo, Integer pageSize);
 
     /**
-     * 查询活动信息
-     * @param chainId 店铺标识
-     */
-    Campaign queryCampaignInfo(Long chainId);
-
-    /**
      * 查询活动奖品信息
      * @param chainId
      * @return

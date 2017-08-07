@@ -153,12 +153,13 @@
 
     <update id="updateUserVoteInfo">
         UPDATE t_t_user a
+        LEFT JOIN t_t_campaign_vote b ON a.chainId = b.chainId
         SET a.id = #{userId}
           <if test="giftPoint != null and giftPoint >0">
             ,a.giftPoint = a.giftPoint + #{giftPoint}
           </if>
           <if test="voteCount != null and voteCount >0">
-            ,a.voteCount = a.voteCount + #{voteCount}
+            ,a.voteCount = a.voteCount + #{voteCount},b.voteCount = b.voteCount + #{voteCount}
           </if>
         WHERE a.id = #{userId}
     </update>

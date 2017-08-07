@@ -234,13 +234,6 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public Campaign queryCampaignInfo(Long chainId) {
-		logger.debug("CampaignServiceImpl.queryCampaignInfo({})",chainId);
-		QueryBuilder queryCamQb = QueryBuilder.where(Restrictions.eq("chainId",chainId));
-		return baseDaoSupport.query(queryCamQb,Campaign.class);
-	}
-
-	@Override
 	public List<CampaignAward> queryCampaignAward(Long chainId) {//redisDaoSupport.del(CacheConstants.CAMPAIGN_AWARD+chainId);
 		List<CampaignAward> campaignAwardList = redisDaoSupport.getList(CacheConstants.CAMPAIGN_AWARD+chainId,CampaignAward.class);
 		if(ListUtil.isEmpty(campaignAwardList)){
@@ -333,6 +326,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			if(result > 0 ){
 				if(voteCount > 0){
 					redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",voteCount);
+					redisDaoSupport.hinc(CacheConstants.CAMPAIGN_BASE+chainId,"voteCount",1);
 				}
 
 				if(giftCount > 0){
@@ -360,7 +354,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			throw new VoteRuntimeException("10000");
 		}
 		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
-		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 3)){
+		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1000)){
 			throw new VoteRuntimeException("10001");
 		}
 		Date now = DateFormatUtils.getNow();
@@ -368,6 +362,8 @@ public class CampaignServiceImpl implements ICampaignService {
 		redisDaoSupport.expire(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId,
 				DateFormatUtils.getLastTimeOfDay(new Date()).getTime() - now.getTime());
 		redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",1);
+		redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",1);
+		redisDaoSupport.hinc(CacheConstants.CAMPAIGN_BASE+chainId,"voteCount",1);
 		taskExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
