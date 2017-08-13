@@ -1,6 +1,9 @@
 package com.jlt.vote.bis.wx.service;
 
 
+import com.jlt.vote.bis.wx.WxTokenTypeEnum;
+import com.jlt.vote.bis.wx.entity.AccessToken;
+import com.jlt.vote.bis.wx.sdk.common.jsapi.JsAPISignature;
 import com.jlt.vote.bis.wx.vo.GiftWxPrePayOrder;
 
 /**
@@ -22,5 +25,26 @@ public interface IWxService {
      * @param xml
      */
     String optWxPayCallback(String xml);
+
+    /**
+     * 获取微信js-sdk 分享配置信息
+     * @param currentSharePageUrl  当前页面url
+     * @return
+     */
+    JsAPISignature getShareConfigInfo(String currentSharePageUrl) throws Exception;
+
+    /**
+     * 获取微信公众号的AccessToken
+     * @param type
+     * @param appId
+     * @return
+     */
+    AccessToken queryAccessTokenByType(WxTokenTypeEnum type, String appId);
+
+    /**
+     * 更新微信的accessToken
+     * @param accessToken
+     */
+    void updateAccessToken(AccessToken accessToken);
 }
 

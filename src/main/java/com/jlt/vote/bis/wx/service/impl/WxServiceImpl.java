@@ -3,10 +3,16 @@ package com.jlt.vote.bis.wx.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.bis.wx.PayStatusEnum;
+import com.jlt.vote.bis.wx.WxTokenTypeEnum;
+import com.jlt.vote.bis.wx.entity.AccessToken;
 import com.jlt.vote.bis.wx.entity.UserGiftRecord;
 import com.jlt.vote.bis.wx.entity.VotePayOrder;
+import com.jlt.vote.bis.wx.sdk.common.decrypt.AesException;
+import com.jlt.vote.bis.wx.sdk.common.decrypt.SHA1;
+import com.jlt.vote.bis.wx.sdk.common.jsapi.JsAPISignature;
 import com.jlt.vote.bis.wx.sdk.common.util.RandomStringGenerator;
 import com.jlt.vote.bis.wx.sdk.common.util.XmlObjectMapper;
+import com.jlt.vote.bis.wx.sdk.jsapis.JsAPIs;
 import com.jlt.vote.bis.wx.sdk.pay.base.PaySetting;
 import com.jlt.vote.bis.wx.sdk.pay.payment.Payments;
 import com.jlt.vote.bis.wx.sdk.pay.payment.bean.PaymentNotification;
@@ -16,10 +22,16 @@ import com.jlt.vote.bis.wx.sdk.pay.util.SignatureUtil;
 import com.jlt.vote.bis.wx.service.IWxPayService;
 import com.jlt.vote.bis.wx.service.IWxService;
 import com.jlt.vote.bis.wx.vo.GiftWxPrePayOrder;
-import com.jlt.vote.bis.wx.vo.WxPrePayOrder;
 import com.jlt.vote.config.SysConfig;
+import com.jlt.vote.exception.VoteRuntimeException;
+import com.jlt.vote.util.CommonConstants;
 import com.xcrm.cloud.database.db.BaseDaoSupport;
+import com.xcrm.cloud.database.db.query.QueryBuilder;
+import com.xcrm.cloud.database.db.query.Ssqb;
+import com.xcrm.common.util.EncryptUtil;
 import com.xcrm.log.Logger;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +39,13 @@ import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
  * 微信service
+ *
  * @Author gaoyan
  * @Date: 2017/6/12
  */
@@ -39,7 +53,7 @@ import java.util.TreeMap;
 @Transactional
 public class WxServiceImpl implements IWxService {
 
-	private static Logger logger = Logger.getLogger(WxServiceImpl.class);
+    private static Logger logger = Logger.getLogger(WxServiceImpl.class);
 
     /**
      * 微信回调返回处理成功
@@ -50,8 +64,8 @@ public class WxServiceImpl implements IWxService {
      */
     public static final String RET_F = "<xml><return_code><![CDATA[FAIL]]></return_code></xml>";
 
-	@Autowired
-	private IWxPayService wxPayService;
+    @Autowired
+    private IWxPayService wxPayService;
 
     @Autowired
     private ICampaignService campaignService;
@@ -59,9 +73,12 @@ public class WxServiceImpl implements IWxService {
     @Autowired
     private SysConfig sysConfig;
 
+    @Autowired
+    private BaseDaoSupport baseDaoSupport;
 
-	@Override
-	public String jsOnPay(GiftWxPrePayOrder giftWxPrePayOrder) throws Exception {
+
+    @Override
+    public String jsOnPay(GiftWxPrePayOrder giftWxPrePayOrder) throws Exception {
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String noncestr = RandomStringGenerator.getRandomStringByLength(16);
         //订单编号
@@ -80,11 +97,11 @@ public class WxServiceImpl implements IWxService {
         PaySetting paySetting = getPaySetting();
         UnifiedOrderResponse response = Payments.with(paySetting).unifiedOrder(unifiedOrderRequest);
 
-        Map<String,Object> params2 = new TreeMap<>();
+        Map<String, Object> params2 = new TreeMap<>();
         params2.put("appId", sysConfig.getWxAppId());
         params2.put("timeStamp", timestamp);
         params2.put("nonceStr", noncestr);
-        params2.put("package", "prepay_id="+response.getPrepayId());
+        params2.put("package", "prepay_id=" + response.getPrepayId());
         params2.put("signType", "MD5");
         String paySign = SignatureUtil.sign(params2, sysConfig.getWxMerchantKey());
         params2.put("paySign", paySign);
@@ -124,8 +141,8 @@ public class WxServiceImpl implements IWxService {
 
     @Override
     public String optWxPayCallback(String xml) {
-	    try {
-            PaymentNotification paymentNotification = XmlObjectMapper.nonEmptyMapper().fromXml(xml,PaymentNotification.class);
+        try {
+            PaymentNotification paymentNotification = XmlObjectMapper.nonEmptyMapper().fromXml(xml, PaymentNotification.class);
             if (paymentNotification == null || paymentNotification.getReturnCode() == null) {
                 logger.error("【支付失败】支付请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问");
                 return RET_F;
@@ -133,7 +150,7 @@ public class WxServiceImpl implements IWxService {
 
             if (paymentNotification.getReturnCode().equals("FAIL")) {
                 //注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
-                logger.error("【支付失败】支付API系统返回失败，请检测Post给API的数据是否规范合法, return_msg={}",paymentNotification.getReturnMessage());
+                logger.error("【支付失败】支付API系统返回失败，请检测Post给API的数据是否规范合法, return_msg={}", paymentNotification.getReturnMessage());
                 return RET_F;
             }
 
@@ -170,18 +187,102 @@ public class WxServiceImpl implements IWxService {
                     , paymentNotification.getAppId()
                     , paymentNotification.getIsSubscribed());
 
-            if(result > 0){
-                campaignService.updateUserGiftRecord(votePayOrder.getId(),openId);
-                campaignService.updateUserGiftInfo(votePayOrder.getChainId(),votePayOrder.getUserId(),votePayOrder.getGiftId(),votePayOrder.getGiftCount());
+            if (result > 0) {
+                campaignService.updateUserGiftRecord(votePayOrder.getId(), openId);
+                campaignService.updateUserGiftInfo(votePayOrder.getChainId(), votePayOrder.getUserId(), votePayOrder.getGiftId(), votePayOrder.getGiftCount());
             }
             return RET_S;
-        }catch(Exception e){
-            logger.error("WX-JSAPI-NOTIFY error.wx callback data: "+xml,e);
+        } catch (Exception e) {
+            logger.error("WX-JSAPI-NOTIFY error.wx callback data: " + xml, e);
         }
         return RET_F;
     }
 
-    private PaySetting getPaySetting(){
+    @Override
+    public JsAPISignature getShareConfigInfo(String currentSharePageUrl) throws Exception {
+        if (StringUtils.isBlank(currentSharePageUrl)) return null;
+
+        if (currentSharePageUrl.indexOf("#") > 0) {
+            currentSharePageUrl = currentSharePageUrl.substring(0,currentSharePageUrl.indexOf("#"));
+        }
+        String appId = sysConfig.getWxAppId();
+        AccessToken jsToken = queryAccessTokenByType(WxTokenTypeEnum.JS_TICKET, appId);
+        if (jsToken == null) {
+            return null;
+        }
+        String jsTicket = jsToken.getToken();
+        long updated = jsToken.getUpdated().getTime();
+        long expired = updated + Long.parseLong((jsToken.getExpired() * 1000) + "");
+        long now = System.currentTimeMillis();
+
+        if (expired <= now) {
+            //已经过期了
+            JsAPIs jsAPIs = JsAPIs.with(sysConfig.getWxAccessTokenUrl(),sysConfig.getJsSdkTicketUrl());
+            Map accessTokenMap = jsAPIs.getWxAccessToken(appId, sysConfig.getWxAppSecret());
+            if (MapUtils.isNotEmpty(accessTokenMap)) {
+                String access_token = MapUtils.getString(accessTokenMap, CommonConstants.ACCESS_TOKEN);
+                Integer expires_in = MapUtils.getInteger(accessTokenMap, CommonConstants.EXPIRES_IN);
+
+                Map jsTicketMap = jsAPIs.getWxJsSdkTicket(access_token);
+                if (MapUtils.isNotEmpty(jsTicketMap)) {
+                    jsTicket = MapUtils.getString(jsTicketMap, "ticket");
+
+                    AccessToken accessToken = queryAccessTokenByType(WxTokenTypeEnum.ACCESS_TOKEN, appId);
+                    accessToken.setExpired(expires_in);
+                    accessToken.setToken(access_token);
+                    accessToken.setUpdated(new Timestamp(System.currentTimeMillis()));
+                    updateAccessToken(accessToken);
+
+                    jsToken.setExpired(expires_in);
+                    jsToken.setToken(jsTicket);
+                    jsToken.setUpdated(new Timestamp(System.currentTimeMillis()));
+                    updateAccessToken(jsToken);
+                }
+            }
+        }
+        return createJsAPISignature(appId,currentSharePageUrl, jsTicket, expired);
+    }
+
+    /**
+     * 创建JsAPI签名
+     * @param url
+     * @return
+     */
+    private JsAPISignature createJsAPISignature(String appId,String url, String ticket,long expired){
+        long timestamp = System.currentTimeMillis() / 1000;
+        String nonce = RandomStringGenerator.getRandomStringByLength(16);
+        try {
+            String signature = SHA1.getSHA1("jsapi_ticket=" + ticket + "&noncestr=" + nonce + "&timestamp=" + timestamp + "&url=" + url);
+
+            JsAPISignature jsAPISignature = new JsAPISignature();
+            jsAPISignature.setAppId(appId);
+            jsAPISignature.setNonce(nonce);
+            jsAPISignature.setTimestamp(timestamp);
+            jsAPISignature.setSignature(signature);
+            jsAPISignature.setUrl(url);
+            jsAPISignature.setExpired(expired);
+            return jsAPISignature;
+        } catch (AesException e) {
+            logger.error("createJsAPISignature failed", e);
+            throw new VoteRuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public AccessToken queryAccessTokenByType(WxTokenTypeEnum type, String appId) {
+
+        Ssqb query = Ssqb.create("com.jlt.vote.wx.queryAccessTokenByType")
+                .setParam("appId", appId)
+                .setParam("type", type.value());
+        return baseDaoSupport.findForObj(query, AccessToken.class);
+    }
+
+    @Override
+    public void updateAccessToken(AccessToken accessToken) {
+        baseDaoSupport.update(accessToken);
+    }
+
+    private PaySetting getPaySetting() {
         PaySetting paySetting = new PaySetting();
         paySetting.setAppId(sysConfig.getWxAppId());
         paySetting.setKey(sysConfig.getWxMerchantKey());
@@ -192,6 +293,7 @@ public class WxServiceImpl implements IWxService {
 
     /**
      * 获得微信支付金额 将系统BigDecimal（元） 转换为（分）
+     *
      * @param payMoney
      * @return
      */

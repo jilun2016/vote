@@ -103,6 +103,17 @@ public class SysConfig {
     @Value("${voteCookieHost}")
     private String voteCookieHost;
 
+    /**
+     * 获取微信accessToken的url
+     */
+    @Value("${wxAccessTokenUrl}")
+    private String wxAccessTokenUrl;
+
+    /**
+     * 获取微信jsSdkTicket的url
+     */
+    @Value("${jsSdkTicketUrl}")
+    private String jsSdkTicketUrl;
 
     public String getWxAuthUrl() {
         return wxAuthUrl;
@@ -222,5 +233,21 @@ public class SysConfig {
 
     public void setVoteCookieHost(String voteCookieHost) {
         this.voteCookieHost = voteCookieHost;
+    }
+
+    public String getWxAccessTokenUrl() {
+        return wxAccessTokenUrl;
+    }
+
+    public void setWxAccessTokenUrl(String wxAccessTokenUrl) {
+        this.wxAccessTokenUrl = wxAccessTokenUrl;
+    }
+
+    public String getJsSdkTicketUrl() {
+        return jsSdkTicketUrl;
+    }
+
+    public void setJsSdkTicketUrl(String jsSdkTicketUrl) {
+        this.jsSdkTicketUrl = jsSdkTicketUrl;
     }
 }

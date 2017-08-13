@@ -6,9 +6,10 @@ import com.jlt.vote.bis.campaign.vo.CampaignGiftDetailVo;
 import com.jlt.vote.bis.wx.service.IWxService;
 import com.jlt.vote.bis.wx.vo.GiftWxPrePayOrder;
 import com.jlt.vote.bis.wx.vo.VotePrepayRequest;
-import com.jlt.vote.bis.wx.vo.WxPrePayOrder;
 import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.util.*;
+import com.jlt.vote.validation.ValidateFiled;
+import com.jlt.vote.validation.ValidateGroup;
 import com.xcrm.common.util.InputStreamUtils;
 import com.xcrm.log.Logger;
 import org.apache.commons.collections.MapUtils;
@@ -22,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.security.auth.callback.Callback;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -232,6 +231,34 @@ public class WxController {
         }
     }
 
-
+    /**
+     * 获取微信jssdk配置信息
+     * @param request
+     * @param response
+     */
+    @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "当前URL")})
+    @RequestMapping(value ="/vote/{chainId}/jssdk_config",method = {RequestMethod.GET})
+    public void queryJsSdkConfig(String currentUrl,HttpServletRequest request, HttpServletResponse response) {
+        logger.info("VoteController.queryJsSdkConfig({})",currentUrl);
+        try {
+            ResponseUtils.createSuccessResponse(response,wxService.getShareConfigInfo(currentUrl));
+        } catch (Exception e) {
+            logger.error("queryJsSdkConfig occurs exception ",e);
+            ResponseUtils.createBadResponse(response,"获取配置信息错误");
+        }
+    }
+//返回结果
+//    {
+//        "data": {
+//        "appId": "wx54e7794a0657d2c7",
+//                "expired": 1502565673000,
+//                "nonce": "1f081mv8yj4atnnh",
+//                "signature": "b9f315c803662fa5e2f60c170e216427b52bfd4e",
+//                "timestamp": 1502645016,
+//                "url": "http://localhost:7777/vote/5910417230/v_award"
+//    },
+//        "msg": "success",
+//            "status": 1
+//    }
 
 }

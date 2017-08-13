@@ -10,6 +10,7 @@ public class JsAPISignature {
     private String nonce;
     private String signature;
     private String url;
+    private long expired;
 
     /**
      * 可选
@@ -62,5 +63,13 @@ public class JsAPISignature {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public long getExpired() {
+        return expired;
+    }
+
+    public void setExpired(long expired) {
+        this.expired = expired;
     }
 }

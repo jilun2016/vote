@@ -32,5 +32,15 @@ public interface CommonConstants {
 	 */
 	String JSESSION_COOKIE = "jsessionid";
 
+	/**
+	 * access_token常量值
+	 */
+	String ACCESS_TOKEN = "access_token";
+
+	/**
+	 * expires_in常量值
+	 */
+	String EXPIRES_IN = "expires_in";
+
 
 }
