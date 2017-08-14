@@ -64,20 +64,38 @@
                               error(jqXHR);
                           }
                           try {
-                              if (jqXHR.status == 401) {
-                                  message.error("无权限执行此操作.");
-                              } else {
-                                  var xhr = jqXHR;
-                                  if (xhr && xhr.responseText) {
-                                      var _json = JSON.parse(xhr.responseText);
-                                      if (!_json.res) {
-                                          _json.msg && message.msg(_json.msg);
-                                      } else {
-                                          message.msg(xhr.responseText);
+                              switch (jqXHR.status) {
+                                  case 401:
+                                      {
+                                          var urls = [];
+                                          urls.push('https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=');
+                                          urls.push(encodeURIComponent('https://wx.jilunxing.com/vote/auth/callback'));
+                                          urls.push('&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(window.location.href) + '#wechat_redirect');
+                                          window.location.href = urls.join('');
                                       }
-                                  } else {
-                                      message.msg("后端错误.");
-                                  }
+                                      break;
+                                  case 403:
+                                      {
+                                          //window.location.href = 活动宣传页面
+                                          alert('活动宣传页面')
+                                      }
+                                      break;
+                                  default:
+                                      {
+                                          var xhr = jqXHR;
+                                          if (xhr && xhr.responseText) {
+                                              var _json = JSON.parse(xhr.responseText);
+                                              if (!_json.res) {
+                                                  _json.msg && message.msg(_json.msg);
+                                              } else {
+                                                  message.msg(xhr.responseText);
+                                              }
+                                          } else {
+                                              message.msg("后端错误.");
+                                          }
+                                      }
+                                      break;
+
                               }
                           } catch (ex) {
                               message.msg("后端错误.");
@@ -104,22 +122,22 @@
               }
           },
           wxShareCfg: function(onMenuShareTimeline, onMenuShareAppMessage) {
-              wx.onMenuShareTimeline({
-                  title: onMenuShareTimeline.title, // 分享标题
-                  link: onMenuShareTimeline.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                  imgUrl: onMenuShareTimeline.imgUrl, // 分享图标
-                  success: function() {},
-                  cancel: function() {}
-              })
+              //   wx.onMenuShareTimeline({
+              //       title: onMenuShareTimeline.title, // 分享标题
+              //       link: onMenuShareTimeline.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+              //       imgUrl: onMenuShareTimeline.imgUrl, // 分享图标
+              //       success: function() {},
+              //       cancel: function() {}
+              //   });
 
-              wx.onMenuShareAppMessage({
-                  title: onMenuShareAppMessage.title, // 分享标题
-                  desc: onMenuShareAppMessage.desc, // 分享描述
-                  link: onMenuShareAppMessage.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                  imgUrl: onMenuShareAppMessage.imgUrl, // 分享图标
-                  success: function() {},
-                  cancel: function() {}
-              })
+              //   wx.onMenuShareAppMessage({
+              //       title: onMenuShareAppMessage.title, // 分享标题
+              //       desc: onMenuShareAppMessage.desc, // 分享描述
+              //       link: onMenuShareAppMessage.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+              //       imgUrl: onMenuShareAppMessage.imgUrl, // 分享图标
+              //       success: function() {},
+              //       cancel: function() {}
+              //   });
           }
       }
 
@@ -128,7 +146,8 @@
           getQueryString: opt.getQueryString,
           endTimeLoop: opt.endTimeLoop,
           isOver: opt.isOver,
-          jqAjax: opt.jqAjax
+          jqAjax: opt.jqAjax,
+          wxShareCfg: opt.wxShareCfg
       }
   })();
 
