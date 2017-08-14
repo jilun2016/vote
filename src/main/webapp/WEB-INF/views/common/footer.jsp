@@ -27,7 +27,7 @@
         //可以点击浏览对应图片
         $(document).ready(function() {
             var currentUrl = window.location.href;
-            vote.jqAjax('vote/${chainId}/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
+            vote.jqAjax('/vote/${chainId}/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
                 var data = json.data;
                 wx.config({
                     debug: true,
