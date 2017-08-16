@@ -1,25 +1,19 @@
 package com.jlt.vote.interceptor;
 
-import com.jlt.vote.action.VoteController;
 import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.email.SendMailUtil;
 import com.jlt.vote.exception.VoteRuntimeException;
 import com.jlt.vote.util.*;
 import com.xcrm.cloud.database.db.util.StringUtil;
 import com.xcrm.log.Logger;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
 import java.util.Map;
 
 /**

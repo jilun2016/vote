@@ -8,14 +8,13 @@ package com.jlt.vote.util;
 public enum SystemProfileEnum {
 
 	/**
-	 * 交易创建，等待买家付款
+	 * 开发环境
 	 */
 	DEVELOP("develop"),
 	/**
-	 * 未付款交易超时关闭，或支付完成后全额退款
+	 * 生产环境
 	 */
-	PRODUCT("product"),
-	;
+	PRODUCT("product");
 
 	private final String value;
 
