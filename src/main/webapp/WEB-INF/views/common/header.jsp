@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <!-- build:css -->
-    <link href="/res/page/fonts/iconfont.css" rel="stylesheet">
-    <link href="/res/page/css/custom.css" rel="stylesheet">
-    <!-- endbuild -->
+    <link rel="stylesheet" href="http://pic.jilunxing.com/vote/build-56c96187b9.min.css">
+
 
 
     <script>

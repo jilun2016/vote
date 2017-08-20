@@ -15,25 +15,6 @@
 
         var openId = '${openId}';
         var chainId = '${chainId}';
-
-        var timestamp = '';
-        var nonce_str = '';
-        var signature = '';
-        //可以点击浏览对应图片
-        $(document).ready(function() {
-            // wx.config({
-            //     debug: false,
-            //     appId: appId,
-            //     timestamp: Number(timestamp),
-            //     nonceStr: nonce_str,
-            //     signature: signature,
-            //     jsApiList: [
-            //         'onMenuShareTimeline',
-            //         'onMenuShareAppMessage',
-            //         'previewImage',
-            //     ]
-            // });
-        });
     </script>
 
     <%

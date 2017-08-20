@@ -83,9 +83,9 @@
                 </div>
                 <div class="bottom-bar">
                     <a href="javascript:history.go(-1)" class="back"><span class="iconfont icon-fanhui"></span>返回</a>
-                    <div class="top-bar-title" ms-click="methods.send()" ms-if="!isover">
+                    <a class="top-bar-title" ms-click="methods.send()" ms-if="!isover" href="javascript:;;" style="cursor:pointer;">
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
-                    </div>
+                    </a>
                     <div class="top-bar-title" ms-if="isover" onclick="alert('活动已结束.')">
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
                     </div>
