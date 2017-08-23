@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <link rel="stylesheet" href="http://pic.jilunxing.com/vote/build-56c96187b9.min.css">
+    <link rel="stylesheet" href="https://pic.jilunxing.com/vote/build-56c96187b9.min.css">
 
 
 

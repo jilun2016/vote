@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <script src="http://pic.jilunxing.com/vote/lib-52257e8410.min.js"></script>
+    <script src="https://pic.jilunxing.com/vote/lib-52257e8410.min.js"></script>
 
 
     <script>
