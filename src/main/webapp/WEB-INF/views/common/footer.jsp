@@ -13,8 +13,15 @@
         </div>
     </div>
 
-    <script src="https://pic.jilunxing.com/vote/lib-52257e8410.min.js"></script>
-
+    <!-- build:lib -->
+    <script src="/res/lib/js/jquery.min.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/lodash.min.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/moment.min.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/masonry-docs.min.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/vote_helper.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/avalon.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/jweixin-1.0.0.js<%=CDN_VERSION%>"></script>
+    <!-- endbuild -->
 
     <script>
         //可以点击浏览对应图片
