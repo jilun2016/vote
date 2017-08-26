@@ -17,7 +17,7 @@ public class CampaignAward {
   /**
    * 主办方id
    */
-  private Long chainid;
+  private Long chainId;
 
   /**
    * 奖品简介
@@ -49,12 +49,12 @@ public class CampaignAward {
     this.id = id;
   }
 
-  public Long getChainid() {
-    return chainid;
+  public Long getChainId() {
+    return chainId;
   }
 
-  public void setChainid(Long chainid) {
-    this.chainid = chainid;
+  public void setChainId(Long chainId) {
+    this.chainId = chainId;
   }
 
   public String getSummary() {

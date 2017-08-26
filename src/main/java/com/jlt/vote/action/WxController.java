@@ -65,13 +65,13 @@ public class WxController {
             logger.info("VoteController login without open auth.openid :{}",WebUtils.getOpenId(request));
             response.sendRedirect(response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId))));
         }else{
-            StringBuffer wxAuthUrl = new StringBuffer(sysConfig.getWxAuthUrl());
-            wxAuthUrl.append("?appid="+sysConfig.getWxAppId());
-            wxAuthUrl.append("&redirect_uri="+ URLEncoder.encode(sysConfig.getWxCallbackUrl()));
+            StringBuilder wxAuthUrl = new StringBuilder(sysConfig.getWxAuthUrl());
+            wxAuthUrl.append("?appid=").append(sysConfig.getWxAppId());
+            wxAuthUrl.append("&redirect_uri=").append(URLEncoder.encode(sysConfig.getWxCallbackUrl()));
             wxAuthUrl.append("&response_type=code");
             wxAuthUrl.append("&scope=snsapi_userinfo");
             String state = response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId)));
-            wxAuthUrl.append("&state="+state);
+            wxAuthUrl.append("&state=").append(state);
             wxAuthUrl.append("#wechat_redirect");
             response.sendRedirect(wxAuthUrl.toString());
         }
@@ -162,7 +162,8 @@ public class WxController {
      * @param response
      */
     @RequestMapping(value ="/vote/{chainId}/pay/prepay",method = {RequestMethod.POST})
-    public void votePrepay(@PathVariable Long chainId,@RequestBody @Valid VotePrepayRequest votePrepayRequest,BindingResult bindingResult,
+    public void votePrepay(@PathVariable Long chainId,@RequestBody @Valid VotePrepayRequest votePrepayRequest,
+                           BindingResult bindingResult,
                            HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.votePrepay({})",votePrepayRequest);
         if (bindingResult.hasErrors()) {
