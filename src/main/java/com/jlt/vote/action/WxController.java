@@ -62,7 +62,7 @@ public class WxController {
     public void index(@PathVariable Long chainId, HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("VoteController.index({})",chainId);
         if(StringUtils.isNotEmpty(WebUtils.getOpenId(request))){
-            logger.info("VoteController login without open auth.openid :{}",WebUtils.getOpenId(request));
+            logger.info("VoteController login with open auth.openid :{}",WebUtils.getOpenId(request));
             response.sendRedirect(response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId))));
         }else{
             StringBuilder wxAuthUrl = new StringBuilder(sysConfig.getWxAuthUrl());

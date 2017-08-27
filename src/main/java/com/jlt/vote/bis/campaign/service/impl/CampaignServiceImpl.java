@@ -242,7 +242,7 @@ public class CampaignServiceImpl implements ICampaignService {
 		if(ListUtil.isEmpty(campaignAwardList)){
 			QueryBuilder queryCamAwardQb = QueryBuilder.where(Restrictions.eq("chainId",chainId))
 					.and(Restrictions.eq("dataStatus",1))
-					.setOrderBys("priority", BaseQuery.OrderByType.desc);
+					.setOrderBys("priority", BaseQuery.OrderByType.asc);
 			campaignAwardList = baseDaoSupport.queryList(queryCamAwardQb,CampaignAward.class);
 
 			//保存redis

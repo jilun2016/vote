@@ -4,7 +4,7 @@
     <property name="logstash.path" value="/root/logs/vote"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>[THIRD-PAY] %d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+            <Pattern>[VOTE] %d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
         </layout>
     </appender>
 
@@ -22,7 +22,7 @@
             </TimeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <Pattern>[THIRD-PAY] %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+            <Pattern>[VOTE] %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
         </encoder>
     </appender>
 
