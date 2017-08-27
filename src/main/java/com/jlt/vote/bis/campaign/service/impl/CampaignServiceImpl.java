@@ -137,11 +137,11 @@ public class CampaignServiceImpl implements ICampaignService {
 	@Override
 	public VoterVo queryVoter(String openId) {
 		VoterVo voterDetail = redisDaoSupport.get(CacheConstants.VOTE_VOTER_DETAIL+openId,VoterVo.class);
-		if(voterDetail == null){
+		if(Objects.isNull(voterDetail)){
 			Ssqb querySqb = Ssqb.create("com.jlt.vote.queryVoter")
 					.setParam("openid",openId);
 			voterDetail = baseDaoSupport.findForObj(querySqb,VoterVo.class);
-			if(voterDetail != null){
+			if(Objects.nonNull(voterDetail)){
 				redisDaoSupport.set(CacheConstants.VOTE_VOTER_DETAIL+openId,voterDetail);
 			}
 		}
@@ -372,7 +372,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			throw new VoteRuntimeException("10000");
 		}
 		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
-		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1000)){
+		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1)){
 			throw new VoteRuntimeException("10001");
 		}
 		Date now = DateFormatUtils.getNow();
