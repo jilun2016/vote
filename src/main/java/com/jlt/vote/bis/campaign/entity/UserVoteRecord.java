@@ -30,6 +30,11 @@ public class UserVoteRecord {
   private String openId;
 
   /**
+   * 1:普通投票 2:礼物投票
+   */
+  private Integer voteType;
+
+  /**
    * 当前投票次数
    */
   private Integer voteCount;
@@ -79,6 +84,14 @@ public class UserVoteRecord {
 
   public void setOpenId(String openId) {
     this.openId = openId;
+  }
+
+  public Integer getVoteType() {
+    return voteType;
+  }
+
+  public void setVoteType(Integer voteType) {
+    this.voteType = voteType;
   }
 
   public Integer getVoteCount() {

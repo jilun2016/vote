@@ -1,6 +1,5 @@
 package com.jlt.vote.bis.campaign.service;
 
-import com.jlt.vote.bis.campaign.entity.Campaign;
 import com.jlt.vote.bis.campaign.entity.CampaignAward;
 import com.jlt.vote.bis.campaign.vo.CampaignGiftDetailVo;
 import com.jlt.vote.bis.campaign.vo.CampaignGiftVo;
@@ -123,11 +122,12 @@ public interface ICampaignService {
 
     /**
      * 更新用户礼物信息
+     * @param openId
      * @param userId
      * @param giftId
      * @param giftCount
      */
-    void updateUserGiftInfo(Long chainId,Long userId,Long giftId,Integer giftCount);
+    void updateUserGiftInfo(String openId, Long chainId, Long userId, Long giftId, Integer giftCount);
 
     /**
      * 更新用户投票信息

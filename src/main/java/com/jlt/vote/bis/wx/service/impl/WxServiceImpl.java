@@ -1,6 +1,7 @@
 package com.jlt.vote.bis.wx.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.jlt.vote.bis.campaign.entity.UserVoteRecord;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.bis.wx.PayStatusEnum;
 import com.jlt.vote.bis.wx.WxTokenTypeEnum;
@@ -75,7 +76,6 @@ public class WxServiceImpl implements IWxService {
 
     @Autowired
     private BaseDaoSupport baseDaoSupport;
-
 
     @Override
     public String jsOnPay(GiftWxPrePayOrder giftWxPrePayOrder) throws Exception {
@@ -189,7 +189,7 @@ public class WxServiceImpl implements IWxService {
 
             if (result > 0) {
                 campaignService.updateUserGiftRecord(votePayOrder.getId(), openId);
-                campaignService.updateUserGiftInfo(votePayOrder.getChainId(), votePayOrder.getUserId(), votePayOrder.getGiftId(), votePayOrder.getGiftCount());
+                campaignService.updateUserGiftInfo(openId,votePayOrder.getChainId(), votePayOrder.getUserId(), votePayOrder.getGiftId(), votePayOrder.getGiftCount());
             }
             return RET_S;
         } catch (Exception e) {

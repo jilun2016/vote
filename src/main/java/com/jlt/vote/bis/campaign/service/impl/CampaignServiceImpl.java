@@ -317,7 +317,7 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public void updateUserGiftInfo(Long chainId,Long userId, Long giftId, Integer giftCount) {
+	public void updateUserGiftInfo(String openId, Long chainId, Long userId, Long giftId, Integer giftCount) {
 		CampaignGiftDetailVo giftDetailVo = redisDaoSupport.get(CacheConstants.CAMPAIGN_GIFT_DETAIL+giftId,CampaignGiftDetailVo.class);
 		if(Objects.isNull(giftDetailVo)){
 			giftDetailVo = queryCampaignGiftDetail(chainId,giftId);
@@ -336,6 +336,21 @@ public class CampaignServiceImpl implements ICampaignService {
 					redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"giftPoint",giftPoint);
 				}
 			}
+
+            taskExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    //增加投票人 普通投票记录
+                    UserVoteRecord userVoteRecord = new UserVoteRecord();
+                    userVoteRecord.setChainId(chainId);
+                    userVoteRecord.setOpenId(openId);
+                    userVoteRecord.setVoteType(2);
+                    userVoteRecord.setUserId(userId);
+                    userVoteRecord.setVoteCount(voteCount);
+                    userVoteRecord.setVoteTime(DateFormatUtils.getNow());
+                    baseDaoSupport.save(userVoteRecord);
+                }
+            });
 		}
 	}
 
