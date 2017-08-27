@@ -1,6 +1,7 @@
 package com.jlt.vote.bis.campaign.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jlt.vote.bis.campaign.entity.Campaign;
 import com.jlt.vote.bis.campaign.entity.CampaignAward;
 import com.jlt.vote.bis.campaign.entity.UserVoteRecord;
@@ -235,7 +236,9 @@ public class CampaignServiceImpl implements ICampaignService {
 
 	@Override
 	public List<CampaignAward> queryCampaignAward(Long chainId) {//redisDaoSupport.del(CacheConstants.CAMPAIGN_AWARD+chainId);
-		List<CampaignAward> campaignAwardList = redisDaoSupport.getList(CacheConstants.CAMPAIGN_AWARD+chainId,CampaignAward.class);
+		String campaignAwardStr = redisDaoSupport.get(CacheConstants.CAMPAIGN_AWARD+chainId,String.class);
+        List<CampaignAward> campaignAwardList = JSONObject.parseArray(campaignAwardStr,CampaignAward.class);
+
 		if(ListUtil.isEmpty(campaignAwardList)){
 			QueryBuilder queryCamAwardQb = QueryBuilder.where(Restrictions.eq("chainId",chainId))
 					.and(Restrictions.eq("dataStatus",1))
@@ -243,7 +246,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			campaignAwardList = baseDaoSupport.queryList(queryCamAwardQb,CampaignAward.class);
 
 			//保存redis
-			redisDaoSupport.set(CacheConstants.CAMPAIGN_AWARD+chainId,campaignAwardList);
+			redisDaoSupport.set(CacheConstants.CAMPAIGN_AWARD+chainId,JSON.toJSONString(campaignAwardList));
 		}
 		return campaignAwardList;
 	}
