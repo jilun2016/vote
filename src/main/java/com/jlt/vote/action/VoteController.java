@@ -76,7 +76,7 @@ public class VoteController {
         awardResultMap.put("campaignAwards", campaignAwards);
         awardResultMap.put("chainId", chainId);
         awardResultMap.put("campaignRule", campaignService.queryCampaignRule(chainId));
-        model.addAttribute("userDetail", JSON.toJSONString(awardResultMap));
+        model.addAttribute("campaignDetail", JSON.toJSONString(awardResultMap));
         return "award";
     }
 
@@ -101,7 +101,7 @@ public class VoteController {
     @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
     @RequestMapping(value ="/vote/{chainId}/gift",method = {RequestMethod.GET})
     public void queryCampaignGift(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.queryCampaignAward");
+        logger.info("VoteController.queryCampaignGift({})",chainId);
         //通过chainId 查询 活动礼物信息
         ResponseUtils.createSuccessResponse(response,campaignService.queryCampaignGiftList(chainId));
     }
@@ -116,7 +116,7 @@ public class VoteController {
             @ValidateFiled(index = 3, notNull = true, desc = "页大小")})
     @RequestMapping(value ="/vote/{chainId}/users",method = {RequestMethod.GET})
     public void getVoteUserList(@PathVariable Long chainId,String queryKey, Integer pageNo, Integer pageSize, HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.getVoteUserList,chainId:{}",chainId);
+        logger.info("VoteController.getVoteUserList({},{},{},{})",chainId,queryKey,pageNo,pageSize);
         ResponseUtils.createSuccessResponse(response,campaignService.querySimpleUserList(chainId,queryKey, pageNo, pageSize));
     }
 
@@ -129,7 +129,7 @@ public class VoteController {
             @ValidateFiled(index = 1, notNull = true, desc = "用户id")})
     @RequestMapping(value ="/vote/{chainId}/user",method = {RequestMethod.GET})
     public void getVoteUserDetail(@PathVariable Long chainId,Long userId, HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.getVoteUserDetail,chainId:{},useId:{}",chainId,userId);
+        logger.info("VoteController.getVoteUserDetail({},{})",chainId,userId);
         ResponseUtils.createSuccessResponse(response,campaignService.queryUserDetail(chainId,userId));
     }
 
@@ -144,7 +144,7 @@ public class VoteController {
             @ValidateFiled(index = 3, notNull = true, desc = "页大小")})
     @RequestMapping(value ="/vote/{chainId}/gifts",method = {RequestMethod.GET})
     public void getUserGiftList(@PathVariable Long chainId,Long userId,Integer pageNo, Integer pageSize, HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.getUserGiftList,chainId:{},useId:{},pageNo:{},pageSize:{}",chainId,userId,pageNo,pageSize);
+        logger.info("VoteController.getUserGiftList({},{},{},{})",chainId,userId,pageNo,pageSize);
         ResponseUtils.createSuccessResponse(response,campaignService.queryUserGiftList(chainId,userId,pageNo,pageSize));
     }
 
@@ -155,7 +155,7 @@ public class VoteController {
      */
     @RequestMapping(value ="/vote/{chainId}/common_vote",method = {RequestMethod.POST})
     public void vote(@PathVariable Long chainId,Long userId,HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.vote,chainId:{},userId:{}",chainId,userId);
+        logger.info("VoteController.vote({},{})",chainId,userId);
         String openId = WebUtils.getOpenId(request);
         campaignService.vote(chainId,openId,userId, RequestUtils.getIpAddr(request));
         ResponseUtils.defaultSuccessResponse(response);
@@ -170,7 +170,7 @@ public class VoteController {
      */
     @RequestMapping(value ="/vote/{chainId}/rank",method = {RequestMethod.GET})
     public void voteRank(@PathVariable Long chainId, ModelAndView mav,HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.voteRank,chainId:{}",chainId);
+        logger.info("VoteController.voteRank({})",chainId);
         ResponseUtils.createSuccessResponse(response,campaignService.getVoteRank(chainId));
     }
 
@@ -183,7 +183,7 @@ public class VoteController {
     @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
     @RequestMapping(value ="/vote/{chainId}/v_rank",method = {RequestMethod.GET})
     public String v_rank(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response,ModelMap model) {
-        logger.info("VoteController.v_award");
+        logger.info("VoteController.v_rank({})",chainId);
         List<CampaignAward> campaignAwards = campaignService.queryCampaignAward(chainId);
         Map<String, Object> awardResultMap = new HashMap<>();
         awardResultMap.put("campaignAwards", campaignAwards);

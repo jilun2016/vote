@@ -7,6 +7,7 @@ import com.jlt.vote.bis.wx.service.IWxService;
 import com.jlt.vote.bis.wx.vo.GiftWxPrePayOrder;
 import com.jlt.vote.bis.wx.vo.VotePrepayRequest;
 import com.jlt.vote.config.SysConfig;
+import com.jlt.vote.exception.VoteRuntimeException;
 import com.jlt.vote.util.*;
 import com.jlt.vote.validation.ValidateFiled;
 import com.jlt.vote.validation.ValidateGroup;
@@ -165,7 +166,7 @@ public class WxController {
     public void votePrepay(@PathVariable Long chainId,@RequestBody @Valid VotePrepayRequest votePrepayRequest,
                            BindingResult bindingResult,
                            HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.votePrepay({})",votePrepayRequest);
+        logger.info("VoteController.votePrepay({},{})",chainId,votePrepayRequest);
         if (bindingResult.hasErrors()) {
             ResponseUtils.createValidFailResponse(response, bindingResult);
             return;
@@ -212,6 +213,7 @@ public class WxController {
             resultMap.put("payResult", payResult);
         } catch (Exception e) {
             logger.error("VoteController.votePrepay error",e);
+            throw new VoteRuntimeException("10002");
         }
         ResponseUtils.createSuccessResponse(response,resultMap);
     }
