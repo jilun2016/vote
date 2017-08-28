@@ -70,7 +70,7 @@ public class VoteController {
     @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
     @RequestMapping(value ="/vote/{chainId}/v_award",method = {RequestMethod.GET})
     public String v_award(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response,ModelMap model) {
-        logger.info("VoteController.v_award");
+        logger.info("VoteController.v_award({})",chainId);
         List<CampaignAward> campaignAwards = campaignService.queryCampaignAward(chainId);
         Map<String, Object> awardResultMap = new HashMap<>();
         awardResultMap.put("campaignAwards", campaignAwards);
@@ -88,7 +88,7 @@ public class VoteController {
     @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
     @RequestMapping(value ="/vote/{chainId}/award",method = {RequestMethod.GET})
     public void queryCampaignAward(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.queryCampaignAward");
+        logger.info("VoteController.queryCampaignAward({})",chainId);
         //通过chainId 查询 活动奖品信息
         ResponseUtils.createSuccessResponse(response,campaignService.queryCampaignAward(chainId));
     }
