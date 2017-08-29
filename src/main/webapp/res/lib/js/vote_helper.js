@@ -143,21 +143,25 @@
               var currentUrl = window.location.href;
               var index = currentUrl.indexOf('#');
               currentUrl = currentUrl.substr(0, index);
-              vote.jqAjax('/vote/${chainId}/jssdk_config?currentUrl=' + currentUrl, '', function(json) {
+              alert(currentUrl);
+              vote.jqAjax('/vote/' + userDetail.chainId + '/jssdk_config?currentUrl=' + currentUrl, '', function(json) {
                   var data = json.data;
-                  wx.config({
-                      debug: true,
-                      appId: data.appId,
-                      timestamp: Number(data.timestamp),
-                      nonceStr: data.nonce,
-                      signature: data.signature,
-                      jsApiList: [
-                          'onMenuShareTimeline',
-                          'onMenuShareAppMessage',
-                          'previewImage',
-                      ]
-                  });
-                  callback && callback();
+                  alert(JSON.stringify(data));
+                  if (data) {
+                      wx.config({
+                          debug: true,
+                          appId: data.appId,
+                          timestamp: Number(data.timestamp),
+                          nonceStr: data.nonce,
+                          signature: data.signature,
+                          jsApiList: [
+                              'onMenuShareTimeline',
+                              'onMenuShareAppMessage',
+                              'previewImage',
+                          ]
+                      });
+                      callback && callback();
+                  }
               }, function() {}, 'GET', '');
           }
       }

@@ -16,7 +16,7 @@
             </head>
 
             <body ms-controller="award">
-                <input id="campaignRule" value="${campaignRule}" type="hidden">
+                <input id="campaignRule" value='${campaignRule}' type="hidden">
                 <div class="content">
                     <div class="gift-item">
                         <div ms-for="gift in list">
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="gift-content">
-                            <span class="cl-red">${campaignRule}</span>
+                            <span class="cl-red" ms-html="campaignRule"></span>
                         </div>
                     </div>
                 </div>

@@ -19,8 +19,7 @@
                  }, 'GET', false);
              },
              build: function() {
-                 var campaignRule = $("#campaignRule").val();
-                 awardVm.campaignRule = campaignRule;
+                 awardVm.campaignRule = $("#campaignRule").val();
                  opt.query();
                  vote.wxShareCfg({
                      title: '分享标题',
