@@ -19,7 +19,8 @@
                 <div class="content">
                     <div class="show-info">
                         <div class="user-info">
-                            <img ms-attr="{src:top.headPic}" class="img-circle" style="width:30px;">{{top.name}}
+                            <img ms-attr="{src:top.headPic}" class="img-circle" style="width:30px;">
+                            <span ms-text="top.name"></span>
                         </div>
                         <ul>
                             <li>
