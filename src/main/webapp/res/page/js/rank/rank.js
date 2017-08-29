@@ -56,7 +56,7 @@
                  opt.queryRanks();
 
                  var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/home';
-                 vote.getWxCfg(shareUrl, function() {
+                 vote.getWxCfg(window.location.href, function() {
                      vote.wxShareCfg({
                          title: '<' + campaignName + '>' + '发布了投票活动，等待你的支持，快去给Ta投票吧～',
                          link: shareUrl,
