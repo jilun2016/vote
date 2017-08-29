@@ -372,7 +372,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			throw new VoteRuntimeException("10000");
 		}
 		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
-		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1)){
+		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1000)){
 			throw new VoteRuntimeException("10001");
 		}
 		Date now = DateFormatUtils.getNow();
