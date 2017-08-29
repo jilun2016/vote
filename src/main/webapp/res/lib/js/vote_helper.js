@@ -143,7 +143,7 @@
               var currentUrl = window.location.href;
               var index = currentUrl.indexOf('#');
               currentUrl = currentUrl.substr(0, index);
-              vote.jqAjax('/vote/${chainId}/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
+              vote.jqAjax('/vote/${chainId}/jssdk_config?currentUrl=' + currentUrl, '', function(json) {
                   var data = json.data;
                   wx.config({
                       debug: true,
@@ -158,7 +158,7 @@
                       ]
                   });
                   callback && callback();
-              });
+              }, function() {}, 'GET', '');
           }
       }
 
