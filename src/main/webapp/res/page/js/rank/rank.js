@@ -55,17 +55,17 @@
                  opt.timer.creat();
                  opt.queryRanks();
 
-                 var shareUrl = window.location.host + '/vote/' + chainId + '/home';
+                 var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/home';
                  vote.getWxCfg(shareUrl, function() {
                      vote.wxShareCfg({
-                         title: campaignName + '发布了投票活动，等待你的支持，快去给Ta投票吧～',
+                         title: '<' + campaignName + '>' + '发布了投票活动，等待你的支持，快去给Ta投票吧～',
                          link: shareUrl,
                          imgUrl: sponsorPic
                      }, {
                          title: '邀您投票',
-                         desc: campaignName + '发布了投票活动，等待你的支持，快去给Ta投票吧～',
+                         desc: '<' + campaignName + '>' + '发布了投票活动，等待你的支持，快去给Ta投票吧～',
                          link: shareUrl,
-                         imgUrl: sponsorPic
+                         imgUrl: sponsorPic,
                      });
                  });
              }
