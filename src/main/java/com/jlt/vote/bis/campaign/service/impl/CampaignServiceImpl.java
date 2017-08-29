@@ -393,7 +393,6 @@ public class CampaignServiceImpl implements ICampaignService {
 		redisDaoSupport.expire(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId,
 				DateFormatUtils.getLastTimeOfDay(new Date()).getTime() - now.getTime());
 		redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",1);
-		redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",1);
 		redisDaoSupport.hinc(CacheConstants.CAMPAIGN_BASE+chainId,"voteCount",1);
 		taskExecutor.execute(new Runnable() {
 			@Override
