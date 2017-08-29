@@ -161,6 +161,9 @@
                           alert('input');
                           callback && callback();
                       });
+                      wx.error(function(res) {
+                          console.error('err', res)
+                      });
                   }
               }, function() {}, 'GET', '');
           }
