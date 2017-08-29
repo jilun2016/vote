@@ -172,6 +172,7 @@ public class VoteInterceptor implements HandlerInterceptor {
             Map<String, Object> campaignInfoMap = campaignService.getCampaignInfoMap(chainId);
             mav.addObject("campaignEndTime", ((Date)campaignInfoMap.get("endTime")).getTime());
             mav.addObject("campaignName", MapUtils.getString(campaignInfoMap,"campaignName"));
+            mav.addObject("sponsorPic", MapUtils.getString(campaignInfoMap,"sponsorPic"));
         }
     }
 

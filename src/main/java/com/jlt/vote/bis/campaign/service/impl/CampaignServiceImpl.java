@@ -425,18 +425,22 @@ public class CampaignServiceImpl implements ICampaignService {
 		Date startTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"startTime");
 		Date endTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"endTime");
         String campaignName = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"campaignName");
+        String sponsorPic = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"sponsorPic");
 		if((Objects.nonNull(startTime))
                 &&(Objects.nonNull(endTime))
-                &&(StringUtils.isNotEmpty(campaignName))){
+                &&(StringUtils.isNotEmpty(campaignName))
+                &&(StringUtils.isNotEmpty(sponsorPic))){
             campaignInfoMap.put("startTime",startTime);
             campaignInfoMap.put("endTime",endTime);
             campaignInfoMap.put("campaignName",campaignName);
+            campaignInfoMap.put("sponsorPic",sponsorPic);
 		}else{
 			Ssqb queryDetailSqb = Ssqb.create("com.jlt.vote.queryCampaignDetail").setParam("chainId",chainId);
 			CampaignDetailVo campaignDetail = baseDaoSupport.findForObj(queryDetailSqb,CampaignDetailVo.class);
             campaignInfoMap.put("startTime",campaignDetail.getStartTime());
             campaignInfoMap.put("endTime",campaignDetail.getEndTime());
             campaignInfoMap.put("campaignName",campaignDetail.getCampaignName());
+            campaignInfoMap.put("sponsorPic",campaignDetail.getSponsorPic());
 		}
 		return  campaignInfoMap;
 	}
