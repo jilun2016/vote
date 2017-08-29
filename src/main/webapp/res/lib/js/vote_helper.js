@@ -139,25 +139,31 @@
                   cancel: function() {}
               });
           },
-          getWxCfg: function(callback) {
-              var currentUrl = window.location.href;
+          getWxCfg: function(currentUrl, callback) {
               var index = currentUrl.indexOf('#');
-              currentUrl = currentUrl.substr(0, index);
-              vote.jqAjax('/vote/${chainId}/jssdk_config?currentUrl=' + currentUrl, '', function(json) {
+              currentUrl = index > 0 ? currentUrl.substr(0, index) : currentUrl;
+              vote.jqAjax('/vote/' + chainId + '/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
                   var data = json.data;
-                  wx.config({
-                      debug: true,
-                      appId: data.appId,
-                      timestamp: Number(data.timestamp),
-                      nonceStr: data.nonce,
-                      signature: data.signature,
-                      jsApiList: [
-                          'onMenuShareTimeline',
-                          'onMenuShareAppMessage',
-                          'previewImage',
-                      ]
-                  });
-                  callback && callback();
+                  if (data) {
+                      wx.config({
+                          debug: true,
+                          appId: data.appId,
+                          timestamp: Number(data.timestamp),
+                          nonceStr: data.nonce,
+                          signature: data.signature,
+                          jsApiList: [
+                              'onMenuShareTimeline',
+                              'onMenuShareAppMessage',
+                              'previewImage',
+                          ]
+                      });
+                      wx.ready(function() {
+                          callback && callback();
+                      });
+                      wx.error(function(res) {
+                          console.error('err', res)
+                      });
+                  }
               }, function() {}, 'GET', '');
           }
       }

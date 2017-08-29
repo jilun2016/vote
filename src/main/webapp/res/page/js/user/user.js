@@ -66,24 +66,30 @@
                  }, 'POST', false);
              },
              build: function() {
-                 userVm.isover = vote.isOver();
-                 userVm.userId = vote.getQueryString('userId');
-                 userVm.top = userDetail;
-                 opt.queryGifts();
+                 var shareUrl = window.location.href;
+                 var fromIndex = shareUrl.indexOf('&from');
+                 if (fromIndex > 0) {
+                     shareUrl = shareUrl.substr(0, fromIndex);
+                     window.location.href = shareUrl;
+                 } else {
+                     userVm.isover = vote.isOver();
+                     userVm.userId = vote.getQueryString('userId');
+                     userVm.top = userDetail;
+                     opt.queryGifts();
 
-                 vote.getWxCfg(function() {
-                     var shareUrl = window.location.href;
-                     vote.wxShareCfg({
-                         title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
-                         link: shareUrl,
-                         imgUrl: userDetail.headPic
-                     }, {
-                         title: '投她一票',
-                         desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
-                         link: shareUrl,
-                         imgUrl: userDetail.headPic,
+                     vote.getWxCfg(shareUrl, function() {
+                         vote.wxShareCfg({
+                             title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                             link: shareUrl,
+                             imgUrl: userDetail.headPic
+                         }, {
+                             title: '投她一票',
+                             desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                             link: shareUrl,
+                             imgUrl: userDetail.headPic,
+                         });
                      });
-                 });
+                 }
              }
          };
          return {

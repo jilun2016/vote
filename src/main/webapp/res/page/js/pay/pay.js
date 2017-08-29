@@ -102,15 +102,17 @@
                  payVm.top = userDetail;
                  opt.queryGiftList();
                  var shareUrl = window.location.host + '/vote/' + chainId + '/v_user?userId=' + userDetail.userId;
-                 vote.wxShareCfg({
-                     title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
-                     link: shareUrl,
-                     imgUrl: userDetail.headPic
-                 }, {
-                     title: '投她一票',
-                     desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
-                     link: shareUrl,
-                     imgUrl: userDetail.headPic,
+                 vote.getWxCfg(window.location.href, function() {
+                     vote.wxShareCfg({
+                         title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                         link: shareUrl,
+                         imgUrl: userDetail.headPic
+                     }, {
+                         title: '投她一票',
+                         desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                         link: shareUrl,
+                         imgUrl: userDetail.headPic,
+                     });
                  });
              }
          };
