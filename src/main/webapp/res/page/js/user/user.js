@@ -71,8 +71,8 @@
                  userVm.top = userDetail;
                  opt.queryGifts();
 
-                 vote.getWxCfg(function() {
-                     var shareUrl = window.location.href;
+                 var shareUrl = window.location.href;
+                 vote.getWxCfg(shareUrl, function() {
                      vote.wxShareCfg({
                          title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
                          link: shareUrl,

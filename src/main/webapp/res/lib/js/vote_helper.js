@@ -139,12 +139,11 @@
                   cancel: function() {}
               });
           },
-          getWxCfg: function(callback) {
-              var currentUrl = window.location.href;
+          getWxCfg: function(currentUrl, callback) {
               var index = currentUrl.indexOf('#');
-              currentUrl = currentUrl.substr(0, index);
-              alert(currentUrl);
-              vote.jqAjax('/vote/' + userDetail.chainId + '/jssdk_config?currentUrl=' + currentUrl, '', function(json) {
+              currentUrl = index > 0 ? currentUrl.substr(0, index) : currentUrl;
+              alert('currentUrl=' + currentUrl);
+              vote.jqAjax('/vote/' + userDetail.chainId + '/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
                   var data = json.data;
                   alert(JSON.stringify(data));
                   if (data) {
