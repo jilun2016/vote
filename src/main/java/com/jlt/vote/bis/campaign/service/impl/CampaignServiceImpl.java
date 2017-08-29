@@ -371,13 +371,25 @@ public class CampaignServiceImpl implements ICampaignService {
 			logger.error("common_vote error.chainId:{},openid:{},userId:{},ipAddress:{}",chainId,openId,userId,ipAddress);
 			throw new VoteRuntimeException("10000");
 		}
+
+		//每天最多三票
 		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
 		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1000)){
 			throw new VoteRuntimeException("10001");
 		}
+		//每人每天最多一票
+		Integer dayUserVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId);
+		if((Objects.nonNull(dayUserVoteCount))&&(dayUserVoteCount >= 1000)){
+			throw new VoteRuntimeException("10003");
+		}
+
 		Date now = DateFormatUtils.getNow();
 		redisDaoSupport.incr(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId,1);
 		redisDaoSupport.expire(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId,
+				DateFormatUtils.getLastTimeOfDay(new Date()).getTime() - now.getTime());
+
+		redisDaoSupport.incr(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId,1);
+		redisDaoSupport.expire(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId,
 				DateFormatUtils.getLastTimeOfDay(new Date()).getTime() - now.getTime());
 		redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",1);
 		redisDaoSupport.hinc(CacheConstants.VOTE_USER_DETAIL+userId,"voteCount",1);
@@ -428,7 +440,11 @@ public class CampaignServiceImpl implements ICampaignService {
 		Set<String> keys = redisDaoSupport.keys("*");
 		if(keys != null && keys.size() > 0){
 			keys.forEach(a->{
-				redisDaoSupport.del(a);
+			    if(Objects.isNull(a)
+                        ||(a.indexOf(CacheConstants.CAMPAIGN_VOTER_COUNT) <=0)
+                        ||(a.indexOf(CacheConstants.CAMPAIGN_VOTER_USER_COUNT) <=0)){
+                    redisDaoSupport.del(a);
+                }
 			});
 		}
 	}

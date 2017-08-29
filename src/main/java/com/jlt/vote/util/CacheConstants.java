@@ -61,4 +61,10 @@ public interface CacheConstants {
 	 */
 	String CAMPAIGN_VOTER_COUNT = "cvc_";
 
+	/**
+	 * cache 投票活动投票人 每个人投票
+	 * 使用实例:cvuc_{chainId}_{openId}_{userId}
+	 */
+	String CAMPAIGN_VOTER_USER_COUNT = "cvuc_";
+
 }
