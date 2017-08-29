@@ -158,7 +158,6 @@
                           ]
                       });
                       wx.ready(function() {
-                          alert('input');
                           callback && callback();
                       });
                       wx.error(function(res) {
