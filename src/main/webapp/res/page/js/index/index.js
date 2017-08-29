@@ -105,14 +105,14 @@
 
                      vote.getWxCfg(shareUrl, function() {
                          vote.wxShareCfg({
-                             title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                             title: campaignName + '发布了投票活动，等待你的支持，快去给Ta投票吧～',
                              link: shareUrl,
-                             imgUrl: userDetail.headPic
+                             imgUrl: sponsorPic
                          }, {
-                             title: '投她一票',
-                             desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                             title: '邀您投票',
+                             desc: campaignName + '发布了投票活动，等待你的支持，快去给Ta投票吧～',
                              link: shareUrl,
-                             imgUrl: userDetail.headPic,
+                             imgUrl: sponsorPic,
                          });
                      });
 
