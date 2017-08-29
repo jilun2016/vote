@@ -71,16 +71,18 @@
                  userVm.top = userDetail;
                  opt.queryGifts();
 
-                 var shareUrl = window.location.host;
-                 vote.wxShareCfg({
-                     title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
-                     link: shareUrl,
-                     imgUrl: userDetail.headPic
-                 }, {
-                     title: '投她一票',
-                     desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
-                     link: shareUrl,
-                     imgUrl: userDetail.headPic,
+                 vote.getWxCfg(function() {
+                     var shareUrl = window.location.href;
+                     vote.wxShareCfg({
+                         title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                         link: shareUrl,
+                         imgUrl: userDetail.headPic
+                     }, {
+                         title: '投她一票',
+                         desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                         link: shareUrl,
+                         imgUrl: userDetail.headPic,
+                     });
                  });
              }
          };

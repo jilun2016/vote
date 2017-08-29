@@ -138,6 +138,27 @@
                   success: function() {},
                   cancel: function() {}
               });
+          },
+          getWxCfg: function(callback) {
+              var currentUrl = window.location.href;
+              var index = currentUrl.indexOf('#');
+              currentUrl = currentUrl.substr(0, index);
+              vote.jqAjax('/vote/${chainId}/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
+                  var data = json.data;
+                  wx.config({
+                      debug: true,
+                      appId: data.appId,
+                      timestamp: Number(data.timestamp),
+                      nonceStr: data.nonce,
+                      signature: data.signature,
+                      jsApiList: [
+                          'onMenuShareTimeline',
+                          'onMenuShareAppMessage',
+                          'previewImage',
+                      ]
+                  });
+                  callback && callback();
+              });
           }
       }
 
@@ -147,7 +168,8 @@
           endTimeLoop: opt.endTimeLoop,
           isOver: opt.isOver,
           jqAjax: opt.jqAjax,
-          wxShareCfg: opt.wxShareCfg
+          wxShareCfg: opt.wxShareCfg,
+          getWxCfg: opt.getWxCfg
       }
   })();
 
