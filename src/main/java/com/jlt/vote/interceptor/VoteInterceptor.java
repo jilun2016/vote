@@ -2,7 +2,9 @@ package com.jlt.vote.interceptor;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.util.*;
+import com.xcrm.common.util.DateFormatUtils;
 import com.xcrm.log.Logger;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -12,6 +14,7 @@ import org.springframework.web.util.UrlPathHelper;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -166,8 +169,9 @@ public class VoteInterceptor implements HandlerInterceptor {
                 ResponseUtils.createForbiddenResponse(response, "活动不存在");
                 return;
             }
-            Map<String, Date> campaignTimeMap = campaignService.getCampaignTimeMap(chainId);
-            mav.addObject("campaignEndTime", campaignTimeMap.get("endTime").getTime());
+            Map<String, Object> campaignInfoMap = campaignService.getCampaignInfoMap(chainId);
+            mav.addObject("campaignEndTime", ((Date)campaignInfoMap.get("endTime")).getTime());
+            mav.addObject("campaignName", MapUtils.getString(campaignInfoMap,"campaignName"));
         }
     }
 

@@ -61,6 +61,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			}
 			Ssqb queryDetailSqb = Ssqb.create("com.jlt.vote.queryCampaignDetail").setParam("chainId",chainId);
 			CampaignDetailVo campaignDetail = baseDaoSupport.findForObj(queryDetailSqb,CampaignDetailVo.class);
+            campaignMap.put("campaignName",campaignDetail.getCampaignName());
 			campaignMap.put("sponsorPic",campaignDetail.getSponsorPic());
 			campaignMap.put("signCount",campaignDetail.getSignCount());
 			campaignMap.put("voteCount",campaignDetail.getVoteCount());
@@ -419,20 +420,25 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public Map<String, Date> getCampaignTimeMap(Long chainId) {
-		Map<String ,Date> campaignTimeMap = new HashMap<>();
+	public Map<String, Object> getCampaignInfoMap(Long chainId) {
+		Map<String ,Object> campaignInfoMap = new HashMap<>();
 		Date startTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"startTime");
 		Date endTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"endTime");
-		if((Objects.nonNull(startTime))&&(Objects.nonNull(endTime))){
-			campaignTimeMap.put("startTime",startTime);
-			campaignTimeMap.put("endTime",endTime);
+        String campaignName = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"campaignName");
+		if((Objects.nonNull(startTime))
+                &&(Objects.nonNull(endTime))
+                &&(StringUtils.isNotEmpty(campaignName))){
+            campaignInfoMap.put("startTime",startTime);
+            campaignInfoMap.put("endTime",endTime);
+            campaignInfoMap.put("campaignName",campaignName);
 		}else{
 			Ssqb queryDetailSqb = Ssqb.create("com.jlt.vote.queryCampaignDetail").setParam("chainId",chainId);
 			CampaignDetailVo campaignDetail = baseDaoSupport.findForObj(queryDetailSqb,CampaignDetailVo.class);
-			campaignTimeMap.put("startTime",campaignDetail.getStartTime());
-			campaignTimeMap.put("endTime",campaignDetail.getEndTime());
+            campaignInfoMap.put("startTime",campaignDetail.getStartTime());
+            campaignInfoMap.put("endTime",campaignDetail.getEndTime());
+            campaignInfoMap.put("campaignName",campaignDetail.getCampaignName());
 		}
-		return  campaignTimeMap;
+		return  campaignInfoMap;
 	}
 
 	@Override

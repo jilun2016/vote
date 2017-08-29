@@ -154,11 +154,11 @@ public interface ICampaignService {
     List<Map<String,Object>> getVoteRank(Long chainId);
 
     /**
-     * 查询活动时间
+     * 查询活动信息
      * @param chainId
      * @return
      */
-    Map<String,Date> getCampaignTimeMap(Long chainId);
+    Map<String,Object> getCampaignInfoMap(Long chainId);
 
     /**
      * 删除所有redis的key

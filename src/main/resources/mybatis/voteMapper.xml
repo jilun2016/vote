@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jlt.vote" >
 
-    <resultMap id="CampaignDetailMap" type="com.jlt.vote.bis.campaign.vo.CampaignDetailVo">
+    <resultMap id="CampaignDetailMap" type="com.jlt.vote.bis.campaign.vo.Campaign DetailVo">
+        <result property="campaignName" column="campaignName" />
         <result property="sponsorPic" column="sponsorPic" />
         <result property="signCount" column="signCount" />
         <result property="voteCount" column="voteCount" />
@@ -18,7 +19,7 @@
 
     <select id="queryCampaignDetail" resultMap="CampaignDetailMap">
         SELECT a.sponsorPic,a.signCount,a.startTime,a.endTime,a.sponsorIntro,
-              b.picUrl,b.id AS sponsorPicId,c.viewCount,d.voteCount
+              b.picUrl,b.id AS sponsorPicId,c.viewCount,d.voteCount,a.campaignName
         FROM t_t_campaign a
         LEFT JOIN t_t_sponsor_pic b ON a.chainId = b.chainId
         LEFT JOIN t_t_campaign_view c ON a.chainId = c.chainId
