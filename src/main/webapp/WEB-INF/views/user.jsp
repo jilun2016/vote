@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="bottom-bar">
-                    <a href="javascript:history.go(-1)" class="back"><span class="iconfont icon-fanhui"></span>返回</a>
+                    <a href="home" class="back"><span class="iconfont icon-fanhui"></span>首页</a>
                     <a class="top-bar-title" ms-click="methods.send()" ms-if="!isover" href="javascript:;;" style="cursor:pointer;">
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
                     </a>

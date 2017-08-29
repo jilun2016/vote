@@ -85,27 +85,38 @@
                  }
              },
              build: function() {
-                 indexVm.top.signCount = campaignDetail.signCount || 0;
-                 indexVm.top.viewCount = campaignDetail.viewCount || 0;
-                 indexVm.top.voteCount = campaignDetail.voteCount || 0;
-                 indexVm.top.sponsorPic = campaignDetail.sponsorPic || '';
+                 var shareUrl = window.location.href;
+                 var fromIndex = shareUrl.indexOf('?from');
+                 if (fromIndex > 0) {
+                     shareUrl = shareUrl.substr(0, fromIndex);
+                     window.location.href = shareUrl;
+                 } else {
+                     indexVm.top.signCount = campaignDetail.signCount || 0;
+                     indexVm.top.viewCount = campaignDetail.viewCount || 0;
+                     indexVm.top.voteCount = campaignDetail.voteCount || 0;
+                     indexVm.top.sponsorPic = campaignDetail.sponsorPic || '';
 
-                 indexVm.bottom.sponsorIntro = campaignDetail.sponsorIntro || '';
-                 indexVm.bottom.imageList = campaignDetail.sponsorPicUrls || [];
+                     indexVm.bottom.sponsorIntro = campaignDetail.sponsorIntro || '';
+                     indexVm.bottom.imageList = campaignDetail.sponsorPicUrls || [];
 
-                 opt.timer.creat();
-                 opt.queryUsers();
+                     opt.timer.creat();
+                     opt.queryUsers();
 
-                 vote.wxShareCfg({
-                     title: '分享标题',
-                     link: '分享链接',
-                     imgUrl: 'imgUrl',
-                 }, {
-                     title: '分享标题',
-                     desc: '分享描述',
-                     link: '享链接',
-                     imgUrl: '分享图标',
-                 });
+
+                     vote.getWxCfg(shareUrl, function() {
+                         vote.wxShareCfg({
+                             title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                             link: shareUrl,
+                             imgUrl: userDetail.headPic
+                         }, {
+                             title: '投她一票',
+                             desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                             link: shareUrl,
+                             imgUrl: userDetail.headPic,
+                         });
+                     });
+
+                 }
              }
          };
          return {

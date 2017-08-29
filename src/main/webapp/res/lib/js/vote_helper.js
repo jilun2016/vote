@@ -142,7 +142,7 @@
           getWxCfg: function(currentUrl, callback) {
               var index = currentUrl.indexOf('#');
               currentUrl = index > 0 ? currentUrl.substr(0, index) : currentUrl;
-              vote.jqAjax('/vote/' + chainId + '/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
+              vote.jqAjax('/vote/' + chainId + '/jssdk_config', 'currentUrl=' + encodeURIComponent(currentUrl), function(json) {
                   var data = json.data;
                   if (data) {
                       wx.config({
