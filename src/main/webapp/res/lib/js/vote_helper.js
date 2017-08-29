@@ -142,10 +142,8 @@
           getWxCfg: function(currentUrl, callback) {
               var index = currentUrl.indexOf('#');
               currentUrl = index > 0 ? currentUrl.substr(0, index) : currentUrl;
-              alert('currentUrl=' + currentUrl);
               vote.jqAjax('/vote/' + userDetail.chainId + '/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
                   var data = json.data;
-                  alert(JSON.stringify(data));
                   if (data) {
                       wx.config({
                           debug: true,
@@ -159,7 +157,10 @@
                               'previewImage',
                           ]
                       });
-                      callback && callback();
+                      wx.ready(function() {
+                          alert('input');
+                          callback && callback();
+                      });
                   }
               }, function() {}, 'GET', '');
           }
