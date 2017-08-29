@@ -104,12 +104,12 @@
                  var shareUrl = window.location.host + '/vote/' + chainId + '/v_user?userId=' + userDetail.userId;
                  vote.getWxCfg(window.location.href, function() {
                      vote.wxShareCfg({
-                         title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                         title: '<' + userDetail.name + '>参加了' + campaignName + '投票活动，等待你的支持，快去给Ta投票吧～',
                          link: shareUrl,
                          imgUrl: userDetail.headPic
                      }, {
                          title: '投她一票',
-                         desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                         desc: '<' + userDetail.name + '>参加了' + campaignName + '投票活动，等待你的支持，快去给Ta投票吧～',
                          link: shareUrl,
                          imgUrl: userDetail.headPic,
                      });
