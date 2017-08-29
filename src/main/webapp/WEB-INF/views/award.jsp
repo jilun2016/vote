@@ -16,11 +16,11 @@
             </head>
 
             <body ms-controller="award">
-
+                <input id="campaignRule" value="${campaignRule}" type="hidden">
                 <div class="content">
                     <div class="gift-item">
                         <div ms-for="gift in list">
-                            <div class="gift-title" ms-text="'【' + gift.summary + '】'"></div>
+                            <div class="gift-title" ms-text="gift.summary"></div>
                             <div class="gift-content">
                                 <div ms-html="gift.detail"></div>
                                 <img ms-attr="{src: gift.awardpic}">
@@ -28,9 +28,7 @@
                         </div>
 
                         <div class="gift-content">
-                            <span class="cl-red">
-                               ${campaignRule}
-                            </span>
+                            <span class="cl-red">${campaignRule}</span>
                         </div>
                     </div>
                 </div>

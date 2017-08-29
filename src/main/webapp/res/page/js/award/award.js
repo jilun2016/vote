@@ -2,7 +2,8 @@
      var timer = null;
      var awardVm = avalon.define({
          $id: "award",
-         list: []
+         list: [],
+         campaignRule: ''
      });
 
      var awardOpt = (function() {
@@ -18,6 +19,8 @@
                  }, 'GET', false);
              },
              build: function() {
+                 var campaignRule = $("#campaignRule").val();
+                 awardVm.campaignRule = campaignRule;
                  opt.query();
                  vote.wxShareCfg({
                      title: '分享标题',
