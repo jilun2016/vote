@@ -1,7 +1,5 @@
 
-html {
-  font-size: 20px;
-}
+html {font-size: 625%; /*100 ÷ 16 × 100% = 625%*/}
 @media screen and (min-width:360px) and (max-width:374px) and (orientation:portrait) {
     html { font-size: 703%; }
 }
@@ -1520,7 +1518,7 @@ body {
 /*topbar*/
 .bottom-bar {
 	position: fixed;
-	height: 4rem;
+	height: 4.5rem;
 	left: 0;
 	right: 0;
 	bottom:0;
@@ -1529,15 +1527,15 @@ body {
 .bottom-bar-title {
 	text-align: center;
 	width: 100%;
-	line-height: 4rem;
+	
 	color: #fff;
-	font-size: 1.6rem;
+	font-size: 1.4rem;
 }
 .back {
 	position: fixed;
 	left: 0;
 	bottom: 0;
-	height: 4rem;
+	height: 4.5rem;
 	padding: 0 0 0 1rem;
 	vertical-align: middle;
 	display: -webkit-box;
@@ -1556,6 +1554,7 @@ body {
 	-webkit-align-items: center;
 	align-items: center;
 	color: #333;
+	font-size:1.4rem;
 }
 .back .iconfont {
 	margin-right: .5rem;
@@ -1564,7 +1563,7 @@ body {
 	position: fixed;
 	right: .5rem;
 	bottom: 0;
-	height: 4rem;
+	height: 4.5rem;
 	padding:0 1rem 0 0rem;
 	vertical-align: middle;
 	display: -webkit-box;
@@ -1583,6 +1582,7 @@ body {
 	-webkit-align-items: center;
 	align-items: center;
 	color: #333;
+	font-size:1.4rem;
 }
 .gift .iconfont {
 	margin-right: .5rem;
@@ -2209,8 +2209,14 @@ float: left;
 	width:100%;
 	text-align: center;
 	padding:.5rem 0;
-	font-size:1.4rem;
+	font-size:1.6rem;
 	border-bottom:1px dashed #e4e4e4;
+}
+.user-info img{
+	width:3rem;
+	height: 3rem;
+	border-radius: 50%;
+	margin-right: .5rem;
 }
 .gift-list{
 	width:100%;
@@ -2270,9 +2276,9 @@ float: left;
 }
 .gift-list-title{
 	width:100%;
-	padding:.8rem .5rem;
+	padding:.8rem 1rem;
 	position: relative;
-	font-size:1.2rem;
+	font-size:1.4rem;
 }
 
 .gift-list-title:after {
@@ -2372,7 +2378,7 @@ float: left;
 	font-size:1.4rem;
 }
 .gift-list-content .inner-content{
-	font-size:1rem;
+	font-size:1.2rem;
 }
 .btn-vote{
 	width:5rem;
@@ -2380,14 +2386,16 @@ float: left;
 	border-radius: 50%;
 	background: #7b7de5;
 	position: fixed;
-	bottom:.5rem;
+	bottom:1rem;
 	left:50%;
 	margin-left:-2.5rem;
 	text-align:center;
 	border:4px solid #fff;
 	color:#fff;
-	padding-top:.5rem;
+	padding-top:.4rem;
 	box-shadow: 0 0 10px rgba(0,0,0,.3);
+	font-size:1.4rem;
+	line-height: 1.4rem;
 }
 .btn-vote:hover{
 	background:#6e70ce;
@@ -2600,4 +2608,78 @@ float: left;
 }
 .tab-icon span{
 	font-size:1.8rem;
+}
+.modal-box{
+	position: fixed;
+	top:0;
+	left:0;
+	right: 0;
+	bottom: 0;
+	background:rgba(0,0,0,.5);
+	z-index: 1000;
+}
+.modal{
+	width:80%;
+	margin-top:30%;
+	border-radius: 5px;
+	background:#fff;
+	float:left;
+	margin-left:10%;
+}
+.modal-body{
+	padding:1rem;
+	width:100%;
+	float:left;
+	min-height: 10rem;
+}
+.modal-body .title{
+	width:100%;
+	float:left;
+	text-align: center;
+	font-size:1.8rem;
+	color:#333;
+	padding:1rem 0;
+	color: #009944;
+}
+.modal-body .intro{
+	width:100%;
+	float:left;
+	font-size:1.4rem;
+	text-align: center;
+}
+.modal-footer{
+	border-top:1px solid #eee;
+	width:100%;
+	float:Left;
+	
+}
+.modal-footer ul{
+	    margin: 0;
+    padding: 0;
+    list-style: none;
+    table-layout: fixed;
+}
+.modal-footer ul li {
+    position: relative;
+    display: table-cell;
+    width: 1%;
+    color: #666;
+    text-align: center;
+    vertical-align: middle;
+}
+.modal-footer ul li a{
+	width:100%;
+	padding:1rem 0;
+	line-height: 1.4rem;
+	float: left;
+	
+}
+.modal-footer ul li a:hover{
+	background: #f9f9f9;
+	text-decoration: none;
+	border-radius: 0 0 5px 5px;
+}
+.modal-footer ul li:first-child{
+
+	border-right: 1px solid #eee;
 }
