@@ -20,7 +20,7 @@
          }
      });
      avalon.filters.titleFilter = function(item) {
-         return item.nickName + "，给TA送了一份" + item.giftName + '！';
+         return item.nickName + "，给TA送了" + item.giftCount + "份" + item.giftName + '！';
      };
      //未达到 10条  隐藏 加载更多
      var userOpt = (function() {
@@ -71,17 +71,19 @@
                  userVm.top = userDetail;
                  opt.queryGifts();
 
-                 vote.wxShareCfg({
-                     title: '分享标题',
-                     link: '分享链接',
-                     imgUrl: 'imgUrl',
-                 }, {
-                     title: '分享标题',
-                     desc: '分享描述',
-                     link: '享链接',
-                     imgUrl: '分享图标',
+                 vote.getWxCfg(function() {
+                     var shareUrl = window.location.href;
+                     vote.wxShareCfg({
+                         title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                         link: shareUrl,
+                         imgUrl: userDetail.headPic
+                     }, {
+                         title: '投她一票',
+                         desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                         link: shareUrl,
+                         imgUrl: userDetail.headPic,
+                     });
                  });
-
              }
          };
          return {

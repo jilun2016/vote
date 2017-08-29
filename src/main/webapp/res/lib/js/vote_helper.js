@@ -122,22 +122,43 @@
               }
           },
           wxShareCfg: function(onMenuShareTimeline, onMenuShareAppMessage) {
-              //   wx.onMenuShareTimeline({
-              //       title: onMenuShareTimeline.title, // 分享标题
-              //       link: onMenuShareTimeline.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-              //       imgUrl: onMenuShareTimeline.imgUrl, // 分享图标
-              //       success: function() {},
-              //       cancel: function() {}
-              //   });
+              wx.onMenuShareTimeline({ //分享到朋友圈
+                  title: onMenuShareTimeline.title, // 分享标题
+                  link: onMenuShareTimeline.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                  imgUrl: onMenuShareTimeline.imgUrl, // 分享图标
+                  success: function() {},
+                  cancel: function() {}
+              });
 
-              //   wx.onMenuShareAppMessage({
-              //       title: onMenuShareAppMessage.title, // 分享标题
-              //       desc: onMenuShareAppMessage.desc, // 分享描述
-              //       link: onMenuShareAppMessage.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-              //       imgUrl: onMenuShareAppMessage.imgUrl, // 分享图标
-              //       success: function() {},
-              //       cancel: function() {}
-              //   });
+              wx.onMenuShareAppMessage({ //分享给朋友
+                  title: onMenuShareAppMessage.title, // 分享标题
+                  desc: onMenuShareAppMessage.desc, // 分享描述
+                  link: onMenuShareAppMessage.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                  imgUrl: onMenuShareAppMessage.imgUrl, // 分享图标
+                  success: function() {},
+                  cancel: function() {}
+              });
+          },
+          getWxCfg: function(callback) {
+              var currentUrl = window.location.href;
+              var index = currentUrl.indexOf('#');
+              currentUrl = currentUrl.substr(0, index);
+              vote.jqAjax('/vote/${chainId}/jssdk_config?currentUrl=' + currentUrl, '', function(json) {
+                  var data = json.data;
+                  wx.config({
+                      debug: true,
+                      appId: data.appId,
+                      timestamp: Number(data.timestamp),
+                      nonceStr: data.nonce,
+                      signature: data.signature,
+                      jsApiList: [
+                          'onMenuShareTimeline',
+                          'onMenuShareAppMessage',
+                          'previewImage',
+                      ]
+                  });
+                  callback && callback();
+              }, function() {}, 'GET', '');
           }
       }
 
@@ -147,7 +168,8 @@
           endTimeLoop: opt.endTimeLoop,
           isOver: opt.isOver,
           jqAjax: opt.jqAjax,
-          wxShareCfg: opt.wxShareCfg
+          wxShareCfg: opt.wxShareCfg,
+          getWxCfg: opt.getWxCfg
       }
   })();
 

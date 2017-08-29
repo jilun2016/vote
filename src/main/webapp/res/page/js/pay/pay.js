@@ -58,6 +58,7 @@
                                          vote.loading.hide();
                                          if (res.err_msg == "get_brand_wcpay_request:ok") {
                                              alert('支付成功');
+                                             location.reload();
                                          } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
                                              message.msg("交易已取消");
                                              orderId = -1;
@@ -100,16 +101,16 @@
              build: function() {
                  payVm.top = userDetail;
                  opt.queryGiftList();
-
+                 var shareUrl = window.location.host + '/vote/' + chainId + '/v_user?userId=' + userDetail.userId;
                  vote.wxShareCfg({
-                     title: '分享标题',
-                     link: '分享链接',
-                     imgUrl: 'imgUrl',
+                     title: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                     link: shareUrl,
+                     imgUrl: userDetail.headPic
                  }, {
-                     title: '分享标题',
-                     desc: '分享描述',
-                     link: '享链接',
-                     imgUrl: '分享图标',
+                     title: '投她一票',
+                     desc: '<' + userDetail.name + '>参加了cxxx活动，等待你的支持，快去给Ta投票吧～',
+                     link: shareUrl,
+                     imgUrl: userDetail.headPic,
                  });
              }
          };

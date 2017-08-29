@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <a class="pay-btn" ms-click="methods.pay()" href="javasscript:;; " style="cursor:pointer;">去支付</a>
+                <a class="pay-btn" ms-click="methods.pay()" href="javascript:;; " style="cursor:pointer;">去支付</a>
 
                 <%@ include file="./common/footer.jsp" %>
                     <script src="/res/page/js/pay/pay.js<%=CDN_VERSION%>"></script>
