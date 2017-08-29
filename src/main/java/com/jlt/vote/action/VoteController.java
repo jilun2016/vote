@@ -75,8 +75,8 @@ public class VoteController {
         Map<String, Object> awardResultMap = new HashMap<>();
         awardResultMap.put("campaignAwards", campaignAwards);
         awardResultMap.put("chainId", chainId);
-        awardResultMap.put("campaignRule", campaignService.queryCampaignRule(chainId));
         model.addAttribute("campaignDetail", JSON.toJSONString(awardResultMap));
+        model.addAttribute("campaignRule", campaignService.queryCampaignRule(chainId));
         return "award";
     }
 
