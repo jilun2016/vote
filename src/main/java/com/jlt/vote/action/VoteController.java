@@ -239,5 +239,11 @@ public class VoteController {
         return "end";
     }
 
+    @RequestMapping(value = "/vote/v_info", method= RequestMethod.GET)
+    public String v_info(HttpServletRequest request ,HttpServletResponse response){
+        logger.info("--------------/vote/v_info({})--------------------");
+        return "info";
+    }
+
 
 }

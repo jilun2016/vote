@@ -73,8 +73,7 @@
                  }, 'POST', false);
              },
              queryUserDetail: function() {
-                 alert('改变请求地址吧');
-                 vote.jqAjax('detail', '', function(res) {
+                 vote.jqAjax('user/' + userVm.userId, '', function(res) {
                      var data = res.data;
                      userVm.top.voteCount = data.voteCount || 0;
                      userVm.top.viewCount = data.viewCount || 0;
@@ -82,16 +81,15 @@
                  }, function(err) {}, 'GET', false);
              },
              build: function() {
-                 if (vote.isOver()) {
-                     message.msg('活动已结束,期待其他投票活动');
-                 }
-
                  var shareUrl = window.location.href;
                  var fromIndex = shareUrl.indexOf('&from');
                  if (fromIndex > 0) {
                      shareUrl = shareUrl.substr(0, fromIndex);
                      window.location.href = shareUrl;
                  } else {
+                     if (vote.isOver()) {
+                         message.msg('活动已结束,期待其他投票活动');
+                     }
                      userVm.isover = vote.isOver();
                      userVm.userId = vote.getQueryString('userId');
                      userVm.top = userDetail;

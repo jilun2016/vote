@@ -100,6 +100,11 @@
                      shareUrl = shareUrl.substr(0, fromIndex);
                      window.location.href = shareUrl;
                  } else {
+                     if (vote.isOver()) {
+                         indexVm.time.text = '活动已结束';
+                         message.msg('活动已结束,期待其他投票活动');
+                     }
+
                      indexVm.top.signCount = campaignDetail.signCount || 0;
                      indexVm.top.viewCount = campaignDetail.viewCount || 0;
                      indexVm.top.voteCount = campaignDetail.voteCount || 0;
@@ -125,11 +130,6 @@
                          });
                      });
                      opt.queryVoteDetail();
-                 }
-
-                 if (vote.isOver()) {
-                     indexVm.time.text = '活动已结束';
-                     message.msg('活动已结束,期待其他投票活动');
                  }
              }
          };

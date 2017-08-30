@@ -76,8 +76,7 @@
                                       break;
                                   case 403:
                                       {
-                                          //window.location.href = 活动宣传页面
-                                          alert('活动宣传页面')
+                                          window.location.href = '/vote/v_info';
                                       }
                                       break;
                                   default:
