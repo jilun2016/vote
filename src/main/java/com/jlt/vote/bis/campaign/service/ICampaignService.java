@@ -82,6 +82,15 @@ public interface ICampaignService {
     Map<String,Object> queryUserDetail(Long chainId, Long userId);
 
     /**
+     * 查询用户基本详情
+     * 活动 用户热度 不变
+     * @param chainId 店铺标识
+     * @param userId 用户标识
+     * @return
+     */
+    Map<String,Object> queryUserBaseDetail(Long chainId, Long userId);
+
+    /**
      * 校验活动用户是否存在
      * @param chainId 店铺标识
      * @param userId 用户标识

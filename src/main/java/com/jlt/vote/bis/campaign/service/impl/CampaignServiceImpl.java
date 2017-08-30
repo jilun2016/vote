@@ -252,6 +252,33 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
+	public Map<String, Object> queryUserBaseDetail(Long chainId, Long userId) {
+		Map<String,Object> result = new HashMap<>();
+		Map<String,Object> userDetailMap = redisDaoSupport.hgetAll(CacheConstants.VOTE_USER_DETAIL+userId);
+		List userPicList = redisDaoSupport.getList(CacheConstants.VOTE_USER_PICS+userId, UserPicVo.class);
+		if((MapUtils.isEmpty(userDetailMap))||(ListUtil.isEmpty(userPicList))){
+			Ssqb queryUsersSqb = Ssqb.create("com.jlt.vote.queryUserDetail")
+					.setParam("chainId",chainId)
+					.setParam("userId",userId);
+			UserDetailVo userDetail = baseDaoSupport.findForObj(queryUsersSqb,UserDetailVo.class);
+			result.put("name",userDetail.getName());
+			result.put("number",userDetail.getNumber());
+			result.put("userId",userDetail.getUserId());
+			result.put("giftPoint",userDetail.getGiftPoint());
+			result.put("viewCount",userDetail.getViewCount());
+			result.put("voteCount",userDetail.getVoteCount());
+			result.put("headPic",userDetail.getHeadPic());
+			redisDaoSupport.set(CacheConstants.VOTE_USER_PICS+userId,userDetail.getUserPicVos());
+			redisDaoSupport.hmset(CacheConstants.VOTE_USER_DETAIL+userId,result);
+			result.put("userPicVos",userDetail.getUserPicVos());
+		}else{
+			result.put("userPicVos",userPicList);
+			result.putAll(userDetailMap);
+		}
+		return result;
+	}
+
+	@Override
 	public boolean checkUserExist(Long chainId, Long userId) {
 		Map<String,Object> userDetailMap = redisDaoSupport.hgetAll(CacheConstants.VOTE_USER_DETAIL+userId);
 		if(MapUtils.isEmpty(userDetailMap)){

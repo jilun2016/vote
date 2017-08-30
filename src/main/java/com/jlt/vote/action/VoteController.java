@@ -9,6 +9,7 @@ import com.jlt.vote.util.WebUtils;
 import com.jlt.vote.validation.ValidateFiled;
 import com.jlt.vote.validation.ValidateGroup;
 import com.xcrm.log.Logger;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -72,6 +73,24 @@ public class VoteController {
         userDetail.put("chainId",chainId);
         model.addAttribute("userDetail", JSON.toJSONString(userDetail));
         return "user";
+    }
+
+    /**
+     * 获取用户详情
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value ="/vote/{chainId}/user/{userId}",method = {RequestMethod.GET})
+    public void queryUserBaseInfo(@PathVariable Long chainId, @PathVariable Long userId,
+                         HttpServletRequest request, HttpServletResponse response,ModelMap model){
+        logger.info("VoteController.queryUserBaseInfo({},{})",chainId,userId);
+        //通过chainId userId查询用户详情
+        Map<String,Object> userBaseDetail = campaignService.queryUserBaseDetail(chainId,userId);
+        Map<String,Object> userDetailResult = new HashMap<>();
+        userDetailResult.put("giftPoint",MapUtils.getObject(userBaseDetail,"giftPoint"));
+        userDetailResult.put("viewCount",MapUtils.getObject(userBaseDetail,"viewCount"));
+        userDetailResult.put("voteCount",MapUtils.getObject(userBaseDetail,"voteCount"));
+        ResponseUtils.createSuccessResponse(response,userDetailResult);
     }
 
     /**
