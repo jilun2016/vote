@@ -34,7 +34,7 @@
                                         <span class="icon-box"> <img ms-attr="{src: @item.headPic}"> </span>
                                         <div class="inner">
                                             <div class="inner-title" ms-text="item.name +' ' + item.number +'号' "></div>
-                                            <div class="inner-content" ms-text="'票数:' + item.voteCount + ' 礼物:' + item.giftPoint + '点'"></div>
+                                            <div class="inner-content" ms-text="'票数:' + item.voteCount "></div>
                                         </div>
                                         <div class="num" ms-text="$index +1"></div>
                                     </a>

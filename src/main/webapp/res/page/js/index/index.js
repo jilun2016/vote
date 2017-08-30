@@ -12,7 +12,8 @@
              days: "00",
              hours: "00",
              minutes: "00",
-             seconds: "00"
+             seconds: "00",
+             text: '活动时间倒计时'
          },
          bottom: {
              sponsorIntro: '',
@@ -116,6 +117,11 @@
                          });
                      });
 
+                 }
+
+                 if (vote.isOver()) {
+                     indexVm.timer.text = '活动已结束';
+                     message.msg('活动已结束,期待其他投票活动');
                  }
              }
          };
