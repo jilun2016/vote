@@ -46,20 +46,16 @@
                         </div>
                     </div>
                     <div class="search-input">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <form class="form-inline">
-                                    <div class="form-group">
-                                        <div class="col-xs-8" style="padding-right: 0;">
-                                            <input type="text" class="form-control" placeholder="请输入编号或姓名" maxlength="8" ms-duplex="queryKey">
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <button type="button" class="btn btn-default btn-block" ms-click="methods.rearch()">搜索</button>
-                                        </div>
-                                    </div>
-                                </form>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <div class="col-xs-8" style="padding-right: 0;">
+                                    <input type="text" class="form-control" placeholder="请输入编号或姓名" maxlength="8" ms-duplex="queryKey">
+                                </div>
+                                <div class="col-xs-4">
+                                    <button type="button" class="btn btn-default btn-block" ms-click="methods.rearch()">搜索</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
 
                     <div class="wrapper">
