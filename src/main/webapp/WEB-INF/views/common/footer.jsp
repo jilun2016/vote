@@ -14,3 +14,28 @@
     </div>
 
     <script src="https://pic.jilunxing.com/vote/lib-2b1856e7be.min.js"></script>
+
+
+    <script>
+        //可以点击浏览对应图片
+        $(document).ready(function() {
+            var currentUrl = window.location.href;
+            vote.jqAjax('/vote/${chainId}/jssdk_config', 'currentUrl=' + currentUrl, function(json) {
+                var data = json.data;
+                wx.config({
+                    debug: true,
+                    appId: data.appId,
+                    timestamp: Number(data.timestamp),
+                    nonceStr: data.nonce,
+                    signature: data.signature,
+                    jsApiList: [
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'previewImage',
+                    ]
+                });
+            }, function(err) {
+                console.log(err)
+            }, 'GET', false);
+        });
+    </script>
