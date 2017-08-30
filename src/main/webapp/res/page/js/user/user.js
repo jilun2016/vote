@@ -16,6 +16,9 @@
              },
              more: function() {
                  userOpt.queryGifts();
+             },
+             close: function() {
+                 userOpt.modal.hide();
              }
          }
      });
@@ -25,6 +28,10 @@
      //未达到 10条  隐藏 加载更多
      var userOpt = (function() {
          var opt = {
+             modal: {
+                 show: function() { document.getElementById('divResultModal').style.display = ''; },
+                 hide: function() { document.getElementById('divResultModal').style.display = 'none'; }
+             },
              queryGifts: function() {
                  vote.loading.show();
                  var param = {
@@ -57,13 +64,21 @@
              send: function() {
                  vote.loading.show();
                  vote.jqAjax('common_vote', 'userId=' + userVm.userId, function(res) {
-                     message.msg('投票成功.');
-                     location.reload();
+                     opt.modal.show();
+                     opt.queryUserDetail();
                      vote.loading.hide();
                  }, function(err) {
                      console.log(err)
                      vote.loading.hide();
                  }, 'POST', false);
+             },
+             queryUserDetail: function() {
+                 alert('改变请求地址吧');
+                 vote.jqAjax('detail', '', function(res) {
+                     var data = res.data;
+                     userVm.top.voteCount = data.voteCount || 0;
+                     userVm.top.viewCount = data.viewCount || 0;
+                 }, function(err) {}, 'GET', false);
              },
              build: function() {
                  if (vote.isOver()) {
@@ -100,6 +115,7 @@
              build: opt.build,
              queryGifts: opt.queryGifts,
              send: opt.send,
+             modal: opt.modal,
          }
      })();
 

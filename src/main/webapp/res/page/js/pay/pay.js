@@ -11,6 +11,7 @@
          giftId: 0,
          amount: 1,
          curIndex: -1,
+         isover: false, //是否结束
          methods: {
              itemClick: function(index) {
                  try {
@@ -99,6 +100,10 @@
                  }, function(err) { vote.loading.hide(); }, 'GET', false);
              },
              build: function() {
+                 if (vote.isOver()) {
+                     message.msg('活动已结束,期待其他投票活动');
+                 }
+                 payVm.isover = vote.isOver();
                  payVm.top = userDetail;
                  opt.queryGiftList();
                  var shareUrl = window.location.host + '/vote/' + chainId + '/v_user?userId=' + userDetail.userId;
