@@ -14,6 +14,12 @@ public interface CacheConstants {
 	String CAMPAIGN_BASE = "cb_";
 
 	/**
+	 * cache 投票活动结束
+	 * 使用实例: cf_{chainId}
+	 */
+	String CAMPAIGN_FINISH = "cf_";
+
+	/**
 	 * cache 投票活动规则
 	 * 使用实例: cr_{chainId}
 	 */

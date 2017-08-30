@@ -7,6 +7,7 @@ import com.xcrm.cloud.database.db.query.Ssqb;
 import com.xcrm.common.util.DateFormatUtils;
 import com.xcrm.log.Logger;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -34,6 +35,8 @@ public class VoteInterceptor implements HandlerInterceptor {
 
     //非微信登陆
     private String voteNowxUrl = "/vote/v_nowx";
+
+    private String campaignFinishUrl = "/vote/end";
 
     private String[] excludeUrls = {"/auth/callback", "/pay/callback", "/v_nowx"};
 
@@ -77,10 +80,20 @@ public class VoteInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        if(special(uri)
+                &&BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
+            RequestUtils.issueRedirect(request, response, campaignFinishUrl);
+            return false;
+        }
         Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
         if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
                 && ((uri.indexOf("common_vote") > 0)
                 || (uri.indexOf("/pay/prepay") > 0))) {
+            if(BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
+                ResponseUtils.createSuccessResponse(response, "活动已结束.");
+                return false;
+            }
+
             //POST方法保护
             //如果cookie openId为空,而且是投票post请求,那么重新授权
             if (Objects.isNull(cookieFromOpenId)) {

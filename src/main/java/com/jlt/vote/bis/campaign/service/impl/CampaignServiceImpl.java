@@ -105,7 +105,23 @@ public class CampaignServiceImpl implements ICampaignService {
         return campaignMap;
     }
 
-	@Override
+    @Override
+    public boolean checkCampaignFinish(Long chainId) {
+        Integer campaignFinishFlag = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_FINISH+chainId);
+        if(Objects.isNull(campaignFinishFlag)){
+            Map<String,Object> campaignMap = queryCampaignInfo(chainId);
+            Date endTime = (Date) MapUtils.getObject(campaignMap,"endTime");
+            if(!endTime.after(DateFormatUtils.getNow())){
+                redisDaoSupport.setInt(CacheConstants.CAMPAIGN_FINISH+chainId,1);
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
 	public String queryCampaignRule(Long chainId) {
 		String campaignRule = redisDaoSupport.get(CacheConstants.CAMPAIGN_RULE+chainId,String.class);
 		if(StringUtils.isEmpty(campaignRule)){
