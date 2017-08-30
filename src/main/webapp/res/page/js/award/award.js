@@ -20,6 +20,10 @@
              },
              build: function() {
 
+                 if (vote.isOver()) {
+                     message.msg('活动已结束,期待其他投票活动');
+                 }
+
                  awardVm.campaignRule = $("#campaignRule").val();
                  opt.query();
                  var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/home';

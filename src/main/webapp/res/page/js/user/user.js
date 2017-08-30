@@ -66,6 +66,10 @@
                  }, 'POST', false);
              },
              build: function() {
+                 if (vote.isOver()) {
+                     message.msg('活动已结束,期待其他投票活动');
+                 }
+
                  var shareUrl = window.location.href;
                  var fromIndex = shareUrl.indexOf('&from');
                  if (fromIndex > 0) {
