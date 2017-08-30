@@ -47,6 +47,17 @@ public class VoteController {
     }
 
     /**
+     * 首页登陆
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value ="/vote/{chainId}/detail",method = {RequestMethod.GET})
+    public void queryCampaignInfo(@PathVariable Long chainId, HttpServletRequest request, HttpServletResponse response,ModelMap model){
+        logger.info("VoteController.queryCampaignInfo,chainId:{}",chainId);
+        ResponseUtils.createSuccessResponse(response,campaignService.queryCampaignDetail(chainId));
+    }
+
+    /**
      * 用户详情落地页
      * @param request
      * @param response
