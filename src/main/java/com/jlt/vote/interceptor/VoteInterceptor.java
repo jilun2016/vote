@@ -38,7 +38,7 @@ public class VoteInterceptor implements HandlerInterceptor {
 
     private String campaignFinishUrl = "/vote/v_end";
 
-    private String[] excludeUrls = {"/auth/callback", "/pay/callback", "/v_nowx"};
+    private String[] excludeUrls = {"/auth/callback", "/pay/callback", "/v_nowx","v_end"};
 
     private String[] specialUrls = {"/pay/v_pay"};
 

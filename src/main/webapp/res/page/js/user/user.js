@@ -78,6 +78,7 @@
                      var data = res.data;
                      userVm.top.voteCount = data.voteCount || 0;
                      userVm.top.viewCount = data.viewCount || 0;
+                     userVm.top.giftPoint = data.giftPoint || 0;
                  }, function(err) {}, 'GET', false);
              },
              build: function() {
