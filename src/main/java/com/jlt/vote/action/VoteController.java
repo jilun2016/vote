@@ -41,13 +41,14 @@ public class VoteController {
         logger.info("VoteController.v_home,chainId:{}",chainId);
         //通过chainId 查询 发起人信息
         Map<String ,Object> campaignDetail = campaignService.queryCampaignDetail(chainId);
+        campaignDetail.remove("sponsorIntro");
         campaignDetail.put("chainId",chainId);
         model.addAttribute("campaignDetail", JSON.toJSONString(campaignDetail));
         return "index";
     }
 
     /**
-     * 首页登陆
+     * 查询活动详情接口
      * @param request
      * @param response
      */

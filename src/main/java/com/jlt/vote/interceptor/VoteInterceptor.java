@@ -1,7 +1,9 @@
 package com.jlt.vote.interceptor;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
+import com.jlt.vote.bis.campaign.vo.CampaignDetailVo;
 import com.jlt.vote.util.*;
+import com.xcrm.cloud.database.db.query.Ssqb;
 import com.xcrm.common.util.DateFormatUtils;
 import com.xcrm.log.Logger;
 import org.apache.commons.collections.MapUtils;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -169,8 +172,9 @@ public class VoteInterceptor implements HandlerInterceptor {
                 ResponseUtils.createForbiddenResponse(response, "活动不存在");
                 return;
             }
-            Map<String, Object> campaignInfoMap = campaignService.getCampaignInfoMap(chainId);
-            mav.addObject("campaignEndTime", ((Date)campaignInfoMap.get("endTime")).getTime());
+            Map<String, Object> campaignInfoMap = campaignService.queryCampaignInfo(chainId);
+            Date endTime = (Date) MapUtils.getObject(campaignInfoMap,"endTime");
+            mav.addObject("campaignEndTime", endTime.getTime());
             mav.addObject("campaignName", MapUtils.getString(campaignInfoMap,"campaignName"));
             mav.addObject("sponsorPic", MapUtils.getString(campaignInfoMap,"sponsorPic"));
         }

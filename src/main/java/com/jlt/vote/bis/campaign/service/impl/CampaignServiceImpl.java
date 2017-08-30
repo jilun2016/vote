@@ -82,6 +82,29 @@ public class CampaignServiceImpl implements ICampaignService {
 		return campaignMap;
 	}
 
+    @Override
+    public Map<String, Object> queryCampaignInfo(Long chainId) {
+        Map<String ,Object> campaignMap = redisDaoSupport.hgetAll(CacheConstants.CAMPAIGN_BASE+chainId);
+        if(MapUtils.isEmpty(campaignMap)) {
+            if (campaignMap == null) {
+                campaignMap = new HashMap<>();
+            }
+            Ssqb queryDetailSqb = Ssqb.create("com.jlt.vote.queryCampaignDetail").setParam("chainId",chainId);
+            CampaignDetailVo campaignDetail = baseDaoSupport.findForObj(queryDetailSqb,CampaignDetailVo.class);
+            campaignMap.put("campaignName",campaignDetail.getCampaignName());
+            campaignMap.put("sponsorPic",campaignDetail.getSponsorPic());
+            campaignMap.put("signCount",campaignDetail.getSignCount());
+            campaignMap.put("voteCount",campaignDetail.getVoteCount());
+            campaignMap.put("startTime",campaignDetail.getStartTime());
+            campaignMap.put("sponsorIntro",campaignDetail.getSponsorIntro());
+            campaignMap.put("endTime",campaignDetail.getEndTime());
+            campaignMap.put("sponsorPicUrls",campaignDetail.getSponsorPicUrls());
+            campaignMap.put("viewCount",campaignDetail.getViewCount());
+            redisDaoSupport.hmset(CacheConstants.CAMPAIGN_BASE+chainId,campaignMap);
+        }
+        return campaignMap;
+    }
+
 	@Override
 	public String queryCampaignRule(Long chainId) {
 		String campaignRule = redisDaoSupport.get(CacheConstants.CAMPAIGN_RULE+chainId,String.class);
@@ -416,32 +439,6 @@ public class CampaignServiceImpl implements ICampaignService {
 		Ssqb queryRankSqb = Ssqb.create("com.jlt.vote.getVoteRank")
 				.setParam("chainId",chainId);
 		return baseDaoSupport.findForMapList(queryRankSqb);
-	}
-
-	@Override
-	public Map<String, Object> getCampaignInfoMap(Long chainId) {
-		Map<String ,Object> campaignInfoMap = new HashMap<>();
-		Date startTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"startTime");
-		Date endTime = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"endTime");
-        String campaignName = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"campaignName");
-        String sponsorPic = redisDaoSupport.hget(CacheConstants.CAMPAIGN_BASE+chainId,"sponsorPic");
-		if((Objects.nonNull(startTime))
-                &&(Objects.nonNull(endTime))
-                &&(StringUtils.isNotEmpty(campaignName))
-                &&(StringUtils.isNotEmpty(sponsorPic))){
-            campaignInfoMap.put("startTime",startTime);
-            campaignInfoMap.put("endTime",endTime);
-            campaignInfoMap.put("campaignName",campaignName);
-            campaignInfoMap.put("sponsorPic",sponsorPic);
-		}else{
-			Ssqb queryDetailSqb = Ssqb.create("com.jlt.vote.queryCampaignDetail").setParam("chainId",chainId);
-			CampaignDetailVo campaignDetail = baseDaoSupport.findForObj(queryDetailSqb,CampaignDetailVo.class);
-            campaignInfoMap.put("startTime",campaignDetail.getStartTime());
-            campaignInfoMap.put("endTime",campaignDetail.getEndTime());
-            campaignInfoMap.put("campaignName",campaignDetail.getCampaignName());
-            campaignInfoMap.put("sponsorPic",campaignDetail.getSponsorPic());
-		}
-		return  campaignInfoMap;
 	}
 
 	@Override

@@ -25,6 +25,13 @@ public interface ICampaignService {
     Map<String ,Object> queryCampaignDetail(Long chainId);
 
     /**
+     * 查询活动信息
+     * @param chainId
+     * @return
+     */
+    Map<String,Object> queryCampaignInfo(Long chainId);
+
+    /**
      * 查询活动规则
      * @param chainId 店铺标识
      */
@@ -152,13 +159,6 @@ public interface ICampaignService {
      * @return
      */
     List<Map<String,Object>> getVoteRank(Long chainId);
-
-    /**
-     * 查询活动信息
-     * @param chainId
-     * @return
-     */
-    Map<String,Object> getCampaignInfoMap(Long chainId);
 
     /**
      * 删除所有redis的key
