@@ -67,7 +67,7 @@
                                     <div class="item-ticket-num"><span class="ticket-num" ms-text="item.voteCount"></span>票</div>
                                 </div>
                                 <img ms-attr="{src: @item.headPic}">
-                                <a class="ticket-link" href="javascript:;;">为TA拉票</a>
+                                <!-- <a class="ticket-link" href="javascript:;;">为TA拉票</a> -->
                                 <div class="ticket-btn">
                                     <a class="btn btn-block btn-red" ms-attr="{href:'v_user?userId='+ @item.userId}">给TA投票</a>
                                 </div>

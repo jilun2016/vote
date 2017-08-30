@@ -12,7 +12,8 @@
         var campaignDetail = '${campaignDetail}';
         campaignDetail = campaignDetail && JSON.parse('${campaignDetail}');
         var appId = 'wx54e7794a0657d2c7';
-
+        var campaignName = '${campaignName}';
+        var sponsorPic = '${sponsorPic}';
         var openId = '${openId}';
         var chainId = '${chainId}';
     </script>
