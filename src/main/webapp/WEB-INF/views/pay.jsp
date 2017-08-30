@@ -70,7 +70,9 @@
                         </div>
                     </div>
                 </div>
-                <a class="pay-btn" ms-click="methods.pay()" href="javascript:;; " style="cursor:pointer;">去支付</a>
+
+                <a ms-if="!isover" class="pay-btn" ms-click="methods.pay()" href="javascript:;;" style="cursor:pointer;">去支付</a>
+                <a ms-if="isover" class="pay-btn" href="javascript:alert('活动已结束.')" style="cursor:pointer;">去支付</a>
 
                 <%@ include file="./common/footer.jsp" %>
                     <script src="/res/page/js/pay/pay.js<%=CDN_VERSION%>"></script>
