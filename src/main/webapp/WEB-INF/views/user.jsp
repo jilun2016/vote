@@ -58,11 +58,7 @@
                                     </a>
                                 </li>
                                 <li ms-if="isMore">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button type="button" class="btn btn-default btn-block" ms-click="methods.more()">加载更多</button>
-                                        </div>
-                                    </div>
+                                    <button type="button" class="btn btn-default btn-block" ms-click="methods.more()">加载更多</button>
                                 </li>
                                 <li ms-if="giftList.length==0">
                                     <div class="empty-box">

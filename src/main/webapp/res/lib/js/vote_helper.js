@@ -145,7 +145,7 @@
                   var data = json.data;
                   if (data) {
                       wx.config({
-                          debug: true,
+                          debug: false,
                           appId: data.appId,
                           timestamp: Number(data.timestamp),
                           nonceStr: data.nonce,
