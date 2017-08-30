@@ -85,6 +85,14 @@
                      }
                  }
              },
+             queryVoteDetail: function() {
+                 vote.jqAjax('detail', '', function(res) {
+                     var data = res.data;
+                     indexVm.top.signCount = data.signCount || 0;
+                     indexVm.top.viewCount = data.viewCount || 0;
+                     indexVm.top.voteCount = data.voteCount || 0;
+                 }, function(err) {}, 'GET', false);
+             },
              build: function() {
                  var shareUrl = window.location.href;
                  var fromIndex = shareUrl.indexOf('?from');
@@ -116,11 +124,11 @@
                              imgUrl: sponsorPic,
                          });
                      });
-
+                     opt.queryVoteDetail();
                  }
 
                  if (vote.isOver()) {
-                     indexVm.timer.text = '活动已结束';
+                     indexVm.time.text = '活动已结束';
                      message.msg('活动已结束,期待其他投票活动');
                  }
              }

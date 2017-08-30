@@ -66,7 +66,7 @@
                                     <span ms-text="item.name"></span>
                                     <div class="item-ticket-num"><span class="ticket-num" ms-text="item.voteCount"></span>票</div>
                                 </div>
-                                <img ms-attr="{src: @item.headPic}">
+                                <img ms-attr="{src: @item.headPic }">
                                 <!-- <a class="ticket-link" href="javascript:;;">为TA拉票</a> -->
                                 <div class="ticket-btn">
                                     <a class="btn btn-block btn-red" ms-attr="{href:'v_user?userId='+ @item.userId}">给TA投票</a>
@@ -76,11 +76,7 @@
                     </div>
 
                     <div class="search-input" ms-if="isShowMore">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="button" class="btn btn-default btn-block" ms-click="methods.more()">加载更多</button>
-                            </div>
-                        </div>
+                        <button type="button" class="btn btn-default btn-block" ms-click="methods.more()">加载更多</button>
                     </div>
 
                     <div class="rule">
