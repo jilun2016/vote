@@ -36,7 +36,7 @@ public class VoteInterceptor implements HandlerInterceptor {
     //非微信登陆
     private String voteNowxUrl = "/vote/v_nowx";
 
-    private String campaignFinishUrl = "/vote/end";
+    private String campaignFinishUrl = "/vote/v_end";
 
     private String[] excludeUrls = {"/auth/callback", "/pay/callback", "/v_nowx"};
 

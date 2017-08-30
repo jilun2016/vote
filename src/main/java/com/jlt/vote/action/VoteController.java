@@ -214,5 +214,11 @@ public class VoteController {
         ResponseUtils.defaultSuccessResponse(response);
     }
 
+    @RequestMapping(value = "/vote/v_end", method= RequestMethod.GET)
+    public String v_end(HttpServletRequest request ,HttpServletResponse response){
+        logger.info("--------------/vote/v_end({})--------------------");
+        return "end";
+    }
+
 
 }
