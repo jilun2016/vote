@@ -44,7 +44,7 @@ public class VoteInterceptor implements HandlerInterceptor {
 
     private String[] specialUrls = {"/pay/v_pay"};
 
-    private String[] wxRedirectUrls = {"/home","/v_user"};
+    private String[] wxRedirectUrls = {"/{0}/home","/{0}/v_user"};
 
     @Autowired
     private ICampaignService campaignService;
@@ -56,7 +56,6 @@ public class VoteInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String agent = request.getHeader("user-agent");
-
         String uri = getURI(request);
         //授权回调排除
         if (exclude(uri)) {
@@ -96,7 +95,7 @@ public class VoteInterceptor implements HandlerInterceptor {
 
         Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
         //首页,用户详情页 增加跳转授权
-        if(wxRedirect(uri)
+        if(wxRedirect(chainId,uri)
                 &&BooleanUtils.isNotTrue(campaignService.checkCampaignFinish(chainId))){
             if (Objects.isNull(cookieFromOpenId)) {
                 String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,request.getRequestURI());
@@ -186,10 +185,10 @@ public class VoteInterceptor implements HandlerInterceptor {
         return false;
     }
 
-    private boolean wxRedirect(String uri) {
+    private boolean wxRedirect(Long chainId,String uri) {
         if (wxRedirectUrls != null) {
             for (String wxRedirectUrl : wxRedirectUrls) {
-                if (wxRedirectUrl.equals(uri)) {
+                if (uri.equals(MessageFormat.format(wxRedirectUrl,String.valueOf(chainId)))) {
                     return true;
                 }
             }
