@@ -100,6 +100,7 @@ public class VoteInterceptor implements HandlerInterceptor {
             if (Objects.isNull(cookieFromOpenId)) {
                 String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,request.getRequestURL().toString());
                 response.sendRedirect(wxAuthUrl);
+                return false;
             }
         }
 
