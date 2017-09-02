@@ -12,6 +12,7 @@
          amount: 1,
          curIndex: -1,
          isover: false, //是否结束
+         campaignScroll: campaignScroll,
          methods: {
              itemClick: function(index) {
                  try {
@@ -101,8 +102,10 @@
              },
              build: function() {
                  if (vote.isOver()) {
+                     payVm.campaignScroll = '活动已结束';
                      message.msg('活动已结束,期待其他投票活动');
                  }
+                 payVm
                  payVm.isover = vote.isOver();
                  payVm.top = userDetail;
                  opt.queryGiftList();

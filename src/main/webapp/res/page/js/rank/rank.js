@@ -9,7 +9,8 @@
              seconds: "00",
              text: '活动时间倒计时'
          },
-         list: []
+         list: [],
+         campaignScroll: campaignScroll
      });
      //未达到 10条  隐藏 加载更多
      var rankOpt = (function() {
@@ -56,6 +57,7 @@
                  if (vote.isOver()) {
                      rankVm.time.text = '活动已结束';
                      message.msg('活动已结束,期待其他投票活动');
+                     rankVm.campaignScroll = '活动已结束';
                  }
                  opt.timer.creat();
                  opt.queryRanks();

@@ -17,6 +17,9 @@
 
             <body ms-controller="user">
                 <div class="content">
+                    <div class="remind-info" ms-if="campaignScroll" style="position:inherit;">
+                        <marquee scrollamount="8" scrolldelay="30" direction="left">${campaignScroll}</marquee>
+                    </div>
                     <div class="show-info">
                         <div class="user-info">
                             <span class="icon-box "> 
