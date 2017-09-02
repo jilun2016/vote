@@ -15,7 +15,7 @@
                  }
 
                  awardVm.campaignRule = $("#campaignRule").val();
-                 awardVm.list = campaignAwards;
+                 awardVm.list = campaignAwards.campaignAwards;
 
                  var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/home';
                  vote.getWxCfg(window.location.href, function() {
