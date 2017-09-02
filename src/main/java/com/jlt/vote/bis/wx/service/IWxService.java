@@ -14,6 +14,13 @@ import com.jlt.vote.bis.wx.vo.GiftWxPrePayOrder;
 public interface IWxService {
 
     /**
+     * 生成微信授权跳转url
+     * @param chainId
+     * @param redirectUrl
+     */
+    String buildWxAuthRedirect(Long chainId,String redirectUrl);
+
+    /**
      * 生成跳转至第三方支付平台的html和脚本
      * @param giftWxPrePayOrder 可支付的对象
      * @return 跳转到第三方支付平台的html和脚本

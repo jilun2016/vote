@@ -26,6 +26,7 @@ import com.jlt.vote.bis.wx.vo.GiftWxPrePayOrder;
 import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.exception.VoteRuntimeException;
 import com.jlt.vote.util.CommonConstants;
+import com.jlt.vote.util.HTTPUtil;
 import com.xcrm.cloud.database.db.BaseDaoSupport;
 import com.xcrm.cloud.database.db.query.QueryBuilder;
 import com.xcrm.cloud.database.db.query.Ssqb;
@@ -39,7 +40,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -76,6 +79,19 @@ public class WxServiceImpl implements IWxService {
 
     @Autowired
     private BaseDaoSupport baseDaoSupport;
+
+    @Override
+    public String buildWxAuthRedirect(Long chainId, String redirectUrl) {
+        StringBuilder wxAuthUrl = new StringBuilder(sysConfig.getWxAuthUrl());
+        wxAuthUrl.append("?appid=").append(sysConfig.getWxAppId());
+        wxAuthUrl.append("&redirect_uri=").append(URLEncoder.encode(sysConfig.getWxCallbackUrl()));
+        wxAuthUrl.append("&response_type=code");
+        wxAuthUrl.append("&scope=snsapi_userinfo");
+        String state = URLEncoder.encode(redirectUrl);
+        wxAuthUrl.append("&state=").append(state);
+        wxAuthUrl.append("#wechat_redirect");
+        return wxAuthUrl.toString();
+    }
 
     @Override
     public String jsOnPay(GiftWxPrePayOrder giftWxPrePayOrder) throws Exception {

@@ -2,6 +2,7 @@ package com.jlt.vote.interceptor;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.bis.campaign.vo.CampaignDetailVo;
+import com.jlt.vote.bis.wx.service.IWxService;
 import com.jlt.vote.util.*;
 import com.xcrm.cloud.database.db.query.Ssqb;
 import com.xcrm.common.util.DateFormatUtils;
@@ -18,6 +19,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,10 +44,13 @@ public class VoteInterceptor implements HandlerInterceptor {
 
     private String[] specialUrls = {"/pay/v_pay"};
 
-    private String[] wxRedirectUrl = {"/home","/v_user"};
+    private String[] wxRedirectUrls = {"/home","/v_user"};
 
     @Autowired
     private ICampaignService campaignService;
+
+    @Autowired
+    private IWxService wxService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -91,7 +96,13 @@ public class VoteInterceptor implements HandlerInterceptor {
 
         Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
         //首页,用户详情页 增加跳转授权
-
+        if(wxRedirect(uri)
+                &&BooleanUtils.isNotTrue(campaignService.checkCampaignFinish(chainId))){
+            if (Objects.isNull(cookieFromOpenId)) {
+                String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,request.getRequestURI());
+                response.sendRedirect(wxAuthUrl);
+            }
+        }
 
 
         if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
@@ -175,10 +186,10 @@ public class VoteInterceptor implements HandlerInterceptor {
         return false;
     }
 
-    private boolean wxRedirectUrl(String uri) {
-        if (specialUrls != null) {
-            for (String spec : specialUrls) {
-                if (spec.equals(uri)) {
+    private boolean wxRedirect(String uri) {
+        if (wxRedirectUrls != null) {
+            for (String wxRedirectUrl : wxRedirectUrls) {
+                if (wxRedirectUrl.equals(uri)) {
                     return true;
                 }
             }
