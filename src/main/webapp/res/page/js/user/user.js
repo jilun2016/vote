@@ -107,18 +107,19 @@
                              imgUrl: userDetail.headPic,
                          });
 
+                         var bullets = document.getElementById('scroll_position').getElementsByTagName('li');
                          var slider = Swipe(document.getElementById('scroll_img'), {
                              auto: 3000,
                              continuous: true,
                              callback: function(pos) {
-                                 var i = bullets.length;
-                                 while (i--) {
-                                     bullets[i].className = ' ';
+                                 $('#scroll_position li').removeClass('on');
+                                 if (bullets[pos]) {
+                                     $(bullets[pos]).addClass('on');
+                                 } else {
+                                     $(bullets[0]).addClass('on');
                                  }
-                                 bullets[pos].className = 'on';
                              }
                          });
-                         var bullets = document.getElementById('scroll_position').getElementsByTagName('li');
                          $(function() {
                              $('.scroll_position_bg').css({
                                  width: $('#scroll_position').width()

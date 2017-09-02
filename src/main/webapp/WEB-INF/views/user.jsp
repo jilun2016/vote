@@ -42,15 +42,12 @@
                         </ul>
                     </div>
                     <div class="show-img">
-                        <!-- <img ms-if="top.userPicVos.length>0" ms-attr="{src: top.userPicVos[0].picUrl}"> -->
                         <article>
                             <div class="scroll relative">
                                 <div class="scroll_box" id="scroll_img">
                                     <ul class="scroll_wrap">
-                                        <li ms-for="item in top.userPicVos">
-                                            <a href="javascript:;;">
-                                                <img ms-attr="{src: item.picUrl}" />
-                                            </a>
+                                        <li ms-for="(index,item) in top.userPicVos">
+                                            <a href="javascript:;;"><img ms-attr="{src: item.picUrl}" /></a>
                                         </li>
                                     </ul>
                                 </div>
