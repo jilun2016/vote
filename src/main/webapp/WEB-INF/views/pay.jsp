@@ -15,7 +15,7 @@
             <body ms-controller="pay">
                 <div class="content">
                     <div class="remind-info" ms-if="campaignScroll" style="position:inherit;">
-                        <marquee scrollamount="8" scrolldelay="30" direction="left">${campaignScroll}</marquee>
+                        <marquee scrollamount="6" scrolldelay="30" direction="left">${campaignScroll}</marquee>
                     </div>
                     <div class="gift-list">
                         <div class="gift-list-content">
