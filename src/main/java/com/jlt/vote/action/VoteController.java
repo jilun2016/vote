@@ -101,23 +101,23 @@ public class VoteController {
         Map<String, Object> awardResultMap = new HashMap<>();
         awardResultMap.put("campaignAwards", campaignAwards);
         awardResultMap.put("chainId", chainId);
-        model.addAttribute("campaignDetail", JSON.toJSONString(awardResultMap));
+        model.addAttribute("campaignAwards", JSON.toJSONString(awardResultMap));
         model.addAttribute("campaignRule", campaignService.queryCampaignRule(chainId));
         return "award";
     }
 
-    /**
-     * 查询活动奖品信息
-     * @param request
-     * @param response
-     */
-    @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
-    @RequestMapping(value ="/vote/{chainId}/award",method = {RequestMethod.GET})
-    public void queryCampaignAward(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.queryCampaignAward({})",chainId);
-        //通过chainId 查询 活动奖品信息
-        ResponseUtils.createSuccessResponse(response,campaignService.queryCampaignAward(chainId));
-    }
+//    /**
+//     * 查询活动奖品信息
+//     * @param request
+//     * @param response
+//     */
+//    @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id")})
+//    @RequestMapping(value ="/vote/{chainId}/award",method = {RequestMethod.GET})
+//    public void queryCampaignAward(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response){
+//        logger.info("VoteController.queryCampaignAward({})",chainId);
+//        //通过chainId 查询 活动奖品信息
+//        ResponseUtils.createSuccessResponse(response,campaignService.queryCampaignAward(chainId));
+//    }
 
     /**
      * 查询活动礼物信息

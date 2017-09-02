@@ -55,74 +55,74 @@ public class VoteInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        String agent = request.getHeader("user-agent");
-        String uri = getURI(request);
-        //授权回调排除
-        if (exclude(uri)) {
-            return true;
-        }
-
-        //判断是否微信登录,非微信登陆的话 跳转提示
-        if (!agent.toLowerCase().contains("micromessenger")) {
-            RequestUtils.issueRedirect(request, response, voteNowxUrl);
-            return false;
-        }
-
-        Long chainId = null;
-        try{
-            chainId = getChainId(request,uri);
-        }catch (Exception e){
-            logger.error("VoteInterceptor.preHandle error.uri:"+uri,e);
-            ResponseUtils.createForbiddenResponse(response, "活动不存在");
-            return false;
-        }
-
-        boolean isExist = campaignService.checkCampaignExist(chainId);
-
-        //如果活动不存在,跳转活动宣传页
-        if (!isExist) {
-            logger.error("VoteInterceptor.preHandle error.Campaign is not exist.uri is:{}",uri);
-            ResponseUtils.createForbiddenResponse(response, "活动不存在");
-            return false;
-        }
-
-        //如果活动结束,禁止访问礼物落地页
-        if(special(uri)
-                &&BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
-            RequestUtils.issueRedirect(request, response, campaignFinishUrl);
-            return false;
-        }
-
-        Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
-        //首页,用户详情页 增加跳转授权
-        if(wxRedirect(chainId,uri)
-                &&BooleanUtils.isNotTrue(campaignService.checkCampaignFinish(chainId))){
-            if (Objects.isNull(cookieFromOpenId)) {
-                String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,request.getRequestURI());
-                response.sendRedirect(wxAuthUrl);
-            }
-        }
-
-
-        if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
-                && ((uri.indexOf("common_vote") > 0)
-                || (uri.indexOf("/pay/prepay") > 0))) {
-            if(BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
-                ResponseUtils.createSuccessResponse(response, "活动已结束.");
-                return false;
-            }
-
-            //POST方法保护
-            //如果cookie openId为空,而且是投票post请求,那么重新授权
-            if (Objects.isNull(cookieFromOpenId)) {
-                logger.error("VoteInterceptor.preHandle error.cookieFromOpenId is null.uri is:{}",uri);
-                ResponseUtils.createUnauthorizedResponse(response, "数据不存在");
-                return false;
-            }
-        }
-        if(Objects.nonNull(cookieFromOpenId)){
-            WebUtils.setOpenId(request, cookieFromOpenId.getValue());
-        }
+//        String agent = request.getHeader("user-agent");
+//        String uri = getURI(request);
+//        //授权回调排除
+//        if (exclude(uri)) {
+//            return true;
+//        }
+//
+//        //判断是否微信登录,非微信登陆的话 跳转提示
+//        if (!agent.toLowerCase().contains("micromessenger")) {
+//            RequestUtils.issueRedirect(request, response, voteNowxUrl);
+//            return false;
+//        }
+//
+//        Long chainId = null;
+//        try{
+//            chainId = getChainId(request,uri);
+//        }catch (Exception e){
+//            logger.error("VoteInterceptor.preHandle error.uri:"+uri,e);
+//            ResponseUtils.createForbiddenResponse(response, "活动不存在");
+//            return false;
+//        }
+//
+//        boolean isExist = campaignService.checkCampaignExist(chainId);
+//
+//        //如果活动不存在,跳转活动宣传页
+//        if (!isExist) {
+//            logger.error("VoteInterceptor.preHandle error.Campaign is not exist.uri is:{}",uri);
+//            ResponseUtils.createForbiddenResponse(response, "活动不存在");
+//            return false;
+//        }
+//
+//        //如果活动结束,禁止访问礼物落地页
+//        if(special(uri)
+//                &&BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
+//            RequestUtils.issueRedirect(request, response, campaignFinishUrl);
+//            return false;
+//        }
+//
+//        Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
+//        //首页,用户详情页 增加跳转授权
+//        if(wxRedirect(chainId,uri)
+//                &&BooleanUtils.isNotTrue(campaignService.checkCampaignFinish(chainId))){
+//            if (Objects.isNull(cookieFromOpenId)) {
+//                String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,request.getRequestURI());
+//                response.sendRedirect(wxAuthUrl);
+//            }
+//        }
+//
+//
+//        if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
+//                && ((uri.indexOf("common_vote") > 0)
+//                || (uri.indexOf("/pay/prepay") > 0))) {
+//            if(BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
+//                ResponseUtils.createSuccessResponse(response, "活动已结束.");
+//                return false;
+//            }
+//
+//            //POST方法保护
+//            //如果cookie openId为空,而且是投票post请求,那么重新授权
+//            if (Objects.isNull(cookieFromOpenId)) {
+//                logger.error("VoteInterceptor.preHandle error.cookieFromOpenId is null.uri is:{}",uri);
+//                ResponseUtils.createUnauthorizedResponse(response, "数据不存在");
+//                return false;
+//            }
+//        }
+//        if(Objects.nonNull(cookieFromOpenId)){
+//            WebUtils.setOpenId(request, cookieFromOpenId.getValue());
+//        }
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
     }
 
