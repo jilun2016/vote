@@ -234,6 +234,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			result.put("viewCount",userDetail.getViewCount() + 1);
 			result.put("voteCount",userDetail.getVoteCount());
 			result.put("headPic",userDetail.getHeadPic());
+			result.put("declaration",userDetail.getDeclaration());
 			redisDaoSupport.set(CacheConstants.VOTE_USER_PICS+userId,userDetail.getUserPicVos());
 			redisDaoSupport.hmset(CacheConstants.VOTE_USER_DETAIL+userId,result);
 			result.put("userPicVos",userDetail.getUserPicVos());

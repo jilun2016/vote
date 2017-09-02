@@ -206,6 +206,7 @@ public class WxController {
         wxPrePayOrder.setGiftId(giftId);
         wxPrePayOrder.setGiftName(giftDetailVo.getGiftName());
         wxPrePayOrder.setUserId(userId);
+        wxPrePayOrder.setRemark(votePrepayRequest.getRemark());
         HashMap<String,Object> resultMap = new HashMap<String,Object>();
         try {
 

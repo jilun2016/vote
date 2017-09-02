@@ -62,6 +62,11 @@ public class UserGiftRecord {
     private Integer giftCount;
 
     /**
+     * 礼物备注
+     */
+    private String remark;
+
+    /**
      * 状态 1:正常 0:失效
      */
     private Boolean dataStatus;
@@ -153,6 +158,14 @@ public class UserGiftRecord {
 
     public void setGiftCount(Integer giftCount) {
         this.giftCount = giftCount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Boolean getDataStatus() {

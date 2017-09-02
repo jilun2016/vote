@@ -42,6 +42,8 @@ public class VoteInterceptor implements HandlerInterceptor {
 
     private String[] specialUrls = {"/pay/v_pay"};
 
+    private String[] wxRedirectUrl = {"/home","/v_user"};
+
     @Autowired
     private ICampaignService campaignService;
 
@@ -80,12 +82,18 @@ public class VoteInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        //如果活动结束,禁止访问礼物落地页
         if(special(uri)
                 &&BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
             RequestUtils.issueRedirect(request, response, campaignFinishUrl);
             return false;
         }
+
         Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
+        //首页,用户详情页 增加跳转授权
+
+
+
         if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
                 && ((uri.indexOf("common_vote") > 0)
                 || (uri.indexOf("/pay/prepay") > 0))) {
@@ -157,6 +165,17 @@ public class VoteInterceptor implements HandlerInterceptor {
     }
 
     private boolean special(String uri) {
+        if (specialUrls != null) {
+            for (String spec : specialUrls) {
+                if (spec.equals(uri)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean wxRedirectUrl(String uri) {
         if (specialUrls != null) {
             for (String spec : specialUrls) {
                 if (spec.equals(uri)) {
