@@ -120,15 +120,17 @@
                     <div class="modal">
                         <div class="modal-body">
                             <div class="modal-img">
-                                <img src="/res/page/img/ticket-suc.png">
+                                <a ms-attr="{href: '../pay/v_pay?chainId=${chainId}&userId='+@userId}">
+                                    <img src="/res/page/img/send-gift.gif">
+                                </a>
                             </div>
                             <div class="title">投票成功</div>
                             <div class="intro">恭喜您为支持的Ta贡献了一票~</div>
                         </div>
                         <div class="modal-footer">
-                            <ul>
+                            <ul style="font-size: 1.4rem;">
                                 <li><a href="javascript:;;" ms-click="methods.close()">关闭</a></li>
-                                <li><a ms-attr="{href: '../pay/v_pay?chainId=${chainId}&userId='+@userId}">赠送礼物，继续支持~</a></li>
+                                <li><a ms-attr="{href: '../pay/v_pay?chainId=${chainId}&userId='+@userId}">赠送礼物</a></li>
                             </ul>
                         </div>
                     </div>

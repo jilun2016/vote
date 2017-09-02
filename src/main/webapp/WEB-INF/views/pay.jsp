@@ -50,16 +50,14 @@
                     </div>
                     <div class="buy-list">
                         <ul>
-                            <li class="gift-li-cls" ms-class="{active:item.giftId==giftId}" ms-for="($index,item) in giftList">
-                                <a href="javascript:;;" ms-click="methods.itemClick($index)" style="cursor: pointer;">
-                                    <div class="product-img"><img ms-attr="{src:item.giftpic}"> </div>
-                                    <div class="product-title" ms-text="item.giftName"></div>
-                                    <div class="product-price"><span class="cl-red" ms-text="item.giftPoint"></span>点 </div>
-                                </a>
+                            <li class="gift-li-cls" style="cursor: pointer;" ms-class="{active:item.giftId==giftId}" ms-for="($index,item) in giftList" ms-click="methods.itemClick($index)">
+                                <div class="product-img"><img ms-attr="{src:item.giftpic}"> </div>
+                                <div class="product-title" ms-text="item.giftName"></div>
+                                <div class="product-price"><span class="cl-red" ms-text="item.giftPoint"></span>点 </div>
                             </li>
                         </ul>
                         <div class="product-intro">
-                            <span> 单价1元，抵5票</span>
+                            <span> 单价1元，抵3票</span>
                             <div class="pull-right">数量：
                                 <select ms-duplex="amount">
                                     <option value="1">1</option>

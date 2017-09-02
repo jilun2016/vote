@@ -2445,6 +2445,7 @@ float: left;
 	display: inline-block;
 	background:#fff;
 	border:1px solid #eee;
+	margin:0 0 .3rem 0;
 }
 .buy-list ul li.active{
 	border:2px solid #48cdb2;
@@ -2452,6 +2453,9 @@ float: left;
 }
 .buy-list ul li img{
 	width:100%;
+}
+.buy-list ul li:last-child{
+	width:98%;
 }
 .product-title{
 	padding:.3rem 0;
@@ -2614,6 +2618,7 @@ float: left;
 	line-height: 1.4rem;
 	float: left;
 	color:#333;
+	font-size:1.4rem;
 	
 }
 .modal-footer ul li a:hover{
