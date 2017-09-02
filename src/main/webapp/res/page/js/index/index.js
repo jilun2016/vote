@@ -27,6 +27,7 @@
          userList: [],
          isShowMore: false,
          isLoadImg: false,
+         campaignScroll: campaignScroll,
          methods: {
              more: function() {
                  indexOpt.more();
@@ -113,6 +114,7 @@
                      if (vote.isOver()) {
                          indexVm.time.text = '活动已结束';
                          message.msg('活动已结束,期待其他投票活动');
+                         indexVm.campaignScroll = '活动已结束';
                      }
 
                      opt.queryVoteDetail();

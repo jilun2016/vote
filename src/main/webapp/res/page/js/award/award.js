@@ -8,16 +8,6 @@
 
      var awardOpt = (function() {
          var opt = {
-             query: function() {
-                 vote.loading.show();
-                 vote.jqAjax('award', '', function(res) {
-                     awardVm.list = res.data;
-                     vote.loading.hide();
-                 }, function(err) {
-                     vote.loading.hide();
-                     console.log(err)
-                 }, 'GET', false);
-             },
              build: function() {
 
                  if (vote.isOver()) {
@@ -25,7 +15,8 @@
                  }
 
                  awardVm.campaignRule = $("#campaignRule").val();
-                 opt.query();
+                 awardVm.list = campaignAwards;
+
                  var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/home';
                  vote.getWxCfg(window.location.href, function() {
                      vote.wxShareCfg({

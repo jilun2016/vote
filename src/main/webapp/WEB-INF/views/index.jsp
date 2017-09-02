@@ -17,6 +17,9 @@
 
             <body ms-controller="vote">
                 <div class="content">
+                    <div class="remind-info" ms-if="campaignScroll">
+                        <marquee scrollamount="8" scrolldelay="30" direction="left">${campaignScroll}</marquee>
+                    </div>
                     <div class="show-img">
                         <img ms-attr="{src:top.sponsorPic}">
                     </div>
