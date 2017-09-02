@@ -84,7 +84,8 @@
                         </div>
                         <div class="rule-body">
                             <div ms-html="bottom.sponsorIntro"></div>
-                            <img ms-attr="{src: @item.picUrl}" ms-for="item in bottom.imageList">
+
+                            <img ms-attr="{src: @item.picUrl}" ms-for="($idex,item) in bottom.sponsorPicUrls">
                         </div>
                     </div>
                 </div>
