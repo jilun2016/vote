@@ -13,6 +13,7 @@
          curIndex: -1,
          isover: false, //是否结束
          campaignScroll: campaignScroll,
+         remark: '',
          methods: {
              itemClick: function(index) {
                  try {
@@ -37,6 +38,10 @@
                              giftCount: payVm.amount,
                              openid: openId
                          }
+                         var remark = $.trim(payVm.remark);
+                         if (remark) {
+                             param.remark = remark;
+                         }
                          vote.jqAjax('/vote/' + chainId + '/pay/prepay', param, function(res) {
                              if (res.status) {
                                  var item = res.data;
@@ -59,7 +64,7 @@
                                      function(res) {
                                          vote.loading.hide();
                                          if (res.err_msg == "get_brand_wcpay_request:ok") {
-                                             alert('支付成功');
+                                             message.msg('支付成功');
                                              location.reload();
                                          } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
                                              message.msg("交易已取消");

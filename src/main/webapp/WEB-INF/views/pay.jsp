@@ -76,6 +76,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="input-list">
+                        <ul>
+                            <li>
+                                <div class="input-label">留言</div>
+                                <div class="input-box">
+                                    <input ms-duplex="remark" class="form-control1" placeholder="想对Ta说些什么吗？" maxlength="140">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div style="cursor:pointer;" ms-click="methods.pay()" ms-if="!isover" class="pay-btn">去支付</div>
