@@ -62,6 +62,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			Ssqb queryDetailSqb = Ssqb.create("com.jlt.vote.queryCampaignDetail").setParam("chainId",chainId);
 			CampaignDetailVo campaignDetail = baseDaoSupport.findForObj(queryDetailSqb,CampaignDetailVo.class);
             campaignMap.put("campaignName",campaignDetail.getCampaignName());
+            campaignMap.put("campaignScroll",campaignDetail.getCampaignScroll());
 			campaignMap.put("sponsorPic",campaignDetail.getSponsorPic());
 			campaignMap.put("signCount",campaignDetail.getSignCount());
 			campaignMap.put("voteCount",campaignDetail.getVoteCount());
@@ -92,6 +93,7 @@ public class CampaignServiceImpl implements ICampaignService {
             Ssqb queryDetailSqb = Ssqb.create("com.jlt.vote.queryCampaignDetail").setParam("chainId",chainId);
             CampaignDetailVo campaignDetail = baseDaoSupport.findForObj(queryDetailSqb,CampaignDetailVo.class);
             campaignMap.put("campaignName",campaignDetail.getCampaignName());
+            campaignMap.put("campaignScroll",campaignDetail.getCampaignScroll());
             campaignMap.put("sponsorPic",campaignDetail.getSponsorPic());
             campaignMap.put("signCount",campaignDetail.getSignCount());
             campaignMap.put("voteCount",campaignDetail.getVoteCount());
