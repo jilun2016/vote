@@ -52,7 +52,8 @@
                      var list = res.data.list;
                      userVm.isMore = !(list.length < userVm.pagecfg.pageSize);
                      _.forEach(list, function(item) {
-                         item.voteTimeStr = moment(item.voteTime).format('YYYY-MM-DD HH:mm');
+                         var st = moment(item.voteTime).format('YYYY-MM-DD HH:mm');
+                         item.voteTimeStr = item.remark ? (item.remark + '<br/>' + st) : st;
                      });
                      var tempArr = _.clone(userVm.giftList, true);
                      userVm.giftList = tempArr.concat(res.data.list);
