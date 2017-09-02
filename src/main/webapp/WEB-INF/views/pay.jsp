@@ -14,13 +14,16 @@
 
             <body ms-controller="pay">
                 <div class="content">
+                    <div class="remind-info" ms-if="campaignScroll" style="position:inherit;">
+                        <marquee scrollamount="8" scrolldelay="30" direction="left">${campaignScroll}</marquee>
+                    </div>
                     <div class="gift-list">
                         <div class="gift-list-content">
                             <ul>
                                 <li>
                                     <a href="javascript:;;" class="b-b-line">
                                         <span class="icon-box"> 
-                                            <img  class="user-img" ms-attr="{src:top.headPic}"> 
+                                            <img  class="user-img" ms-attr="{src:top.headPic+'?x-oss-process=style/q_60'}"> 
                                         </span>
                                         <div class="inner">
                                             <div class="inner-title" ms-text="top.name"></div>
@@ -51,7 +54,7 @@
                     <div class="buy-list">
                         <ul>
                             <li class="gift-li-cls" style="cursor: pointer;" ms-class="{active:item.giftId==giftId}" ms-for="($index,item) in giftList" ms-click="methods.itemClick($index)">
-                                <div class="product-img"><img ms-attr="{src:item.giftpic}"> </div>
+                                <div class="product-img"><img ms-attr="{src:item.giftpic +'?x-oss-process=style/q_60'}"> </div>
                                 <div class="product-title" ms-text="item.giftName"></div>
                                 <div class="product-price"><span class="cl-red" ms-text="item.giftPoint"></span>点 </div>
                             </li>
@@ -75,8 +78,9 @@
                     </div>
                 </div>
 
-                <a ms-if="!isover" class="pay-btn" ms-click="methods.pay()" href="javascript:;;" style="cursor:pointer;">去支付</a>
-                <a ms-if="isover" class="pay-btn" href="javascript:alert('活动已结束.')" style="cursor:pointer;">去支付</a>
+                <div style="cursor:pointer;" ms-click="methods.pay()" ms-if="!isover" class="pay-btn">去支付</div>
+                <div ms-if="isover" onclick="javascript:alert('活动已结束.')" class="pay-btn" style="cursor:pointer; ">去支付</div>
+
 
                 <%@ include file="./common/footer.jsp" %>
                     <script src="/res/page/js/pay/pay.js<%=CDN_VERSION%>"></script>

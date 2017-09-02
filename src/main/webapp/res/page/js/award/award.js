@@ -3,7 +3,8 @@
      var awardVm = avalon.define({
          $id: "award",
          list: [],
-         campaignRule: ''
+         campaignRule: '',
+         campaignScroll: campaignScroll
      });
 
      var awardOpt = (function() {
@@ -12,6 +13,7 @@
 
                  if (vote.isOver()) {
                      message.msg('活动已结束,期待其他投票活动');
+                     awardVm.campaignScroll = '活动已结束';
                  }
 
                  awardVm.campaignRule = $("#campaignRule").val();

@@ -10,6 +10,7 @@
          userId: 0,
          isover: false, //是否结束
          isMore: false, //是否加载更多
+         campaignScroll: campaignScroll,
          methods: {
              send: function() {
                  userOpt.send();
@@ -89,6 +90,7 @@
                  } else {
                      if (vote.isOver()) {
                          message.msg('活动已结束,期待其他投票活动');
+                         userVm.campaignScroll = '活动已结束';
                      }
                      userVm.isover = vote.isOver();
                      userVm.userId = vote.getQueryString('userId');

@@ -17,6 +17,9 @@
 
             <body ms-controller="rank">
                 <div class="content">
+                    <div class="remind-info" ms-if="campaignScroll" style="position:inherit;">
+                        <marquee scrollamount="8" scrolldelay="30" direction="left">${campaignScroll}</marquee>
+                    </div>
                     <div class="billboard">
                         <div class="time ">
                             <div class="time-title"> 活动时间倒计时 </div>
@@ -39,7 +42,7 @@
                                                     <span ms-if="$index >= 3" ms-text="$index + 1"></span>
                                                 </div>
                                                 <span class="icon-box ">  
-                                                    <img ms-attr="{src: @item.headPic}"> 
+                                                    <img ms-attr="{src: @item.headPic +'?x-oss-process=style/q_60'}"> 
                                                 </span>
                                                 <div class="inner">
                                                     <div class="inner-title" ms-text="item.name +' ' + item.number +'号' "></div>
