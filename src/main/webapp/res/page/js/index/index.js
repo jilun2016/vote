@@ -17,7 +17,7 @@
          },
          bottom: {
              sponsorIntro: '',
-             sponsorPicUrls: []
+             sponsorPicUrls: [],
          },
          pagecfg: {
              pageNo: 1,
@@ -98,7 +98,7 @@
                      indexVm.top.sponsorPic = data.sponsorPic || '';
 
                      indexVm.bottom.sponsorIntro = data.sponsorIntro || '';
-                     indexVm.bottom.imageList = data.sponsorPicUrls || [];
+                     indexVm.bottom.sponsorPicUrls = data.sponsorPicUrls || [];
 
                  }, function(err) {}, 'GET', false);
              },
