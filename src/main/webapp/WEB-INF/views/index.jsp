@@ -59,15 +59,14 @@
                     </div>
 
                     <div class="wrapper">
-                        <div id="masonry">
-                            <div class="item" ms-for="item in userList">
+                        <div id="masonry" style="display:none;">
+                            <div class="item" ms-for="item in userList" data-for-rendered="methods.rendered()">
                                 <div class="item-num" ms-text="'编号：' + item.number + '号'"></div>
                                 <div class="item-name">
                                     <span ms-text="item.name"></span>
                                     <div class="item-ticket-num"><span class="ticket-num" ms-text="item.voteCount"></span>票</div>
                                 </div>
-                                <img ms-attr="{src: @item.headPic }">
-                                <!-- <a class="ticket-link" href="javascript:;;">为TA拉票</a> -->
+                                <img ms-attr="{src: @item.headPic }" ms-if="isLoadImg">
                                 <div class="ticket-btn" style="width:100%;">
                                     <a class="btn btn-block btn-red" ms-attr="{href:'v_user?userId='+ @item.userId}">给TA投票</a>
                                 </div>
@@ -75,7 +74,7 @@
                         </div>
                     </div>
 
-                    <div class="search-input" ms-if="isShowMore">
+                    <div class="search-input" ms-if="isShowMore && userList.length>0">
                         <button type="button" class="btn btn-default btn-block" ms-click="methods.more()">加载更多</button>
                     </div>
 

@@ -26,12 +26,31 @@
          queryKey: '',
          userList: [],
          isShowMore: false,
+         isLoadImg: false,
          methods: {
              more: function() {
                  indexOpt.more();
              },
              rearch: function() {
                  indexOpt.rearch();
+             },
+             rendered: function() {
+                 setTimeout(function() {
+                     $("#masonry").show();
+                     var $container = $('#masonry');
+                     $container.imagesLoaded(function() {
+                         $container.masonry({
+                             itemSelector: '.item',
+                             columnWidth: 0 //每两列之间的间隙为5像素
+                         });
+                     });
+                     if (indexVm.pagecfg.pageNo > 1) {
+                         $container.masonry('reloadItems');
+                     }
+                     indexVm.isLoadImg = true;
+                     indexVm.isShowMore = indexVm.userList.length == indexVm.pagecfg.pageSize;
+                     vote.loading.hide();
+                 }, 0);
              }
          }
      });
@@ -54,23 +73,8 @@
                      if (data.data.list.length === 0) {
                          indexVm.pagecfg.pageNo--;
                      }
-                     indexVm.isShowMore = data.data.list.length == indexVm.pagecfg.pageSize;
                      var tempArr = _.clone(indexVm.userList, true);
                      indexVm.userList = tempArr.concat(data.data.list);
-
-                     setTimeout(function() {
-                         var $container = $('#masonry');
-                         $container.imagesLoaded(function() {
-                             $container.masonry({
-                                 itemSelector: '.item',
-                                 columnWidth: 5 //每两列之间的间隙为5像素
-                             });
-                         });
-                         if (indexVm.pagecfg.pageNo > 1) {
-                             $container.masonry('reloadItems');
-                         }
-                         vote.loading.hide();
-                     }, 800);
                  }, function(err) {
                      console.log(err)
                      vote.loading.hide();
@@ -94,6 +98,7 @@
                  }, function(err) {}, 'GET', false);
              },
              build: function() {
+                 indexVm.userList = [];
                  var shareUrl = window.location.href;
                  var fromIndex = shareUrl.indexOf('?from');
                  if (fromIndex > 0) {
