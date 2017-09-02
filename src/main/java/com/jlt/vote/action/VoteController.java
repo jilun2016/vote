@@ -40,11 +40,6 @@ public class VoteController {
     @RequestMapping(value ="/vote/{chainId}/home",method = {RequestMethod.GET})
     public String v_home(@PathVariable Long chainId, HttpServletRequest request, HttpServletResponse response,ModelMap model){
         logger.info("VoteController.v_home,chainId:{}",chainId);
-        //通过chainId 查询 发起人信息
-        Map<String ,Object> campaignDetail = campaignService.queryCampaignDetail(chainId);
-        campaignDetail.remove("sponsorIntro");
-        campaignDetail.put("chainId",chainId);
-        model.addAttribute("campaignDetail", JSON.toJSONString(campaignDetail));
         return "index";
     }
 

@@ -5,6 +5,7 @@
     <resultMap id="CampaignDetailMap" type="com.jlt.vote.bis.campaign.vo.CampaignDetailVo">
         <result property="campaignName" column="campaignName" />
         <result property="sponsorPic" column="sponsorPic" />
+        <result property="campaignScroll" column="campaignScroll" />
         <result property="signCount" column="signCount" />
         <result property="voteCount" column="voteCount" />
         <result property="viewCount" column="viewCount" />
@@ -19,7 +20,7 @@
 
     <select id="queryCampaignDetail" resultMap="CampaignDetailMap">
         SELECT a.sponsorPic,a.signCount,a.startTime,a.endTime,a.sponsorIntro,
-              b.picUrl,b.id AS sponsorPicId,c.viewCount,d.voteCount,a.campaignName
+              b.picUrl,b.id AS sponsorPicId,c.viewCount,d.voteCount,a.campaignName,a.campaignScroll
         FROM t_t_campaign a
         LEFT JOIN t_t_sponsor_pic b ON a.chainId = b.chainId
         LEFT JOIN t_t_campaign_view c ON a.chainId = c.chainId
