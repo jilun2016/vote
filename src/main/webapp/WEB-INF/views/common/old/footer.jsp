@@ -21,4 +21,5 @@
     <script src="/res/lib/js/vote_helper.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/avalon.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/jweixin-1.0.0.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/swipe.js<%=CDN_VERSION%>"></script>
     <!-- endbuild -->

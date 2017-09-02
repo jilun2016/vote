@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <link rel="stylesheet" href="https://pic.jilunxing.com/vote/build-2097d7e9df.min.css">
-
+    <!-- build:css -->
+    <link href="/res/page/fonts/iconfont.css" rel="stylesheet">
+    <link href="/res/page/css/custom.css" rel="stylesheet">
+    <!-- endbuild -->
 
     <style>
         .loading-bg {

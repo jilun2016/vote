@@ -41,7 +41,27 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="show-img"> <img ms-if="top.userPicVos.length>0" ms-attr="{src: top.userPicVos[0].picUrl}"> </div>
+                    <div class="show-img">
+                        <!-- <img ms-if="top.userPicVos.length>0" ms-attr="{src: top.userPicVos[0].picUrl}"> -->
+                        <article>
+                            <div class="scroll relative">
+                                <div class="scroll_box" id="scroll_img">
+                                    <ul class="scroll_wrap">
+                                        <li ms-for="item in top.userPicVos">
+                                            <a href="javascript:;;">
+                                                <img ms-attr="{src: item.picUrl}" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <ul class="scroll_position" id="scroll_position">
+                                    <li ms-class="{on:index==0}" ms-for="(index,item) in top.userPicVos">
+                                        <a href="javascript:void(0);" ms-text="index + 1"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
                     <div class="gift-list">
                         <div class="gift-list-title">
                             <span class="iconfont icon-jiangpin"></span>礼物列表
