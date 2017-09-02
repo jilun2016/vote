@@ -2,6 +2,7 @@ package com.jlt.vote.interceptor;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.bis.campaign.vo.CampaignDetailVo;
+import com.jlt.vote.bis.wx.service.IWxService;
 import com.jlt.vote.util.*;
 import com.xcrm.cloud.database.db.query.Ssqb;
 import com.xcrm.common.util.DateFormatUtils;
@@ -18,6 +19,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,14 +44,18 @@ public class VoteInterceptor implements HandlerInterceptor {
 
     private String[] specialUrls = {"/pay/v_pay"};
 
+    private String[] wxRedirectUrls = {"/{0}/home","/{0}/v_user"};
+
     @Autowired
     private ICampaignService campaignService;
+
+    @Autowired
+    private IWxService wxService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String agent = request.getHeader("user-agent");
-
         String uri = getURI(request);
         //授权回调排除
         if (exclude(uri)) {
@@ -80,12 +86,24 @@ public class VoteInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        //如果活动结束,禁止访问礼物落地页
         if(special(uri)
                 &&BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
             RequestUtils.issueRedirect(request, response, campaignFinishUrl);
             return false;
         }
+
         Cookie cookieFromOpenId = CookieUtils.getCookie(request, CommonConstants.WX_OPEN_ID_COOKIE);
+        //首页,用户详情页 增加跳转授权
+        if(wxRedirect(chainId,uri)
+                &&BooleanUtils.isNotTrue(campaignService.checkCampaignFinish(chainId))){
+            if (Objects.isNull(cookieFromOpenId)) {
+                String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,request.getRequestURI());
+                response.sendRedirect(wxAuthUrl);
+            }
+        }
+
+
         if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
                 && ((uri.indexOf("common_vote") > 0)
                 || (uri.indexOf("/pay/prepay") > 0))) {
@@ -160,6 +178,17 @@ public class VoteInterceptor implements HandlerInterceptor {
         if (specialUrls != null) {
             for (String spec : specialUrls) {
                 if (spec.equals(uri)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean wxRedirect(Long chainId,String uri) {
+        if (wxRedirectUrls != null) {
+            for (String wxRedirectUrl : wxRedirectUrls) {
+                if (uri.equals(MessageFormat.format(wxRedirectUrl,String.valueOf(chainId)))) {
                     return true;
                 }
             }

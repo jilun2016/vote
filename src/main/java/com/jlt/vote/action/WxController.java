@@ -66,17 +66,9 @@ public class WxController {
             logger.info("VoteController login with open auth.openid :{}",WebUtils.getOpenId(request));
             response.sendRedirect(response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId))));
         }else{
-            StringBuilder wxAuthUrl = new StringBuilder(sysConfig.getWxAuthUrl());
-            wxAuthUrl.append("?appid=").append(sysConfig.getWxAppId());
-            wxAuthUrl.append("&redirect_uri=").append(URLEncoder.encode(sysConfig.getWxCallbackUrl()));
-            wxAuthUrl.append("&response_type=code");
-            wxAuthUrl.append("&scope=snsapi_userinfo");
-            String state = response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId)));
-            wxAuthUrl.append("&state=").append(state);
-            wxAuthUrl.append("#wechat_redirect");
-            response.sendRedirect(wxAuthUrl.toString());
+            String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId)));
+            response.sendRedirect(wxAuthUrl);
         }
-
     }
 
     /**
@@ -206,6 +198,7 @@ public class WxController {
         wxPrePayOrder.setGiftId(giftId);
         wxPrePayOrder.setGiftName(giftDetailVo.getGiftName());
         wxPrePayOrder.setUserId(userId);
+        wxPrePayOrder.setRemark(votePrepayRequest.getRemark());
         HashMap<String,Object> resultMap = new HashMap<String,Object>();
         try {
 

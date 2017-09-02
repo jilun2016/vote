@@ -32,6 +32,11 @@ public class GiftWxPrePayOrder extends WxPrePayOrder implements Serializable {
 	 */
 	private Long userId;
 
+	/**
+	 * 用户留言
+	 */
+	private String remark;
+
 	public Long getGiftId() {
 		return giftId;
 	}
@@ -62,5 +67,13 @@ public class GiftWxPrePayOrder extends WxPrePayOrder implements Serializable {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }

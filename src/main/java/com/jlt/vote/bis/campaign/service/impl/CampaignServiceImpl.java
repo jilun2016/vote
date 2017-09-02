@@ -234,6 +234,7 @@ public class CampaignServiceImpl implements ICampaignService {
 			result.put("viewCount",userDetail.getViewCount() + 1);
 			result.put("voteCount",userDetail.getVoteCount());
 			result.put("headPic",userDetail.getHeadPic());
+			result.put("declaration",userDetail.getDeclaration());
 			redisDaoSupport.set(CacheConstants.VOTE_USER_PICS+userId,userDetail.getUserPicVos());
 			redisDaoSupport.hmset(CacheConstants.VOTE_USER_DETAIL+userId,result);
 			result.put("userPicVos",userDetail.getUserPicVos());
@@ -432,6 +433,10 @@ public class CampaignServiceImpl implements ICampaignService {
 
 	@Override
 	public void vote(Long chainId, String openId,Long userId,String ipAddress) {
+        if(Objects.isNull(openId)){
+            logger.error("common_vote error.chainId:{},userId:{},ipAddress:{}",chainId,userId,ipAddress);
+            throw new VoteRuntimeException("10000");
+        }
 		//查看 openId 是否存在
 		VoterVo voterVo = queryVoter(openId);
 		if(Objects.isNull(voterVo)){
