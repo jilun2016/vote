@@ -17,11 +17,11 @@
 
             <body ms-controller="vote">
                 <div class="content">
-                    <div class="remind-info" ms-if="campaignScroll">
+                    <div class="remind-info" ms-if="campaignScroll" style="position:inherit;">
                         <marquee scrollamount="8" scrolldelay="30" direction="left">${campaignScroll}</marquee>
                     </div>
                     <div class="show-img">
-                        <img ms-attr="{src:top.sponsorPic}">
+                        <img ms-attr="{src:top.sponsorPic+'?x-oss-process=style/q_60'}">
                     </div>
                     <div class="show-info">
                         <ul>
@@ -69,7 +69,7 @@
                                     <span ms-text="item.name"></span>
                                     <div class="item-ticket-num"><span class="ticket-num" ms-text="item.voteCount"></span>票</div>
                                 </div>
-                                <img ms-attr="{src: @item.headPic }" ms-if="isLoadImg">
+                                <img ms-attr="{src: @item.headPic+'?x-oss-process=style/q_60' }" ms-if="isLoadImg">
                                 <div class="ticket-btn" style="width:100%;">
                                     <a class="btn btn-block btn-red" ms-attr="{href:'v_user?userId='+ @item.userId}">给TA投票</a>
                                 </div>
@@ -88,7 +88,7 @@
                         <div class="rule-body">
                             <div ms-html="bottom.sponsorIntro"></div>
 
-                            <img ms-attr="{src: @item.picUrl}" ms-for="($idex,item) in bottom.sponsorPicUrls">
+                            <img ms-attr="{src: @item.picUrl+'?x-oss-process=style/q_60'}" ms-for="($idex,item) in bottom.sponsorPicUrls">
                         </div>
                     </div>
                 </div>

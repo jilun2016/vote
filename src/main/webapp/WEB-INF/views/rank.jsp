@@ -39,7 +39,7 @@
                                                     <span ms-if="$index >= 3" ms-text="$index + 1"></span>
                                                 </div>
                                                 <span class="icon-box ">  
-                                                    <img ms-attr="{src: @item.headPic}"> 
+                                                    <img ms-attr="{src: @item.headPic +'?x-oss-process=style/q_60'}"> 
                                                 </span>
                                                 <div class="inner">
                                                     <div class="inner-title" ms-text="item.name +' ' + item.number +'号' "></div>

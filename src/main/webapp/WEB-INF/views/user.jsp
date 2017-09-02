@@ -20,7 +20,7 @@
                     <div class="show-info">
                         <div class="user-info">
                             <span class="icon-box "> 
-                                <img ms-attr="{src:top.headPic}" class="img-circle" style="width:30px;">
+                                <img ms-attr="{src:top.headPic +'?x-oss-process=style/q_60'}" class="img-circle" style="width:30px;">
                             </span>
                             <div class="inner">
                                 <div class="inner-title" ms-text="top.name"> </div>
@@ -52,7 +52,7 @@
                                 <div class="scroll_box" id="scroll_img">
                                     <ul class="scroll_wrap">
                                         <li ms-for="(index,item) in top.userPicVos">
-                                            <a href="javascript:;;"><img ms-attr="{src: item.picUrl}" /></a>
+                                            <a href="javascript:;;"><img ms-attr="{src: item.picUrl +'?x-oss-process=style/q_60'}" /></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -72,7 +72,7 @@
                             <ul>
                                 <li ms-for="item in giftList">
                                     <a href="javascript:;;" class="b-b-line"> <span class="icon-box "> 
-                                        <img ms-attr="{src: @item.headImgUrl}"> </span>
+                                        <img ms-attr="{src: @item.headImgUrl +'?x-oss-process=style/q_60'}"> </span>
                                         <div class="inner">
                                             <div class="inner-title" ms-text="item|titleFilter"></div>
                                             <div class="inner-content" ms-text="item.voteTimeStr"></div>

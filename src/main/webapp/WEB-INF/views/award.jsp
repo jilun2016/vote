@@ -20,7 +20,7 @@
                             <div class="gift-title" ms-text="gift.summary"></div>
                             <div class="gift-content">
                                 <div ms-html="gift.detail"></div>
-                                <img ms-attr="{src: gift.awardpic}">
+                                <img ms-attr="{src: gift.awardpic+'?x-oss-process=style/q_60'}">
                             </div>
                         </div>
 
