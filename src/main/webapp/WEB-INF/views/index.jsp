@@ -80,7 +80,7 @@
 
                     <div class="rule">
                         <div class="rule-title">
-                            <span class="iconfont icon-guize"></span>活动规则
+                            <span class="iconfont icon-guize"></span>活动介绍
                         </div>
                         <div class="rule-body">
                             <div ms-html="bottom.sponsorIntro"></div>

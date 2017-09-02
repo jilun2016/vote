@@ -17,37 +17,40 @@
 
             <body ms-controller="rank">
                 <div class="content">
-                    <div class="time">
-                        <div class="time-title" ms-text="time.text"> </div>
-                        <div class="time-input">
-                            <span class="time-box" ms-text="time.days + '天'"></span>
-                            <span class="time-box" ms-text="time.hours + '时'"></span>
-                            <span class="time-box" ms-text="time.minutes + '分'"></span>
-                            <span class="time-box" ms-text="time.seconds + '秒'"></span>
-                        </div>
-                    </div>
-                    <div class="list-content">
-                        <div class="tab-pane active">
-                            <ul>
-                                <li ms-for="($index,item) in list">
-                                    <a href="javascript:;;" class="b-b-line">
-                                        <span class="icon-box"> <img ms-attr="{src: @item.headPic}"> </span>
-                                        <div class="inner">
-                                            <div class="inner-title" ms-text="item.name +' ' + item.number +'号' "></div>
-                                            <div class="inner-content" ms-text="'票数:' + item.voteCount "></div>
-                                        </div>
-                                        <div class="num" ms-text="$index +1"></div>
-                                    </a>
-                                </li>
-                                <li ms-if="list.length==0">
-                                    <div class="empty-box">
-                                        <div class="empty-img"><img ms-attr="{src:'/res/page/img/no_records.png'}"></div>
-                                        <div class="empty-title">
-                                            榜单上还没有上榜的她(他)<br/> 找到她(他),给她投票,早日金榜题名
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                    <div class="billboard">
+                        <div class="time ">
+                            <div class="time-title"> 活动时间倒计时 </div>
+                            <div class="time-input">
+                                <span class="time-box" ms-text="time.days + '天'"></span>
+                                <span class="time-box" ms-text="time.hours + '时'"></span>
+                                <span class="time-box" ms-text="time.minutes + '分'"></span>
+                                <span class="time-box" ms-text="time.seconds + '秒'"></span>
+                            </div>
+                            <div class="billboard-top"> <img src="/res/page/img/billboard-top.png"> </div>
+                            <div class="billboard-body">
+                                <div class="tab-pane active">
+                                    <ul>
+                                        <li ms-for="($index,item) in list">
+                                            <a href="javascript:;;" class="b-b-line">
+                                                <div class="num">
+                                                    <img src="/res/page/img/icon-one.png" ms-if="$index==0">
+                                                    <img src="/res/page/img/icon-two.png" ms-if="$index==1">
+                                                    <img src="/res/page/img/icon-three.png" ms-if="$index==2">
+                                                    <span ms-if="$index >= 3" ms-text="$index + 1"></span>
+                                                </div>
+                                                <span class="icon-box ">  
+                                                    <img ms-attr="{src: @item.headPic}"> 
+                                                </span>
+                                                <div class="inner">
+                                                    <div class="inner-title" ms-text="item.name +' ' + item.number +'号' "></div>
+                                                    <div class="inner-content" ms-text="item.declaration"></div>
+                                                </div>
+                                                <div class="ticket" ms-text=" item.voteCount + '票' "></div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

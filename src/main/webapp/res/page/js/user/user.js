@@ -93,6 +93,7 @@
                      userVm.isover = vote.isOver();
                      userVm.userId = vote.getQueryString('userId');
                      userVm.top = userDetail;
+
                      opt.queryGifts();
 
                      vote.getWxCfg(shareUrl, function() {

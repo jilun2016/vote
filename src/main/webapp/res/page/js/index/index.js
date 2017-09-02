@@ -95,6 +95,11 @@
                      indexVm.top.signCount = data.signCount || 0;
                      indexVm.top.viewCount = data.viewCount || 0;
                      indexVm.top.voteCount = data.voteCount || 0;
+                     indexVm.top.sponsorPic = data.sponsorPic || '';
+
+                     indexVm.bottom.sponsorIntro = data.sponsorIntro || '';
+                     indexVm.bottom.imageList = data.sponsorPicUrls || [];
+
                  }, function(err) {}, 'GET', false);
              },
              build: function() {
@@ -110,17 +115,10 @@
                          message.msg('活动已结束,期待其他投票活动');
                      }
 
-                     indexVm.top.signCount = campaignDetail.signCount || 0;
-                     indexVm.top.viewCount = campaignDetail.viewCount || 0;
-                     indexVm.top.voteCount = campaignDetail.voteCount || 0;
-                     indexVm.top.sponsorPic = campaignDetail.sponsorPic || '';
-
-                     indexVm.bottom.sponsorIntro = campaignDetail.sponsorIntro || '';
-                     indexVm.bottom.imageList = campaignDetail.sponsorPicUrls || [];
+                     opt.queryVoteDetail();
 
                      opt.timer.creat();
                      opt.queryUsers();
-
 
                      vote.getWxCfg(shareUrl, function() {
                          vote.wxShareCfg({
@@ -134,7 +132,7 @@
                              imgUrl: sponsorPic,
                          });
                      });
-                     opt.queryVoteDetail();
+
                  }
              }
          };

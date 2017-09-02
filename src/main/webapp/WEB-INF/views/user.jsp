@@ -19,8 +19,13 @@
                 <div class="content">
                     <div class="show-info">
                         <div class="user-info">
-                            <img ms-attr="{src:top.headPic}" class="img-circle" style="width:30px;">
-                            <span ms-text="top.name"></span>
+                            <span class="icon-box "> 
+                                <img ms-attr="{src:top.headPic}" class="img-circle" style="width:30px;">
+                            </span>
+                            <div class="inner">
+                                <div class="inner-title" ms-text="top.name"> </div>
+                                <div class="inner-content" ms-text="top.declaration"></div>
+                            </div>
                         </div>
                         <ul>
                             <li>
@@ -110,7 +115,6 @@
                         <a href="javascript:alert('活动已结束.')" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
                     </div>
                 </div>
-
 
                 <div class="modal-box" id="divResultModal" style="display:none;">
                     <div class="modal">
