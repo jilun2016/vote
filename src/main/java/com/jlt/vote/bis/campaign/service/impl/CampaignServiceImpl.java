@@ -447,18 +447,20 @@ public class CampaignServiceImpl implements ICampaignService {
 			throw new VoteRuntimeException("10000");
 		}
 
-		//每天最多三票
+        //每人每天最多一票
+        Integer dayUserVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId);
+        if((Objects.nonNull(dayUserVoteCount))&&(dayUserVoteCount >= 1000)){
+//			throw new VoteRuntimeException("10003");
+            return 1;
+        }
+
+		//每人每天最多一票
 		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
 		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1000)){
 //			throw new VoteRuntimeException("10001");
 			return 0;
 		}
-		//每人每天最多一票
-		Integer dayUserVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId);
-		if((Objects.nonNull(dayUserVoteCount))&&(dayUserVoteCount >= 1000)){
-//			throw new VoteRuntimeException("10003");
-			return 0;
-		}
+
 
 		Date now = DateFormatUtils.getNow();
 		redisDaoSupport.incr(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId,1);
@@ -485,7 +487,7 @@ public class CampaignServiceImpl implements ICampaignService {
 				baseDaoSupport.save(userVoteRecord);
 			}
 		});
-		return 1;
+		return 2;
 	}
 
 	@Override
