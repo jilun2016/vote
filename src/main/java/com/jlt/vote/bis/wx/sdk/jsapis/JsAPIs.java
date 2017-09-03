@@ -59,7 +59,7 @@ public class JsAPIs {
         try {
             response = send(request, context, true);
             json = InputStreamUtils.InputStreamTOString(response.getContent(), "UTF-8");
-            log.debug("get weixin api server response ={}", json);
+            log.info("get weixin api server response ={}", json);
             Map result = ResponseParser.unmarshaller(json, Map.class);
             if (result.containsKey(CommonConstants.ACCESS_TOKEN)) {
                 return result;
