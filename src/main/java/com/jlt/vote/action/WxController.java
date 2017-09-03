@@ -197,7 +197,7 @@ public class WxController {
         wxPrePayOrder.setPayMoney(giftFee.multiply(BigDecimal.valueOf(giftCount)));
         wxPrePayOrder.setGiftCount(giftCount);
         wxPrePayOrder.setGiftId(giftId);
-        wxPrePayOrder.setGiftName(giftDetailVo.getGiftName());
+        wxPrePayOrder.setGiftName(giftDetailVo.getGiftBaseName());
         wxPrePayOrder.setUserId(userId);
         wxPrePayOrder.setRemark(votePrepayRequest.getRemark());
         HashMap<String,Object> resultMap = new HashMap<String,Object>();
