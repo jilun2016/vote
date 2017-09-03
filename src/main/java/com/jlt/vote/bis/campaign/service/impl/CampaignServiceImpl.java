@@ -457,7 +457,7 @@ public class CampaignServiceImpl implements ICampaignService {
 		Integer dayUserVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId);
 		if((Objects.nonNull(dayUserVoteCount))&&(dayUserVoteCount >= 1000)){
 //			throw new VoteRuntimeException("10003");
-			return 1;
+			return 0;
 		}
 
 		Date now = DateFormatUtils.getNow();
@@ -485,7 +485,7 @@ public class CampaignServiceImpl implements ICampaignService {
 				baseDaoSupport.save(userVoteRecord);
 			}
 		});
-		return 2;
+		return 1;
 	}
 
 	@Override
