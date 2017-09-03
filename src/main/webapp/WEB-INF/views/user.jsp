@@ -123,7 +123,7 @@
                     <div class="modal">
                         <div class="modal-body">
                             <div class="modal-img">
-                                <a ms-attr="{href: '../pay/v_pay?chainId=${chainId}&userId='+@userId}">
+                                <a ms-attr="{href: '/vote/pay/v_pay?chainId=${chainId}&userId='+@userId}">
                                     <img src="/res/page/img/send-gift.gif">
                                 </a>
                             </div>
