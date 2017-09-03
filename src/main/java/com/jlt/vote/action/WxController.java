@@ -67,6 +67,7 @@ public class WxController {
             response.sendRedirect(response.encodeRedirectURL(MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId))));
         }else{
             String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,MessageFormat.format(sysConfig.getWxRedirectUrl(), String.valueOf(chainId)));
+            logger.info("VoteController login wxAuthUrl :{}",wxAuthUrl);
             response.sendRedirect(wxAuthUrl);
         }
     }
