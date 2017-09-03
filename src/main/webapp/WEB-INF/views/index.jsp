@@ -18,7 +18,7 @@
             <body ms-controller="vote">
                 <div class="content">
                     <div class="remind-info" ms-if="campaignScroll" style="position:inherit;">
-                        <marquee scrollamount="6" scrolldelay="30" direction="left">${campaignScroll}</marquee>
+                        <marquee scrollamount="6" scrolldelay="30" direction="left" ms-text="campaignScroll"></marquee>
                     </div>
                     <div class="show-img">
                         <img ms-attr="{src:top.sponsorPic+'?x-oss-process=style/q_60'}">
@@ -71,7 +71,7 @@
                                 </div>
                                 <img ms-attr="{src: @item.headPic+'?x-oss-process=style/q_60' }" ms-if="isLoadImg">
                                 <div class="ticket-btn" style="width:100%;">
-                                    <a class="btn btn-block btn-red" ms-attr="{href:'v_user?userId='+ @item.userId}">给TA投票</a>
+                                    <a class="btn btn-block btn-red" ms-attr="{href:'v_user/'+ @item.userId}">给TA投票</a>
                                 </div>
                             </div>
                         </div>

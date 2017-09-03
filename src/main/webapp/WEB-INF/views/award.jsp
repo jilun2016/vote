@@ -16,7 +16,7 @@
                 <input id="campaignRule" value='${campaignRule}' type="hidden">
                 <div class="content">
                     <div class="remind-info" ms-if="campaignScroll" style="position:inherit;">
-                        <marquee scrollamount="6" scrolldelay="30" direction="left">${campaignScroll}</marquee>
+                        <marquee scrollamount="6" scrolldelay="30" direction="left" ms-text="campaignScroll"></marquee>
                     </div>
                     <div class="gift-item">
                         <div ms-for="gift in list">

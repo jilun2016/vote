@@ -18,7 +18,7 @@
             <body ms-controller="rank">
                 <div class="content">
                     <div class="remind-info" ms-if="campaignScroll" style="position:inherit;">
-                        <marquee scrollamount="6" scrolldelay="30" direction="left">${campaignScroll}</marquee>
+                        <marquee scrollamount="6" scrolldelay="30" direction="left" ms-text="campaignScroll"></marquee>
                     </div>
                     <div class="billboard">
                         <div class="time ">
@@ -34,7 +34,7 @@
                                 <div class="tab-pane active">
                                     <ul>
                                         <li ms-for="($index,item) in list">
-                                            <a class="b-b-line" ms-attr="{href: '../pay/v_pay?chainId=${chainId}&userId='+@item.userId}">
+                                            <a class="b-b-line" ms-attr="{href: 'v_user/'+@item.userId}">
                                                 <div class="num">
                                                     <img src="/res/page/img/icon-one.png" ms-if="$index==0">
                                                     <img src="/res/page/img/icon-two.png" ms-if="$index==1">
