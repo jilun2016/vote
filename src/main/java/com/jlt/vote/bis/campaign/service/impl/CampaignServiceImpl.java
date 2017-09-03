@@ -435,7 +435,7 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public void vote(Long chainId, String openId,Long userId,String ipAddress) {
+	public int vote(Long chainId, String openId,Long userId,String ipAddress) {
         if(Objects.isNull(openId)){
             logger.error("common_vote error.chainId:{},userId:{},ipAddress:{}",chainId,userId,ipAddress);
             throw new VoteRuntimeException("10000");
@@ -450,12 +450,14 @@ public class CampaignServiceImpl implements ICampaignService {
 		//每天最多三票
 		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
 		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1000)){
-			throw new VoteRuntimeException("10001");
+//			throw new VoteRuntimeException("10001");
+			return 0;
 		}
 		//每人每天最多一票
 		Integer dayUserVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId);
 		if((Objects.nonNull(dayUserVoteCount))&&(dayUserVoteCount >= 1000)){
-			throw new VoteRuntimeException("10003");
+//			throw new VoteRuntimeException("10003");
+			return 0;
 		}
 
 		Date now = DateFormatUtils.getNow();
@@ -483,6 +485,7 @@ public class CampaignServiceImpl implements ICampaignService {
 				baseDaoSupport.save(userVoteRecord);
 			}
 		});
+		return 1;
 	}
 
 	@Override

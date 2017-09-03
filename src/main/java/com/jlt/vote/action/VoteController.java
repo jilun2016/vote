@@ -182,8 +182,10 @@ public class VoteController {
     public void vote(@PathVariable Long chainId,Long userId,HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.vote({},{})",chainId,userId);
         String openId = WebUtils.getOpenId(request);
-        campaignService.vote(chainId,openId,userId, RequestUtils.getIpAddr(request));
-        ResponseUtils.defaultSuccessResponse(response);
+        int result = campaignService.vote(chainId,openId,userId, RequestUtils.getIpAddr(request));
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("result",result);
+        ResponseUtils.createSuccessResponse(response,resultMap);
     }
 
 

@@ -165,8 +165,9 @@ public interface ICampaignService {
      * @param chainId
      * @param openId
      * @param userId
+     * @return 投票结果
      */
-    void vote(Long chainId, String openId,Long userId,String ipAddress);
+    int vote(Long chainId, String openId,Long userId,String ipAddress);
 
 
     /**
