@@ -6,8 +6,8 @@
              pageNo: 1,
              pageSize: 10
          },
+         userId: userDetail.userId,
          giftList: [],
-         userId: 0,
          isover: false, //是否结束
          isMore: false, //是否加载更多
          campaignScroll: campaignScroll,
@@ -38,9 +38,9 @@
                  var param = {
                      pageNo: userVm.pagecfg.pageNo,
                      pageSize: userVm.pagecfg.pageSize,
-                     userId: userVm.userId
+                     userId: userDetail.userId
                  }
-                 vote.jqAjax('gifts', param, function(res) {
+                 vote.jqAjax('../gifts', param, function(res) {
 
                      if (userVm.pagecfg.pageNo == 1) {
                          userVm.giftList.length > 0 && (userVm.giftList = []);
@@ -65,7 +65,7 @@
              },
              send: function() {
                  vote.loading.show();
-                 vote.jqAjax('common_vote', 'userId=' + userVm.userId, function(res) {
+                 vote.jqAjax('../common_vote', 'userId=' + userDetail.userId, function(res) {
                      opt.modal.show();
                      opt.queryUserDetail();
                      vote.loading.hide();
@@ -75,7 +75,7 @@
                  }, 'POST', false);
              },
              queryUserDetail: function() {
-                 vote.jqAjax('user/' + userVm.userId, '', function(res) {
+                 vote.jqAjax('../user/' + userDetail.userId, '', function(res) {
                      var data = res.data;
                      userVm.top.voteCount = data.voteCount || 0;
                      userVm.top.viewCount = data.viewCount || 0;
@@ -94,7 +94,6 @@
                          userVm.campaignScroll = '活动已结束';
                      }
                      userVm.isover = vote.isOver();
-                     userVm.userId = vote.getQueryString('userId');
                      userVm.top = userDetail;
 
                      opt.queryGifts();
