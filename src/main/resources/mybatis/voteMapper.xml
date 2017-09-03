@@ -140,7 +140,7 @@
     </select>
 
     <select id="queryCampaignGift" resultType="com.jlt.vote.bis.campaign.vo.CampaignGiftDetailVo">
-        SELECT a.id AS giftId,concat(a.giftName,if(isnull(a.giftDesc),'',concat('(',a.giftDesc,')'))) AS giftName,a.giftName AS giftBaseName
+        SELECT a.id AS giftId,concat(a.giftName,if(isnull(a.giftDesc),'',concat('(',a.giftDesc,')'))) AS giftName,a.giftName AS giftBaseName,
               a.giftpic,a.giftPoint,a.voteCount,a.giftFee
         FROM t_t_campaign_gift a
         WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
