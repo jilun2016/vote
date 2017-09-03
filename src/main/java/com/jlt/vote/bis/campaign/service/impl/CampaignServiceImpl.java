@@ -436,7 +436,9 @@ public class CampaignServiceImpl implements ICampaignService {
 
 	@Override
 	public int vote(Long chainId, String openId,Long userId,String ipAddress) {
-        if(Objects.isNull(openId)){
+        if(Objects.isNull(chainId)
+                ||Objects.isNull(openId)
+                ||Objects.isNull(userId)){
             logger.error("common_vote error.chainId:{},userId:{},ipAddress:{}",chainId,userId,ipAddress);
             throw new VoteRuntimeException("10000");
         }
