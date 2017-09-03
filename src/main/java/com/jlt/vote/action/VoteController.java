@@ -59,9 +59,8 @@ public class VoteController {
      * @param request
      * @param response
      */
-    @ValidateGroup(fileds = { @ValidateFiled(index = 1, notNull = true, desc = "用户id")})
-    @RequestMapping(value ="/vote/{chainId}/v_user",method = {RequestMethod.GET})
-    public String v_user(@PathVariable Long chainId, Long userId,HttpServletRequest request, HttpServletResponse response,ModelMap model){
+    @RequestMapping(value ="/vote/{chainId}/v_user/{userId}",method = {RequestMethod.GET})
+    public String v_user(@PathVariable Long chainId, @PathVariable Long userId,HttpServletRequest request, HttpServletResponse response,ModelMap model){
         logger.info("VoteController.v_user({},{})",chainId,userId);
         //通过chainId userId查询用户详情,同时用户热度+1,活动热度+2
         Map<String,Object> userDetail = campaignService.queryUserDetail(chainId,userId);
