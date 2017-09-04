@@ -13,13 +13,4 @@
         </div>
     </div>
 
-    <!-- build:lib -->
-    <!-- <script src="/res/lib/js/jquery.min.js<%=CDN_VERSION%>"></script> -->
-    <!-- <script src="/res/lib/js/masonry-docs.min.js<%=CDN_VERSION%>"></script> -->
-    <script src="/res/lib/js/avalon.js<%=CDN_VERSION%>"></script>
-    <script src="/res/lib/js/zepto.min.js<%=CDN_VERSION%>"></script>
-    <script src="/res/lib/js/jaliswall.js<%=CDN_VERSION%>"></script>
-    <script src="/res/lib/js/jweixin-1.0.0.js<%=CDN_VERSION%>"></script>
-    <script src="/res/lib/js/swipe.js<%=CDN_VERSION%>"></script>
-    <script src="/res/lib/js/vote_helper.js<%=CDN_VERSION%>"></script>
-    <!-- endbuild -->
+    <script src="https://pic.jilunxing.com/vote/lib-4d8050ccdf.min.js"></script>
