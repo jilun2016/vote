@@ -127,8 +127,8 @@
                                     <img src="/res/page/img/send-gift.gif">
                                 </a>
                             </div>
-                            <div class="title">投票成功</div>
-                            <div class="intro">恭喜您为支持的Ta贡献了一票~</div>
+                            <div class="title" ms-text="modal.title"></div>
+                            <div class="intro" ms-text="modal.content"></div>
                         </div>
                         <div class="modal-footer">
                             <ul style="font-size: 1.4rem;">
