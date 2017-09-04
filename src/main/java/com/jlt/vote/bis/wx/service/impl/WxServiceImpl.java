@@ -3,6 +3,7 @@ package com.jlt.vote.bis.wx.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.jlt.vote.bis.campaign.entity.UserVoteRecord;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
+import com.jlt.vote.bis.campaign.vo.CampaignGiftDetailVo;
 import com.jlt.vote.bis.wx.PayStatusEnum;
 import com.jlt.vote.bis.wx.WxTokenTypeEnum;
 import com.jlt.vote.bis.wx.entity.AccessToken;
@@ -25,8 +26,10 @@ import com.jlt.vote.bis.wx.service.IWxService;
 import com.jlt.vote.bis.wx.vo.GiftWxPrePayOrder;
 import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.exception.VoteRuntimeException;
+import com.jlt.vote.util.CacheConstants;
 import com.jlt.vote.util.CommonConstants;
 import com.jlt.vote.util.HTTPUtil;
+import com.jlt.vote.util.RedisDaoSupport;
 import com.xcrm.cloud.database.db.BaseDaoSupport;
 import com.xcrm.cloud.database.db.query.QueryBuilder;
 import com.xcrm.cloud.database.db.query.Ssqb;
@@ -45,6 +48,7 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -79,6 +83,11 @@ public class WxServiceImpl implements IWxService {
 
     @Autowired
     private BaseDaoSupport baseDaoSupport;
+
+    @Autowired
+    private RedisDaoSupport redisDaoSupport;
+
+
 
     @Override
     public String buildWxAuthRedirect(Long chainId, String redirectUrl) {
@@ -223,8 +232,8 @@ public class WxServiceImpl implements IWxService {
             currentSharePageUrl = currentSharePageUrl.substring(0,currentSharePageUrl.indexOf("#"));
         }
         String appId = sysConfig.getWxAppId();
-        AccessToken jsToken = queryAccessTokenByType(WxTokenTypeEnum.JS_TICKET, appId);
-        if (jsToken == null) {
+        AccessToken jsToken = queryWxJsAccessToken(appId);
+        if (Objects.isNull(jsToken)) {
             return null;
         }
         String jsTicket = jsToken.getToken();
@@ -287,11 +296,25 @@ public class WxServiceImpl implements IWxService {
 
     @Override
     public AccessToken queryAccessTokenByType(WxTokenTypeEnum type, String appId) {
-
         Ssqb query = Ssqb.create("com.jlt.vote.wx.queryAccessTokenByType")
                 .setParam("appId", appId)
                 .setParam("type", type.value());
         return baseDaoSupport.findForObj(query, AccessToken.class);
+    }
+
+    @Override
+    public AccessToken queryWxJsAccessToken(String appId) {
+        AccessToken wxJsAccessToken = redisDaoSupport.get(CacheConstants.CAMPAIGN_JS_TOKEN+appId,AccessToken.class);
+        if(Objects.isNull(wxJsAccessToken)){
+            Ssqb query = Ssqb.create("com.jlt.vote.wx.queryAccessTokenByType")
+                    .setParam("appId", appId)
+                    .setParam("type", WxTokenTypeEnum.JS_TICKET.value());
+            wxJsAccessToken =  baseDaoSupport.findForObj(query, AccessToken.class);
+            if(Objects.nonNull(wxJsAccessToken)){
+                redisDaoSupport.set(CacheConstants.CAMPAIGN_JS_TOKEN+appId,wxJsAccessToken);
+            }
+        }
+       return wxJsAccessToken;
     }
 
     @Override

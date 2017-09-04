@@ -227,6 +227,8 @@ public class VoteInterceptor implements HandlerInterceptor {
             mav.addObject("campaignScroll", MapUtils.getString(campaignInfoMap,"campaignScroll"));
             mav.addObject("campaignName", MapUtils.getString(campaignInfoMap,"campaignName"));
             mav.addObject("sponsorPic", MapUtils.getString(campaignInfoMap,"sponsorPic"));
+
+
         }
     }
 

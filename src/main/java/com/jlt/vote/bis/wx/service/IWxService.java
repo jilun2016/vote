@@ -49,6 +49,13 @@ public interface IWxService {
     AccessToken queryAccessTokenByType(WxTokenTypeEnum type, String appId);
 
     /**
+     * 获取微信的js的token
+     * @param appId
+     * @return
+     */
+    AccessToken queryWxJsAccessToken(String appId);
+
+    /**
      * 更新微信的accessToken
      * @param accessToken
      */
