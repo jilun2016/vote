@@ -74,6 +74,8 @@
         var openId = '${openId}';
         var chainId = '${chainId}';
         var campaignScroll = '${campaignScroll}';
+        var jsAPISignature = '${jsAPISignature}';
+        jsAPISignature = jsAPISignature && JSON.parse(jsAPISignature);
     </script>
 
     <%

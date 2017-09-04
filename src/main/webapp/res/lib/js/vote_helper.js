@@ -146,6 +146,29 @@
                   });
               },
               getWxCfg: function(currentUrl, callback) {
+                  var data = jsAPISignature;
+                  if (data) {
+                      wx.config({
+                          debug: false,
+                          appId: data.appId,
+                          timestamp: Number(data.timestamp),
+                          nonceStr: data.nonce,
+                          signature: data.signature,
+                          jsApiList: [
+                              'onMenuShareTimeline',
+                              'onMenuShareAppMessage',
+                              'previewImage',
+                          ]
+                      });
+                      wx.ready(function() {
+                          callback && callback();
+                      });
+                      wx.error(function(res) {
+                          console.error('err', res)
+                      });
+                  }
+              },
+              getWxCfgAjax: function(currentUrl, callback) {
                   var index = currentUrl.indexOf('#');
                   currentUrl = index > 0 ? currentUrl.substr(0, index) : currentUrl;
                   vote.jqAjax('/vote/' + chainId + '/jssdk_config', 'currentUrl=' + encodeURIComponent(currentUrl), function(json) {

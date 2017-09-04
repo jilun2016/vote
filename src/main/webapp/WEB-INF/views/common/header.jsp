@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <link rel="stylesheet" href="https://pic.jilunxing.com/vote/build-e92c87d983.min.css">
-
+    <!-- build:css -->
+    <link href="/res/page/fonts/iconfont.css" rel="stylesheet">
+    <link href="/res/page/css/custom.css" rel="stylesheet">
+    <!-- endbuild -->
 
     <style>
         .loading-bg {
@@ -72,6 +74,8 @@
         var openId = '${openId}';
         var chainId = '${chainId}';
         var campaignScroll = '${campaignScroll}';
+        var jsAPISignature = '${jsAPISignature}';
+        jsAPISignature = jsAPISignature && JSON.parse(jsAPISignature);
     </script>
 
     <%
