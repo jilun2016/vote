@@ -11,6 +11,9 @@
          isover: false, //是否结束
          isMore: false, //是否加载更多
          campaignScroll: campaignScroll,
+         modal: {
+
+         },
          methods: {
              send: function() {
                  userOpt.send();

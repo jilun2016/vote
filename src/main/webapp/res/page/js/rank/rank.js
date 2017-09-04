@@ -10,7 +10,12 @@
              text: '活动时间倒计时'
          },
          list: [],
-         campaignScroll: campaignScroll
+         campaignScroll: campaignScroll,
+         methods: {
+             jumpToUserDetail: function(index) {
+                 window.location.href = 'v_user/' + rankVm.list[index].userId;
+             }
+         }
      });
      //未达到 10条  隐藏 加载更多
      var rankOpt = (function() {

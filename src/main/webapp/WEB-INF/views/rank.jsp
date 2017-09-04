@@ -24,17 +24,17 @@
                         <div class="time ">
                             <div class="time-title"> 活动时间倒计时 </div>
                             <div class="time-input">
-                                <span class="time-box" ms-text="time.days + '天'"></span>
-                                <span class="time-box" ms-text="time.hours + '时'"></span>
-                                <span class="time-box" ms-text="time.minutes + '分'"></span>
-                                <span class="time-box" ms-text="time.seconds + '秒'"></span>
+                                <span class="time-box" ms-text="time.days + '天'">00天</span>
+                                <span class="time-box" ms-text="time.hours + '时'">00时</span>
+                                <span class="time-box" ms-text="time.minutes + '分'">00分</span>
+                                <span class="time-box" ms-text="time.seconds + '秒'">00秒</span>
                             </div>
                             <div class="billboard-top"> <img src="/res/page/img/billboard-top.png"> </div>
                             <div class="billboard-body">
                                 <div class="tab-pane active">
-                                    <ul>
-                                        <li ms-for="($index,item) in list">
-                                            <a class="b-b-line" ms-attr="{href: 'v_user/'+@item.userId}">
+                                    <ul ms-if="list.length>0">
+                                        <li ms-for="($index,item) in list" ms-click="methods.jumpToUserDetail($index)">
+                                            <a class="b-b-line">
                                                 <div class="num">
                                                     <img src="/res/page/img/icon-one.png" ms-if="$index==0">
                                                     <img src="/res/page/img/icon-two.png" ms-if="$index==1">
