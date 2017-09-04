@@ -1,4 +1,5 @@
- $(document).ready(function() {
+ ;
+ (function($) {
      var timer = null;
      var indexVm = avalon.define({
          $id: "vote",
@@ -36,22 +37,13 @@
                  indexOpt.rearch();
              },
              rendered: function() {
+                 $("#masonry").show();
+                 indexVm.isLoadImg = true;
+                 indexVm.isShowMore = indexVm.userList.length == indexVm.pagecfg.pageSize;
+                 vote.loading.hide();
                  setTimeout(function() {
-                     $("#masonry").show();
-                     var $container = $('#masonry');
-                     $container.imagesLoaded(function() {
-                         $container.masonry({
-                             itemSelector: '.item',
-                             columnWidth: 0 //每两列之间的间隙为5像素
-                         });
-                     });
-                     if (indexVm.pagecfg.pageNo > 1) {
-                         $container.masonry('reloadItems');
-                     }
-                     indexVm.isLoadImg = true;
-                     indexVm.isShowMore = indexVm.userList.length == indexVm.pagecfg.pageSize;
-                     vote.loading.hide();
-                 }, 0);
+                     $('.wall').jaliswall({ item: '.article' });
+                 }, 800);
              }
          }
      });
@@ -150,4 +142,6 @@
      })();
 
      indexOpt.build();
- });
+
+
+ })(Zepto)
