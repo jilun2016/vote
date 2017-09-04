@@ -51,12 +51,14 @@
                      }
                      var list = res.data.list;
                      userVm.isMore = !(list.length < userVm.pagecfg.pageSize);
-                     _.forEach(list, function(item) {
-                         var st = moment(item.voteTime).format('YYYY-MM-DD HH:mm');
+
+                     var len = list.length;
+                     for (var i = 0; i < len; i++) {
+                         var item = list[i];
+                         var st = new Date(item.voteTime).Format('yyyy-MM-dd HH:mm');
                          item.voteTimeStr = item.remark ? ("留言: " + item.remark + '<br/>' + st) : st;
-                     });
-                     var tempArr = _.clone(userVm.giftList, true);
-                     userVm.giftList = tempArr.concat(res.data.list);
+                     }
+                     userVm.giftList = userVm.giftList.concat(res.data.list);
                      vote.loading.hide();
                  }, function(err) {
                      console.log(err)

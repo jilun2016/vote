@@ -15,8 +15,6 @@
 
     <!-- build:lib -->
     <script src="/res/lib/js/jquery.min.js<%=CDN_VERSION%>"></script>
-    <script src="/res/lib/js/lodash.min.js<%=CDN_VERSION%>"></script>
-    <script src="/res/lib/js/moment.min.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/masonry-docs.min.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/vote_helper.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/avalon.js<%=CDN_VERSION%>"></script>

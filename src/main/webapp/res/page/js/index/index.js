@@ -74,8 +74,7 @@
                      if (data.data.list.length === 0) {
                          indexVm.pagecfg.pageNo--;
                      }
-                     var tempArr = _.clone(indexVm.userList, true);
-                     indexVm.userList = tempArr.concat(data.data.list);
+                     indexVm.userList = indexVm.userList.concat(data.data.list);
                  }, function(err) {
                      console.log(err)
                      vote.loading.hide();
