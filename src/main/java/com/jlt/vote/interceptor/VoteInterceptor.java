@@ -101,8 +101,7 @@ public class VoteInterceptor implements HandlerInterceptor {
         if(wxRedirect(uri)
                 &&BooleanUtils.isNotTrue(campaignService.checkCampaignFinish(chainId))){
             if (Objects.isNull(cookieFromOpenId)) {
-                String redirectUrl = RequestUtils.getLocation(request);
-                redirectUrl = redirectUrl.replace("http:","https:");
+                String redirectUrl = getCurrentUrl(request);
                 String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,redirectUrl);
                 logger.info("VoteInterceptor login redirectUrl :{},wxAuthUrl :{}",redirectUrl,wxAuthUrl);
                 response.sendRedirect(wxAuthUrl);
@@ -131,6 +130,11 @@ public class VoteInterceptor implements HandlerInterceptor {
             WebUtils.setOpenId(request, cookieFromOpenId.getValue());
         }
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
+    }
+
+    private String getCurrentUrl(HttpServletRequest request){
+        String redirectUrl = RequestUtils.getLocation(request);
+        return redirectUrl.replace("http:","https:");
     }
 
     private Long getChainId(HttpServletRequest request,String uri) throws Exception{
@@ -228,7 +232,8 @@ public class VoteInterceptor implements HandlerInterceptor {
             mav.addObject("campaignName", MapUtils.getString(campaignInfoMap,"campaignName"));
             mav.addObject("sponsorPic", MapUtils.getString(campaignInfoMap,"sponsorPic"));
 
-
+            //获取js ticket token
+            wxService.getShareConfigInfo(getCurrentUrl(request));
         }
     }
 

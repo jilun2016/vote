@@ -263,6 +263,7 @@ public class WxServiceImpl implements IWxService {
                     jsToken.setToken(jsTicket);
                     jsToken.setUpdated(new Timestamp(System.currentTimeMillis()));
                     updateAccessToken(jsToken);
+                    redisDaoSupport.set(CacheConstants.CAMPAIGN_JS_TOKEN+appId,jsToken);
                 }
             }
         }
