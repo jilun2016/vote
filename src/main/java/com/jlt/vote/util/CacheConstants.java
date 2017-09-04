@@ -8,6 +8,12 @@ package com.jlt.vote.util;
 public interface CacheConstants {
 
 	/**
+	 * cache 投票活动js的Token缓存
+	 * 使用实例: cjt_{appId}
+	 */
+	String CAMPAIGN_JS_TOKEN = "cjt_";
+
+	/**
 	 * cache 投票活动基本信息
 	 * 使用实例: cb_{chainId}
 	 */
