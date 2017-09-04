@@ -101,7 +101,7 @@ public class VoteInterceptor implements HandlerInterceptor {
         if(wxRedirect(uri)
                 &&BooleanUtils.isNotTrue(campaignService.checkCampaignFinish(chainId))){
             if (Objects.isNull(cookieFromOpenId)) {
-                String redirectUrl = request.getRequestURI();
+                String redirectUrl = RequestUtils.getLocation(request);
                 redirectUrl = redirectUrl.replace("http:","https:");
                 String wxAuthUrl = wxService.buildWxAuthRedirect(chainId,redirectUrl);
                 logger.info("VoteInterceptor login redirectUrl :{},wxAuthUrl :{}",redirectUrl,wxAuthUrl);
