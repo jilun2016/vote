@@ -1,11 +1,9 @@
 package com.jlt.vote.interceptor;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
-import com.jlt.vote.bis.campaign.vo.CampaignDetailVo;
 import com.jlt.vote.bis.wx.service.IWxService;
+import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.util.*;
-import com.xcrm.cloud.database.db.query.Ssqb;
-import com.xcrm.common.util.DateFormatUtils;
 import com.xcrm.log.Logger;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.BooleanUtils;
@@ -18,10 +16,7 @@ import org.springframework.web.util.UrlPathHelper;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.DateFormat;
-import java.text.MessageFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -52,9 +47,17 @@ public class VoteInterceptor implements HandlerInterceptor {
     @Autowired
     private IWxService wxService;
 
+    @Autowired
+    private SysConfig sysConfig;
+
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        if(Objects.equals(SystemProfileEnum.DEVELOP.value(),sysConfig.getProjectProfile())){
+            WebUtils.setOpenId(request, "oTMo21YNuO1BZqdPOIWGO1l6c5v0");
+            return true;
+        }
         String agent = request.getHeader("user-agent");
         String uri = getURI(request);
         //授权回调排除
