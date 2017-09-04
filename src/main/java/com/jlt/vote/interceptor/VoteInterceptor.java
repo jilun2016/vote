@@ -1,6 +1,7 @@
 package com.jlt.vote.interceptor;
 
 import com.jlt.vote.bis.campaign.service.ICampaignService;
+import com.jlt.vote.bis.wx.sdk.common.jsapi.JsAPISignature;
 import com.jlt.vote.bis.wx.service.IWxService;
 import com.jlt.vote.config.SysConfig;
 import com.jlt.vote.util.*;
@@ -233,7 +234,7 @@ public class VoteInterceptor implements HandlerInterceptor {
             mav.addObject("sponsorPic", MapUtils.getString(campaignInfoMap,"sponsorPic"));
 
             //获取js ticket token
-            wxService.getShareConfigInfo(getCurrentUrl(request));
+            mav.addObject("jsAPISignature", wxService.getShareConfigInfo(getCurrentUrl(request)));
         }
     }
 
