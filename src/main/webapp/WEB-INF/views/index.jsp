@@ -42,10 +42,10 @@
                     <div class="time">
                         <div class="time-title" ms-text="time.text"></div>
                         <div class="time-input">
-                            <span class="time-box" ms-text="time.days+'天'"></span>
-                            <span class="time-box" ms-text="time.hours+'时'"></span>
-                            <span class="time-box" ms-text="time.minutes+'分'"></span>
-                            <span class="time-box" ms-text="time.seconds+'秒'"></span>
+                            <span class="time-box" ms-text="time.days + '天'">00天</span>
+                            <span class="time-box" ms-text="time.hours + '时'">00时</span>
+                            <span class="time-box" ms-text="time.minutes + '分'">00分</span>
+                            <span class="time-box" ms-text="time.seconds + '秒'">00秒</span>
                         </div>
                     </div>
                     <div class="search-input">
@@ -115,7 +115,6 @@
                         </li>
                     </ul>
                 </div>
-
 
                 <%@ include file="./common/footer.jsp" %>
 
