@@ -56,7 +56,7 @@ public class VoteExceptionHandler {
                 taskExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String text = StringUtil.getStackTrace(ex);
+                        String text = requestMap.toString() + " | " + StringUtil.getStackTrace(ex);
                         SendMailUtil sendEmail = new SendMailUtil(
                                 "15604090129@163.com", "jlt2016YUIOYHN", "15604090129@163.com",
                                 "线上环境发生异常，请及时关注", text, "ecs-vote", "", "");
