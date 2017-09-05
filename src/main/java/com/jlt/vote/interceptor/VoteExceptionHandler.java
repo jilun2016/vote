@@ -79,7 +79,7 @@ public class VoteExceptionHandler {
             ModelAndView mv = new ModelAndView();
             mv.addObject("errorMessage", errorMessage);
             //跳转错误页
-            mv.setViewName("gift");
+            mv.setViewName("error");
             return mv;
         }
         return null;
