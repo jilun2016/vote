@@ -16,7 +16,8 @@
     <!-- build:lib -->
     <script src="/res/lib/js/avalon.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/zepto.min.js<%=CDN_VERSION%>"></script>
-    <script src="/res/lib/js/jaliswall.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/imagesloaded.pkgd.min.js<%=CDN_VERSION%>"></script>
+    <script src="/res/lib/js/masonry.pkgd.min.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/jweixin-1.0.0.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/swipe.js<%=CDN_VERSION%>"></script>
     <script src="/res/lib/js/vote_helper.js<%=CDN_VERSION%>"></script>

@@ -42,7 +42,13 @@
                  indexVm.isShowMore = indexVm.userList.length == indexVm.pagecfg.pageSize;
                  vote.loading.hide();
                  setTimeout(function() {
-                     $('.wall').jaliswall({ item: '.article' });
+                     imagesLoaded('#masonry', function() {
+                         var msnry = new Masonry('#masonry', {
+                             itemSelector: '.item',
+                             columnWidth: 0
+                         });
+                     });
+                     vote.loading.hide();
                  }, 800);
              }
          }
