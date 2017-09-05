@@ -221,7 +221,7 @@ public class VoteController {
 
 
     @RequestMapping(value ="/vote/test",method = {RequestMethod.GET})
-    public void test(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response,ModelMap model) {
+    public void test(HttpServletRequest request, HttpServletResponse response,ModelMap model) {
         throw new NullPointerException();
     }
 
