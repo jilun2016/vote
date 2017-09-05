@@ -6,6 +6,7 @@ import com.jlt.vote.exception.VoteRuntimeException;
 import com.jlt.vote.util.*;
 import com.xcrm.cloud.database.db.util.StringUtil;
 import com.xcrm.log.Logger;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -52,11 +53,12 @@ public class VoteExceptionHandler {
             logger.error("###############unknown exception ########",ex);
             //线上环境 发送异常邮件处理
             if (sysConfig.getProjectProfile().equals(SystemProfileEnum.PRODUCT.value())) {
-                Map<String, Object> requestMap = RequestUtils.getQueryParams(request);
+                StringBuilder exceptionData = new StringBuilder();
+                exceptionData.append("【Resource】=").append(RequestUtils.getLocation(request)).append("\n");
                 taskExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String text = requestMap.toString() + " | " + StringUtil.getStackTrace(ex);
+                        String text = exceptionData + " | " + StringUtil.getStackTrace(ex);
                         SendMailUtil sendEmail = new SendMailUtil(
                                 "15604090129@163.com", "jlt2016YUIOYHN", "15604090129@163.com",
                                 "线上环境发生异常，请及时关注", text, "ecs-vote", "", "");
