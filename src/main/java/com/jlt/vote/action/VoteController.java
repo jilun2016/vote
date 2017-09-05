@@ -220,6 +220,12 @@ public class VoteController {
     }
 
 
+    @RequestMapping(value ="/vote/test",method = {RequestMethod.GET})
+    public void test(@PathVariable Long chainId,HttpServletRequest request, HttpServletResponse response,ModelMap model) {
+        throw new NullPointerException();
+    }
+
+
     @RequestMapping(value ="/redis/keys/delete",method = {RequestMethod.GET})
     public void deleteRedisKeys(String auth, HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.deleteRedisKeys,deleteRedisKeys:{}",auth);

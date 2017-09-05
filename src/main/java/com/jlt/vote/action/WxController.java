@@ -244,18 +244,5 @@ public class WxController {
             ResponseUtils.createBadResponse(response,"获取配置信息错误");
         }
     }
-//返回结果
-//    {
-//        "data": {
-//        "appId": "wx54e7794a0657d2c7",
-//                "expired": 1502565673000,
-//                "nonce": "1f081mv8yj4atnnh",
-//                "signature": "b9f315c803662fa5e2f60c170e216427b52bfd4e",
-//                "timestamp": 1502645016,
-//                "url": "http://localhost:7777/vote/5910417230/v_award"
-//    },
-//        "msg": "success",
-//            "status": 1
-//    }
 
 }
