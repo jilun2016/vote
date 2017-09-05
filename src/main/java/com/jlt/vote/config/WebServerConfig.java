@@ -1,7 +1,6 @@
 package com.jlt.vote.config;
 
 import com.xcrm.cloud.database.db.init.InitAnnotationEntity;
-import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -33,15 +32,13 @@ public class WebServerConfig {
     @Bean
     public EmbeddedServletContainerFactory createEmbeddedServletContainerFactory() {
         TomcatEmbeddedServletContainerFactory tomcatFactory = new TomcatEmbeddedServletContainerFactory();
-        tomcatFactory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
-            public void customize(Connector connector) {
-                Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();
-                //设置最大连接数
-                protocol.setMaxConnections(1000);
-                //设置最大线程数
-                protocol.setMaxThreads(500);
-                protocol.setConnectionTimeout(2000);
-            }
+        tomcatFactory.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
+            Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();
+            //设置最大连接数
+            protocol.setMaxConnections(1000);
+            //设置最大线程数
+            protocol.setMaxThreads(800);
+            protocol.setConnectionTimeout(2000);
         });
         return tomcatFactory;
     }

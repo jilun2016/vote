@@ -1,5 +1,6 @@
 package com.jlt.vote.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import com.jlt.vote.bis.campaign.service.ICampaignService;
 import com.jlt.vote.bis.wx.sdk.common.jsapi.JsAPISignature;
 import com.jlt.vote.bis.wx.service.IWxService;
@@ -234,7 +235,7 @@ public class VoteInterceptor implements HandlerInterceptor {
             mav.addObject("sponsorPic", MapUtils.getString(campaignInfoMap,"sponsorPic"));
 
             //获取js ticket token
-            mav.addObject("jsAPISignature", wxService.getShareConfigInfo(getCurrentUrl(request)));
+            mav.addObject("jsAPISignature", JSON.toJSONString(wxService.getShareConfigInfo(getCurrentUrl(request))));
         }
     }
 
