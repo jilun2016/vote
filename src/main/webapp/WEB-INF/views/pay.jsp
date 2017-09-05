@@ -60,7 +60,7 @@
                             </li>
                         </ul>
                         <div class="product-intro">
-                            <span> 单价1元，抵3票</span>
+                            <span ms-text="info"></span>
                             <div class="pull-right">数量：
                                 <select ms-duplex="amount">
                                     <option value="1">1</option>

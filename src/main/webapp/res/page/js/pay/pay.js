@@ -15,6 +15,7 @@
         isover: false, //是否结束
         campaignScroll: campaignScroll,
         remark: '',
+        info: '',
         methods: {
             itemClick: function(index) {
                 try {
@@ -23,6 +24,7 @@
                     if (cur) {
                         payVm.giftId = cur.giftId;
                     }
+                    payVm.info = "单价" + cur.giftPoint + '元,抵' + cur.voteCount + '票';
                 } catch (error) {
                     message.msg(error.message);
                 }
