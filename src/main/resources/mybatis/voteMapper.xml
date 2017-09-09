@@ -52,7 +52,7 @@
                     a.name like CONCAT('%',#{queryKey},'%') OR a.number like CONCAT('%',#{queryKey},'%')
                 </trim>
             </if>
-        ORDER BY a.voteCount DESC
+        ORDER BY a.number ASC
         <if test="start != null and start >= 0 and pageSize != null and pageSize >= 0">
             LIMIT #{start},#{pageSize}
         </if>
