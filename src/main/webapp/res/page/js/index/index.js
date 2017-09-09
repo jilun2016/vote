@@ -39,7 +39,7 @@
              rendered: function() {
                  $("#masonry").show();
                  indexVm.isLoadImg = true;
-                 indexVm.isShowMore = indexVm.userList.length == indexVm.pagecfg.pageSize;
+                 indexVm.isShowMore = indexVm.userList.length == (indexVm.pagecfg.pageSize * (indexVm.pagecfg.pageNo - 1));
                  vote.loading.hide();
                  setTimeout(function() {
                      imagesLoaded('#masonry', function() {
