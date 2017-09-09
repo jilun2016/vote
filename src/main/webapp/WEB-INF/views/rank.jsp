@@ -33,8 +33,8 @@
                             <div class="billboard-body">
                                 <div class="tab-pane active">
                                     <ul ms-if="list.length>0">
-                                        <li ms-for="($index,item) in list" ms-click="methods.jumpToUserDetail($index)">
-                                            <a class="b-b-line">
+                                        <li ms-for="($index,item) in list">
+                                            <a class="b-b-line" href="javascript:;;" ms-click="methods.jumpToUserDetail($index)">
                                                 <div class="num">
                                                     <img src="/res/page/img/icon-one.png" ms-if="$index==0">
                                                     <img src="/res/page/img/icon-two.png" ms-if="$index==1">
@@ -48,7 +48,7 @@
                                                     <div class="inner-title" ms-text="item.name +' ' + item.number +'号' "></div>
                                                     <div class="inner-content" ms-text="item.declaration"></div>
                                                 </div>
-                                                <div class="ticket" ms-text=" item.voteCount + '票' "></div>
+                                                <div class="ticket" style="width:8rem;" ms-text=" item.voteCount + '票' "></div>
                                             </a>
                                         </li>
                                     </ul>
