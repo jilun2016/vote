@@ -213,7 +213,8 @@ public class CampaignServiceImpl implements ICampaignService {
 		Ssqb queryUserQb = Ssqb.create("com.jlt.vote.querySimpleUserList")
 				.setParam("chainId", chainId)
 				.setParam("queryKey",queryKey)
-				.setParam("pageNo", pageNo).setParam("pageSize", pageSize);
+                .setParam("start",(pageNo - 1)*pageSize)
+                .setParam("pageSize", pageSize);
 		List<Map<String, Object>> userList = baseDaoSupport.findForMapList(queryUserQb);
 
 		Ssqb queryUserCountQb = Ssqb.create("com.jlt.vote.querySimpleUserList_count")
@@ -305,7 +306,8 @@ public class CampaignServiceImpl implements ICampaignService {
 		Ssqb queryUserQb = Ssqb.create("com.jlt.vote.queryUserGiftList")
 				.setParam("chainId", chainId)
 				.setParam("userId", userId)
-				.setParam("pageNo", pageNo).setParam("pageSize", pageSize);
+                .setParam("start",(pageNo - 1)*pageSize)
+                .setParam("pageSize", pageSize);
 		List<Map<String, Object>> userGiftList = baseDaoSupport.findForMapList(queryUserQb);
 
 		Ssqb queryUserGiftCountQb = Ssqb.create("com.jlt.vote.queryUserGiftList_count")
