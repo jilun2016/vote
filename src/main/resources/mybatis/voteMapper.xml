@@ -61,6 +61,16 @@
         </if>
     </select>
 
+    <select id="querySimpleUserList_count" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_t_user a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
+        <if test="queryKey != null and queryKey != ''">
+            <trim prefix="AND (" suffix=")">
+                a.name like CONCAT('%',#{queryKey},'%') OR a.number like CONCAT('%',#{queryKey},'%')
+            </trim>
+        </if>
+    </select>
 
     <resultMap id="UserDetailMap" type="com.jlt.vote.bis.campaign.vo.UserDetailVo">
         <result property="userId" column="userId" />
@@ -112,6 +122,12 @@
         <if test="start != null and start > 0 and pageSize == null">
             LIMIT #{pageSize}
         </if>
+    </select>
+
+    <select id="queryUserGiftList_count" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_t_user_gift_record a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.userId = #{userId}
     </select>
     
     <update id="updateCampaignViewCount">

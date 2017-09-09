@@ -210,13 +210,18 @@ public class CampaignServiceImpl implements ICampaignService {
 
 	@Override
 	public Pagination querySimpleUserList(Long chainId, String queryKey, Integer pageNo, Integer pageSize) {
-		Ssqb queryUsersSqb = Ssqb.create("com.jlt.vote.querySimpleUserList")
+		Ssqb queryUserQb = Ssqb.create("com.jlt.vote.querySimpleUserList")
+				.setParam("chainId", chainId)
 				.setParam("queryKey",queryKey)
-				.setParam("chainId",chainId)
-				.setParam("pageNo",pageNo)
-				.setParam("pageSize",pageSize);
-		queryUsersSqb.setIncludeTotalCount(true);
-		return baseDaoSupport.findForPage(queryUsersSqb);
+				.setParam("pageNo", pageNo).setParam("pageSize", pageSize);
+		List<Map<String, Object>> userList = baseDaoSupport.findForMapList(queryUserQb);
+
+		Ssqb queryUserCountQb = Ssqb.create("com.jlt.vote.querySimpleUserList_count")
+				.setParam("chainId", chainId)
+				.setParam("queryKey", queryKey);
+		Integer userCount = baseDaoSupport.findForInt(queryUserCountQb);
+
+		return new Pagination(pageNo, pageSize, userCount, userList);
 	}
 
 	@Override
@@ -297,12 +302,18 @@ public class CampaignServiceImpl implements ICampaignService {
 
 	@Override
 	public Pagination queryUserGiftList(Long chainId, Long userId, Integer pageNo, Integer pageSize) {
-		Ssqb queryUsersSqb = Ssqb.create("com.jlt.vote.queryUserGiftList")
-				.setParam("userId",userId)
-				.setParam("chainId",chainId)
-				.setParam("pageNo",pageNo)
-				.setParam("pageSize",pageSize);
-		return baseDaoSupport.findForPage(queryUsersSqb);
+		Ssqb queryUserQb = Ssqb.create("com.jlt.vote.queryUserGiftList")
+				.setParam("chainId", chainId)
+				.setParam("userId", userId)
+				.setParam("pageNo", pageNo).setParam("pageSize", pageSize);
+		List<Map<String, Object>> userGiftList = baseDaoSupport.findForMapList(queryUserQb);
+
+		Ssqb queryUserGiftCountQb = Ssqb.create("com.jlt.vote.queryUserGiftList_count")
+				.setParam("chainId", chainId)
+				.setParam("userId", userId);
+		Integer userGiftCount = baseDaoSupport.findForInt(queryUserGiftCountQb);
+
+		return new Pagination(pageNo, pageSize, userGiftCount, userGiftList);
 	}
 
 	@Override
