@@ -123,7 +123,7 @@
                         link: shareUrl,
                         imgUrl: userDetail.headPic
                     }, {
-                        title: '投TA一票',
+                        title: '投Ta一票',
                         desc: '<' + userDetail.name + '>参加了' + campaignName + '投票活动，等待你的支持，快去给Ta投票吧～',
                         link: shareUrl,
                         imgUrl: userDetail.headPic,
