@@ -77,5 +77,4 @@
     </script>
 
     <%
-	    String 	CDN_VERSION 	=   "?cdnversion=mo-1-1-20170910001";
     %>

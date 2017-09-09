@@ -55,7 +55,7 @@
                         userVm.pagecfg.pageNo--;
                     }
                     var list = res.data.list;
-                    userVm.isMore = !(list.length < userVm.pagecfg.pageSize);
+                    userVm.isMore = list.length == (userVm.pagecfg.pageSize * (userVm.pagecfg.pageNo - 1));
 
                     var len = list.length;
                     for (var i = 0; i < len; i++) {
