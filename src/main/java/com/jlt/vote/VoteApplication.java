@@ -6,10 +6,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import javax.sql.DataSource;
 
 @SpringBootApplication
 @EnableTransactionManagement
@@ -23,6 +27,16 @@ public class VoteApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(
             SpringApplicationBuilder application) {
         return application.sources(VoteApplication.class);
+    }
+
+    /**
+     * 指定事务处理
+     * @param dataSource
+     * @return
+     */
+    @Bean
+    public PlatformTransactionManager txManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean
