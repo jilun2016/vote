@@ -113,18 +113,17 @@
                     payVm.campaignScroll = '活动已结束';
                     message.msg('活动已结束,期待其他投票活动');
                 }
-                payVm
                 payVm.isover = vote.isOver();
                 payVm.top = userDetail;
                 opt.queryGiftList();
-                var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/home';
+                var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/' + userDetail.userId;
                 vote.getWxCfg(window.location.href, function() {
                     vote.wxShareCfg({
                         title: '<' + userDetail.name + '>参加了' + campaignName + '投票活动，等待你的支持，快去给Ta投票吧～',
                         link: shareUrl,
                         imgUrl: userDetail.headPic
                     }, {
-                        title: '投她一票',
+                        title: '投TA一票',
                         desc: '<' + userDetail.name + '>参加了' + campaignName + '投票活动，等待你的支持，快去给Ta投票吧～',
                         link: shareUrl,
                         imgUrl: userDetail.headPic,
