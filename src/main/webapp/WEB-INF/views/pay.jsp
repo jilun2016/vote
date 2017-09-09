@@ -57,7 +57,7 @@
                                 <div class="product-img"><img ms-attr="{src:item.giftpic +'?x-oss-process=style/q_60'}"> </div>
                                 <div class="product-title" ms-text="item.giftName"></div>
                                 <div class="product-price" ms-if="item.giftId!=giftId">
-                                    <span class="cl-red" ms-text="item.giftPoint"></span>点
+                                    <span class="cl-red" ms-text="item.giftPoint + '点'"></span>
                                 </div>
                                 <div class="product-price" ms-if="item.giftId==giftId">
                                     {{item.giftPoint}}点抵<span class="cl-red" ms-text="item.voteCount"></span>票
