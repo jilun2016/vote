@@ -59,8 +59,8 @@
                                 <div class="product-price" ms-if="item.giftId!=giftId">
                                     <span class="cl-red" ms-text="item.giftPoint + '点'"></span>
                                 </div>
-                                <div class="product-price" ms-if="item.giftId==giftId">
-                                    {{item.giftPoint}}点抵<span class="cl-red" ms-text="item.voteCount"></span>票
+                                <div class="product-price" ms-if="item.giftId==giftId" ms-text="item.giftPoint + '点抵' + item.voteCount +'票' ">
+                                    <!-- {{item.giftPoint}}点抵<span class="cl-red" ms-text="item.voteCount"></span>票 -->
                                 </div>
                             </li>
                         </ul>
