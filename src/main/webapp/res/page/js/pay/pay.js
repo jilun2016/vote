@@ -116,7 +116,7 @@
                 payVm.isover = vote.isOver();
                 payVm.top = userDetail;
                 opt.queryGiftList();
-                var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/' + userDetail.userId;
+                var shareUrl = "https://" + window.location.host + '/vote/' + chainId + '/v_user/' + userDetail.userId;
                 vote.getWxCfg(window.location.href, function() {
                     vote.wxShareCfg({
                         title: '<' + userDetail.name + '>参加了' + campaignName + '投票活动，等待你的支持，快去给Ta投票吧～',
