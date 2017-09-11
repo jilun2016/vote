@@ -32,7 +32,9 @@
                             vote.endTimeLoop(rankVm)
                         }, 1000);
                     } else {
-
+                        if (timer) {
+                            window.clearInterval(timer);
+                        }
                     }
                 }
             },
