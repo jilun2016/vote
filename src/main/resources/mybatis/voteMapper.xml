@@ -190,7 +190,7 @@
         FROM t_t_user a
         WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
         ORDER BY a.voteCount DESC
-        LIMIT 20
+        LIMIT 50
     </select>
 
 </mapper>

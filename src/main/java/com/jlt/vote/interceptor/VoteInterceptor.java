@@ -19,6 +19,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -115,7 +116,14 @@ public class VoteInterceptor implements HandlerInterceptor {
         if ((CommonConstants.POST.equals(request.getMethod().toUpperCase()))
                 && ((uri.indexOf("common_vote") > 0)
                 || (uri.indexOf("/pay/prepay") > 0))) {
-            if(BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId))){
+            if(BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId)) && ((uri.indexOf("common_vote") > 0))){
+                Map<String,Object> resultMap = new HashMap<>();
+                resultMap.put("result",-1);
+                ResponseUtils.createSuccessResponse(response, resultMap);
+                return false;
+            }
+
+            if(BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId)) && ((uri.indexOf("/pay/prepay") > 0))){
                 ResponseUtils.createSuccessResponse(response, "活动已结束.");
                 return false;
             }

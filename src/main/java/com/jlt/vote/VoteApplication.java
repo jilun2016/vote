@@ -7,6 +7,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
@@ -18,6 +19,7 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"com.jlt.vote", "com.xcrm.cloud.database"})
+@EnableScheduling
 public class VoteApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(VoteApplication.class, args);
