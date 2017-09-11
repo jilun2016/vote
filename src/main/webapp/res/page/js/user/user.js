@@ -38,15 +38,12 @@
                 show: function() { document.getElementById('divResultModal').style.display = ''; },
                 hide: function() { document.getElementById('divResultModal').style.display = 'none'; }
             },
-            queryGifts: function(isTimes) {
+            queryGifts: function() {
                 vote.loading.show();
                 var param = {
                     pageNo: userVm.pagecfg.pageNo,
                     pageSize: userVm.pagecfg.pageSize,
                     userId: userDetail.userId
-                }
-                if (isTimes) {
-                    param.isTimes = new Date().getTime();
                 }
                 vote.jqAjax('../gifts', param, function(res) {
 
@@ -71,7 +68,7 @@
                 }, function(err) {
                     console.log(err)
                     vote.loading.hide();
-                }, 'GET', true);
+                }, 'GET', true, true);
             },
             send: function() {
                 vote.loading.show();
@@ -128,7 +125,7 @@
                     userVm.isover = vote.isOver();
                     userVm.top = userDetail;
                     userVm.pagecfg.pageNo = 1;
-                    opt.queryGifts(true);
+                    opt.queryGifts();
 
                     vote.getWxCfg(shareUrl, function() {
                         vote.wxShareCfg({

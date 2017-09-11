@@ -45,7 +45,7 @@
               isOver: function() {
                   return new Date().isAfter(new Date(campaignEndTime));
               },
-              jqAjax: function(url, data, success, error, type, flage) {
+              jqAjax: function(url, data, success, error, type, flage, noCache) {
                   if (!url) {
                       message.msg("ajax请求未发现请求地址.");
                       error && error();
@@ -108,6 +108,12 @@
                               }
                           }
                       };
+                      if (noCache) {
+                          obj.headers = {
+                              "Cache-Control": "max-age=0",
+                              "Pragma": "no-cache"
+                          }
+                      }
                       if (flage) {
                           if (data) {
                               obj.data = data;
