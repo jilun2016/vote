@@ -113,6 +113,7 @@
                               "Cache-Control": "max-age=0",
                               "Pragma": "no-cache"
                           }
+                          obj.cache = false;
                       }
                       if (flage) {
                           if (data) {
