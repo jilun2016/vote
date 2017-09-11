@@ -38,12 +38,15 @@
                 show: function() { document.getElementById('divResultModal').style.display = ''; },
                 hide: function() { document.getElementById('divResultModal').style.display = 'none'; }
             },
-            queryGifts: function() {
+            queryGifts: function(isTimes) {
                 vote.loading.show();
                 var param = {
                     pageNo: userVm.pagecfg.pageNo,
                     pageSize: userVm.pagecfg.pageSize,
                     userId: userDetail.userId
+                }
+                if (isTimes) {
+                    param.isTimes = new Date().getTime();
                 }
                 vote.jqAjax('../gifts', param, function(res) {
 
@@ -125,7 +128,7 @@
                     userVm.isover = vote.isOver();
                     userVm.top = userDetail;
                     userVm.pagecfg.pageNo = 1;
-                    opt.queryGifts();
+                    opt.queryGifts(true);
 
                     vote.getWxCfg(shareUrl, function() {
                         vote.wxShareCfg({
