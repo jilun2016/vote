@@ -124,7 +124,7 @@
                     }
                     userVm.isover = vote.isOver();
                     userVm.top = userDetail;
-
+                    userVm.pagecfg.pageNo = 1;
                     opt.queryGifts();
 
                     vote.getWxCfg(shareUrl, function() {
