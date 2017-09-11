@@ -111,7 +111,7 @@
             build: function() {
                 if (vote.isOver()) {
                     payVm.campaignScroll = '活动已结束';
-                    message.msg('活动已结束,期待其他投票活动');
+                    message.msg('活动已结束.');
                 }
                 payVm.isover = vote.isOver();
                 payVm.top = userDetail;

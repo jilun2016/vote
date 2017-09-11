@@ -110,7 +110,7 @@
                  } else {
                      if (vote.isOver()) {
                          indexVm.time.text = '活动已结束';
-                         message.msg('活动已结束,期待其他投票活动');
+                         message.msg('活动已结束.');
                          indexVm.campaignScroll = '活动已结束';
                      }
 

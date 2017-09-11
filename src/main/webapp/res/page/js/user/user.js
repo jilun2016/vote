@@ -101,7 +101,7 @@
                             break;
                         case -1:
                             {
-                                message.msg('活动已结束,期待其他投票活动');
+                                message.msg('活动已结束.');
                             }
                             break;
                     }
@@ -128,7 +128,7 @@
                     window.location.href = shareUrl;
                 } else {
                     if (vote.isOver()) {
-                        message.msg('活动已结束,期待其他投票活动');
+                        message.msg('活动已结束.');
                         userVm.campaignScroll = '活动已结束';
                     }
                     userVm.isover = vote.isOver();
