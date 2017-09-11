@@ -464,14 +464,14 @@ public class CampaignServiceImpl implements ICampaignService {
 
         //每人每天最多一票
         Integer dayUserVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_USER_COUNT+chainId+"_"+openId+"_"+userId);
-        if((Objects.nonNull(dayUserVoteCount))&&(dayUserVoteCount >= 1000)){
+        if((Objects.nonNull(dayUserVoteCount))&&(dayUserVoteCount >= 1)){
 //			throw new VoteRuntimeException("10003");
             return 1;
         }
 
 		//每人每天最多一票
 		Integer dayVoteCount = redisDaoSupport.getInt(CacheConstants.CAMPAIGN_VOTER_COUNT+chainId+"_"+openId);
-		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1000)){
+		if((Objects.nonNull(dayVoteCount))&&(dayVoteCount >= 1)){
 //			throw new VoteRuntimeException("10001");
 			return 0;
 		}
