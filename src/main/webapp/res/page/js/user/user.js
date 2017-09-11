@@ -73,30 +73,38 @@
             send: function() {
                 vote.loading.show();
                 vote.jqAjax('../common_vote', 'userId=' + userDetail.userId, function(res) {
-                    var key = res.data;
+                    var key = Number(res.data.result);
                     switch (key) {
                         case 0:
                             {
                                 userVm.modal.title = '投票失败';
                                 userVm.modal.content = '你今天投票次数已用完,请明天继续投票吧';
+                                opt.modal.show();
+                                opt.queryUserDetail();
                             }
                             break;
                         case 1:
                             {
                                 userVm.modal.title = '投票失败';
                                 userVm.modal.content = '你已给ta投票了,请明天继续投票吧';
+                                opt.modal.show();
+                                opt.queryUserDetail();
                             }
                             break;
                         case 2:
                             {
                                 userVm.modal.title = '投票成功';
                                 userVm.modal.content = '恭喜您为支持的Ta贡献了一票~';
+                                opt.modal.show();
+                                opt.queryUserDetail();
+                            }
+                            break;
+                        case -1:
+                            {
+                                message.msg('活动已结束.');
                             }
                             break;
                     }
-
-                    opt.modal.show();
-                    opt.queryUserDetail();
                     vote.loading.hide();
                 }, function(err) {
                     console.log(err)
@@ -119,7 +127,7 @@
                     window.location.href = shareUrl;
                 } else {
                     if (vote.isOver()) {
-                        message.msg('活动已结束,期待其他投票活动');
+                        message.msg('活动已结束.');
                         userVm.campaignScroll = '活动已结束';
                     }
                     userVm.isover = vote.isOver();

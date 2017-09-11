@@ -22,7 +22,7 @@
                     </div>
                     <div class="billboard">
                         <div class="time ">
-                            <div class="time-title"> 活动时间倒计时 </div>
+                            <div class="time-title" ms-text="time.text"> </div>
                             <div class="time-input">
                                 <span class="time-box" ms-text="time.days + '天'">00天</span>
                                 <span class="time-box" ms-text="time.hours + '时'">00时</span>

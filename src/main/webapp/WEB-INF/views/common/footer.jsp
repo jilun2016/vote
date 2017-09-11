@@ -13,4 +13,4 @@
         </div>
     </div>
 
-    <script src="https://pic.jilunxing.com/vote/lib-6702572a23.min.js"></script>
+    <script src="https://pic.jilunxing.com/vote/lib-0b6762e297.min.js"></script>

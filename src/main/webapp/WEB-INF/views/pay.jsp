@@ -94,7 +94,7 @@
                 </div>
 
                 <div style="cursor:pointer;" ms-click="methods.pay()" ms-if="!isover" class="pay-btn">去支付</div>
-                <div ms-if="isover" onclick="javascript:alert('活动已结束.')" class="pay-btn" style="cursor:pointer; ">去支付</div>
+                <div ms-if="isover" onclick="message.msg('活动已结束.')" class="pay-btn" style="cursor:pointer; ">去支付</div>
 
 
                 <%@ include file="./common/footer.jsp" %>

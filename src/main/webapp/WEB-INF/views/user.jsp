@@ -94,7 +94,7 @@
                                         <a ms-attr="{href: '/vote/pay/v_pay?chainId=${chainId}&userId='+@userId}" ms-if="!isover">
                                             <div class="empty-btn">挑选礼物</div>
                                         </a>
-                                        <a href="javascript:alert('活动已结束.')" ms-if="isover">
+                                        <a href="javascript:;;" ms-if="isover" onclick="message.msg('活动已结束.')">
                                             <div class="empty-btn">挑选礼物</div>
                                         </a>
                                     </div>
@@ -108,14 +108,14 @@
                     <a class="top-bar-title" ms-click="methods.send()" ms-if="!isover" href="javascript:;;" style="cursor:pointer;">
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
                     </a>
-                    <div class="top-bar-title" ms-if="isover" onclick="alert('活动已结束.')">
+                    <div class="top-bar-title" ms-if="isover" onclick="message.msg('活动已结束.')">
                         <span class="btn-vote"><i class="iconfont icon-like"></i><br>投票</span>
                     </div>
                     <div class="pull-right" ms-if="!isover">
                         <a ms-attr="{href: '/vote/pay/v_pay?chainId=${chainId}&userId='+@userId}" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
                     </div>
                     <div class="pull-right" ms-if="isover">
-                        <a href="javascript:alert('活动已结束.')" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
+                        <a href="javascript:;;" onclick="message.msg('活动已结束.')" class="gift"><span class="iconfont icon-jiangpin"></span>礼物</a>
                     </div>
                 </div>
 

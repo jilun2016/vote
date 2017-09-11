@@ -22,6 +22,7 @@
                       indexVm.time.hours = '00';
                       indexVm.time.minutes = '00';
                       indexVm.time.seconds = '00';
+                      message.msg('活动已结束.')
                   } else {
                       var startTime = new Date();
                       var endTime = new Date(campaignEndTime);
