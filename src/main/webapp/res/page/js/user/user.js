@@ -109,7 +109,7 @@
                     userVm.top.voteCount = data.voteCount || 0;
                     userVm.top.viewCount = data.viewCount || 0;
                     userVm.top.giftPoint = data.giftPoint || 0;
-                }, function(err) {}, 'GET', false);
+                }, function(err) {}, 'GET', false, true);
             },
             build: function() {
                 var shareUrl = window.location.href;

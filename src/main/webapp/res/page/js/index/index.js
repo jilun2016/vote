@@ -76,7 +76,7 @@
                  }, function(err) {
                      console.log(err)
                      vote.loading.hide();
-                 }, 'GET', true);
+                 }, 'GET', true, true);
              },
              timer: {
                  creat: function() {
@@ -98,7 +98,7 @@
                      indexVm.bottom.sponsorIntro = data.sponsorIntro || '';
                      indexVm.bottom.sponsorPicUrls = data.sponsorPicUrls || [];
 
-                 }, function(err) {}, 'GET', false);
+                 }, function(err) {}, 'GET', false, true);
              },
              build: function() {
                  indexVm.userList = [];
@@ -117,6 +117,8 @@
                      opt.queryVoteDetail();
 
                      opt.timer.creat();
+
+                     indexVm.pagecfg.pageNo = 1;
                      opt.queryUsers();
 
                      vote.getWxCfg(shareUrl, function() {
