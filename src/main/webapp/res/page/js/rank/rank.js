@@ -57,7 +57,7 @@
                 }, function(err) {
                     console.log(err)
                     vote.loading.hide();
-                }, 'GET', true);
+                }, 'GET', true, true);
             },
             build: function() {
                 if (vote.isOver()) {
