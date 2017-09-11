@@ -73,7 +73,7 @@
             send: function() {
                 vote.loading.show();
                 vote.jqAjax('../common_vote', 'userId=' + userDetail.userId, function(res) {
-                    var key = res.data;
+                    var key = Number(res.data.result);
                     switch (key) {
                         case 0:
                             {
@@ -105,7 +105,6 @@
                             }
                             break;
                     }
-
                     vote.loading.hide();
                 }, function(err) {
                     console.log(err)
