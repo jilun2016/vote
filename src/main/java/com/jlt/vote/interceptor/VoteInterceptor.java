@@ -124,7 +124,7 @@ public class VoteInterceptor implements HandlerInterceptor {
             }
 
             if(BooleanUtils.isTrue(campaignService.checkCampaignFinish(chainId)) && ((uri.indexOf("/pay/prepay") > 0))){
-                ResponseUtils.createSuccessResponse(response, "活动已结束.");
+                ResponseUtils.createBadResponse(response, "活动已结束.");
                 return false;
             }
 
