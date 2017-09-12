@@ -302,10 +302,11 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public Pagination queryUserGiftList(Long chainId, Long userId, Integer pageNo, Integer pageSize) {
+	public Pagination queryUserGiftList(Long chainId, Long userId, Integer pageNo, Integer pageSize, Long voteTimestamp) {
 		Ssqb queryUserQb = Ssqb.create("com.jlt.vote.queryUserGiftList")
 				.setParam("chainId", chainId)
 				.setParam("userId", userId)
+				.setParam("voteTimestamp", voteTimestamp)
                 .setParam("start",(pageNo - 1)*pageSize)
                 .setParam("pageSize", pageSize);
 		List<Map<String, Object>> userGiftList = baseDaoSupport.findForMapList(queryUserQb);
@@ -506,10 +507,19 @@ public class CampaignServiceImpl implements ICampaignService {
 	}
 
 	@Override
-	public List<Map<String,Object>> getVoteRank(Long chainId) {
+	public Pagination getVoteRank(Long chainId, Integer pageNo, Integer pageSize) {
 		Ssqb queryRankSqb = Ssqb.create("com.jlt.vote.getVoteRank")
-				.setParam("chainId",chainId);
-		return baseDaoSupport.findForMapList(queryRankSqb);
+				.setParam("chainId",chainId)
+				.setParam("start",(pageNo - 1)*pageSize)
+				.setParam("pageSize", pageSize);
+		List<Map<String, Object>>  rankList = baseDaoSupport.findForMapList(queryRankSqb);
+
+		Ssqb queryRankCountQb = Ssqb.create("com.jlt.vote.getVoteRank_count")
+				.setParam("chainId", chainId);
+		Integer rankCount = baseDaoSupport.findForInt(queryRankCountQb);
+		return new Pagination(pageNo, pageSize, rankCount, rankList);
+
+
 	}
 
 	@Override

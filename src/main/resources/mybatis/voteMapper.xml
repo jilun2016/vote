@@ -106,15 +106,16 @@
         <result property="headImgUrl" column="headImgUrl" />
         <result property="nickName" column="nickName" />
         <result property="voteTime" column="voteTime" />
+        <result property="voteTimestamp" column="voteTimestamp" />
         <result property="giftCount" column="giftCount" />
         <result property="giftName" column="giftName" />
         <result property="remark" column="remark" />
     </resultMap>
 
     <select id="queryUserGiftList" resultMap="UserGiftMap">
-        SELECT a.headImgUrl,a.nickName,a.voteTime,a.giftCount,a.giftName,a.remark
+        SELECT a.headImgUrl,a.nickName,a.voteTime,a.giftCount,a.giftName,a.remark,a.voteTimestamp
         FROM t_t_user_gift_record a
-        WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.userId = #{userId}
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.userId = #{userId} AND a.voteTimestamp &lt; #{voteTimestamp}
         ORDER BY a.voteTime DESC
         <if test="start != null and start >= 0 and pageSize != null and pageSize >= 0">
             LIMIT #{start},#{pageSize}
@@ -190,7 +191,18 @@
         FROM t_t_user a
         WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
         ORDER BY a.voteCount DESC
-        LIMIT 50
+        <if test="start != null and start >= 0 and pageSize != null and pageSize >= 0">
+            LIMIT #{start},#{pageSize}
+        </if>
+        <if test="start != null and start > 0 and pageSize == null">
+            LIMIT #{pageSize}
+        </if>
+    </select>
+
+    <select id="getVoteRank_count" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM t_t_user a
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
     </select>
 
 </mapper>

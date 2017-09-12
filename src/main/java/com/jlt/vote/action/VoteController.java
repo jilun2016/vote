@@ -8,6 +8,7 @@ import com.jlt.vote.util.ResponseUtils;
 import com.jlt.vote.util.WebUtils;
 import com.jlt.vote.validation.ValidateFiled;
 import com.jlt.vote.validation.ValidateGroup;
+import com.xcrm.common.util.DateFormatUtils;
 import com.xcrm.log.Logger;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 public class VoteController {
@@ -160,6 +162,11 @@ public class VoteController {
 
     /**
      * 查询用户礼物列表
+     * @param chainId
+     * @param userId
+     * @param pageNo
+     * @param pageSize
+     * @param voteTimestamp
      * @param request
      * @param response
      */
@@ -168,9 +175,13 @@ public class VoteController {
             @ValidateFiled(index = 2, notNull = true, desc = "页码"),
             @ValidateFiled(index = 3, notNull = true, desc = "页大小")})
     @RequestMapping(value ="/vote/{chainId}/gifts",method = {RequestMethod.GET})
-    public void getUserGiftList(@PathVariable Long chainId,Long userId,Integer pageNo, Integer pageSize, HttpServletRequest request, HttpServletResponse response){
-        logger.info("VoteController.getUserGiftList({},{},{},{})",chainId,userId,pageNo,pageSize);
-        ResponseUtils.createSuccessResponse(response,campaignService.queryUserGiftList(chainId,userId,pageNo,pageSize));
+    public void getUserGiftList(@PathVariable Long chainId,Long userId,Integer pageNo, Integer pageSize,Long voteTimestamp,
+                                HttpServletRequest request, HttpServletResponse response){
+        logger.info("VoteController.getUserGiftList({},{},{},{},{})",chainId,userId,pageNo,pageSize,voteTimestamp);
+        if(Objects.isNull(voteTimestamp)){
+            voteTimestamp = DateFormatUtils.addDate(DateFormatUtils.getNow(),1).getTime();
+        }
+        ResponseUtils.createSuccessResponse(response,campaignService.queryUserGiftList(chainId,userId,pageNo,pageSize,voteTimestamp));
     }
 
     /**
@@ -195,10 +206,13 @@ public class VoteController {
      * @param request
      * @param response
      */
+    @ValidateGroup(fileds = { @ValidateFiled(index = 0, notNull = true, desc = "活动id"),
+            @ValidateFiled(index = 1, notNull = true, desc = "页码"),
+            @ValidateFiled(index = 2, notNull = true, desc = "页大小")})
     @RequestMapping(value ="/vote/{chainId}/rank",method = {RequestMethod.GET})
-    public void voteRank(@PathVariable Long chainId, ModelAndView mav,HttpServletRequest request, HttpServletResponse response){
+    public void voteRank(@PathVariable Long chainId, Integer pageNo, Integer pageSize, ModelAndView mav,HttpServletRequest request, HttpServletResponse response){
         logger.info("VoteController.voteRank({})",chainId);
-        ResponseUtils.createSuccessResponse(response,campaignService.getVoteRank(chainId));
+        ResponseUtils.createSuccessResponse(response,campaignService.getVoteRank(chainId,pageNo, pageSize));
     }
 
 

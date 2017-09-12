@@ -47,6 +47,11 @@ public class UserGiftRecord {
     private Date voteTime;
 
     /**
+     * 投票时间戳
+     */
+    private Long voteTimestamp;
+
+    /**
      * 投票礼物Id
      */
     private Long giftId;
@@ -134,6 +139,14 @@ public class UserGiftRecord {
 
     public void setVoteTime(Date voteTime) {
         this.voteTime = voteTime;
+    }
+
+    public Long getVoteTimestamp() {
+        return voteTimestamp;
+    }
+
+    public void setVoteTimestamp(Long voteTimestamp) {
+        this.voteTimestamp = voteTimestamp;
     }
 
     public Long getGiftId() {

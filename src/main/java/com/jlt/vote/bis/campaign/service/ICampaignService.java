@@ -7,7 +7,6 @@ import com.jlt.vote.bis.campaign.vo.VoterVo;
 import com.jlt.vote.bis.wx.entity.UserGiftRecord;
 import com.xcrm.common.page.Pagination;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -104,9 +103,10 @@ public interface ICampaignService {
      * @param userId 用户id
      * @param pageNo
      * @param pageSize
+     * @param voteTimestamp
      * @return
      */
-    Pagination queryUserGiftList(Long chainId,Long userId, Integer pageNo, Integer pageSize);
+    Pagination queryUserGiftList(Long chainId, Long userId, Integer pageNo, Integer pageSize, Long voteTimestamp);
 
     /**
      * 查询活动奖品信息
@@ -173,9 +173,10 @@ public interface ICampaignService {
     /**
      * 投票排行
      * @param chainId
-     * @return
+     * @param pageNo
+     *@param pageSize @return
      */
-    List<Map<String,Object>> getVoteRank(Long chainId);
+    Pagination getVoteRank(Long chainId, Integer pageNo, Integer pageSize);
 
     /**
      * 删除所有redis的key

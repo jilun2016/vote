@@ -160,6 +160,7 @@ public class WxServiceImpl implements IWxService {
         userGiftRecord.setOrderId(pay.getId());
         userGiftRecord.setUserId(giftWxPrePayOrder.getUserId());
         userGiftRecord.setVoteTime(now);
+        userGiftRecord.setVoteTimestamp(System.currentTimeMillis());
         userGiftRecord.setRemark(giftWxPrePayOrder.getRemark());
         campaignService.saveUserGiftRecord(userGiftRecord);
         return JSON.toJSONString(params2);
