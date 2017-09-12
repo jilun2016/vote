@@ -84,6 +84,10 @@
                          timer = window.setInterval(function() {
                              vote.endTimeLoop(indexVm)
                          }, 1000);
+                     } else {
+                         if (timer) {
+                             window.clearInterval(timer);
+                         }
                      }
                  }
              },
