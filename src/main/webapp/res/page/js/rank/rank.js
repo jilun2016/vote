@@ -1,6 +1,6 @@
 ;
 (function($) {
-    var timer = null;
+    var _timer = null;
     var rankVm = avalon.define({
         $id: "rank",
         time: {
@@ -36,12 +36,12 @@
             timer: {
                 creat: function() {
                     if (!vote.isOver()) {
-                        timer = window.setInterval(function() {
-                            vote.endTimeLoop(rankVm)
+                        _timer = window.setInterval(function() {
+                            !vote.isOver() && vote.endTimeLoop(rankVm);
                         }, 1000);
                     } else {
-                        if (timer) {
-                            window.clearInterval(timer);
+                        if (_timer) {
+                            window.clearInterval(_timer);
                         }
                     }
                 }

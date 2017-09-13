@@ -1,6 +1,6 @@
  ;
  (function($) {
-     var timer = null;
+     var _timer = null;
      var indexVm = avalon.define({
          $id: "vote",
          top: {
@@ -81,12 +81,12 @@
              timer: {
                  creat: function() {
                      if (!vote.isOver()) {
-                         timer = window.setInterval(function() {
-                             vote.endTimeLoop(indexVm)
+                         _timer = window.setInterval(function() {
+                             !vote.isOver() && vote.endTimeLoop(indexVm);
                          }, 1000);
                      } else {
-                         if (timer) {
-                             window.clearInterval(timer);
+                         if (_timer) {
+                             window.clearInterval(_timer);
                          }
                      }
                  }
