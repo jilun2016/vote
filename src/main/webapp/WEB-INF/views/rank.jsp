@@ -29,7 +29,7 @@
                                 <span class="time-box" ms-text="time.seconds + '秒'">00秒</span>
                             </div>
                             <div class="billboard-top"> <img src="/res/page/img/billboard-top.png"> </div>
-                            <div class="billboard-body">
+                            <div class="billboard-body" id="billboardDiv" style="display:none;">
                                 <div class="tab-pane active">
                                     <ul ms-if="list.length>0">
                                         <li ms-for="($index,item) in list">

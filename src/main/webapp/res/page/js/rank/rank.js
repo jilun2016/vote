@@ -20,7 +20,7 @@
                 rankOpt.queryRanks();
             }
         },
-        isMore: true,
+        isMore: false,
         pageCfg: {
             pageNo: 1, //rankVm.pageCfg.pageNo
             pageSize: 10, //rankVm.pageCfg.pageSize
@@ -58,7 +58,7 @@
                     return query.substring(iStart);
                 return query.substring(iStart, iEnd);
             },
-            queryRanks: function(callback) {
+            queryRanks: function() {
                 vote.loading.show();
                 var param = [];
                 param.push('pageNo=' + rankVm.pageCfg.pageNo);
@@ -75,7 +75,7 @@
                         rankVm.pageCfg.pageNo--;
                     }
                     vote.loading.hide();
-                    callback && callback(res.data.list);
+                    $("#billboardDiv").show();
                 }, function(err) {
                     console.log(err)
                     vote.loading.hide();
