@@ -46,7 +46,7 @@
                     userId: userDetail.userId
                 }
                 if (userVm.pagecfg.pageNo > 1) {
-                    param.voteTimestamp = userVm.giftList[0].voteTimestamp;
+                    param.voteTimestamp = userVm.giftList[userVm.giftList.length - 1].voteTimestamp;
                 }
                 vote.jqAjax('../gifts', param, function(res) {
 
@@ -57,7 +57,7 @@
                     if (res.data.list.length === 0) {
                         userVm.pagecfg.pageNo--;
                     }
-                    userVm.isMore = !(res.data.totalCount == userVm.giftList.length);
+
 
                     var list = res.data.list;
                     var len = list.length;
@@ -67,6 +67,8 @@
                         item.voteTimeStr = item.remark ? ("留言: " + item.remark + '<br/>' + st) : st;
                     }
                     userVm.giftList = userVm.giftList.concat(res.data.list);
+
+                    userVm.isMore = !(res.data.totalCount == userVm.giftList.length);
                     vote.loading.hide();
                 }, function(err) {
                     console.log(err)
