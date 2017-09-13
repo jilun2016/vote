@@ -117,12 +117,7 @@
         FROM t_t_user_gift_record a
         WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.userId = #{userId} AND a.voteTimestamp &lt; #{voteTimestamp}
         ORDER BY a.voteTime DESC
-        <if test="start != null and start >= 0 and pageSize != null and pageSize >= 0">
-            LIMIT #{start},#{pageSize}
-        </if>
-        <if test="start != null and start > 0 and pageSize == null">
-            LIMIT #{pageSize}
-        </if>
+        LIMIT #{pageSize}
     </select>
 
     <select id="queryUserGiftList_count" resultType="java.lang.Integer">
