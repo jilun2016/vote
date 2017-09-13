@@ -45,6 +45,9 @@
                     pageSize: userVm.pagecfg.pageSize,
                     userId: userDetail.userId
                 }
+                if (userVm.pagecfg.pageNo > 1) {
+                    param.voteTimestamp = userVm.giftList[0].voteTimestamp;
+                }
                 vote.jqAjax('../gifts', param, function(res) {
 
                     if (userVm.pagecfg.pageNo == 1) {

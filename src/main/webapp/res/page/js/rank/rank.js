@@ -15,7 +15,15 @@
         methods: {
             jumpToUserDetail: function(index) {
                 window.location.href = 'v_user/' + rankVm.list[index].userId;
+            },
+            loadMore: function() {
+                rankOpt.queryRanks();
             }
+        },
+        isMore: true,
+        pageCfg: {
+            pageNo: 1, //rankVm.pageCfg.pageNo
+            pageSize: 10, //rankVm.pageCfg.pageSize
         }
     });
     //未达到 10条  隐藏 加载更多
@@ -50,12 +58,27 @@
                     return query.substring(iStart);
                 return query.substring(iStart, iEnd);
             },
-            queryRanks: function() {
+            queryRanks: function(callback) {
                 vote.loading.show();
+                var param = [];
+                param.push('pageNo=' + rankVm.pageCfg.pageNo);
+                param.push('pageSize=' + rankVm.pageCfg.pageSize);
+                vote.jqAjax('rank', param.join('&'), function(res) {
+                    if (rankVm.pageCfg.pageNo == 1) {
+                        rankVm.list = res.data.list || [];
+                    } else {
+                        rankVm.list = rankVm.list.concat(res.data.list);
+                    }
+                    rankVm.isMore = !(res.data.totalCount == rankVm.list.length);
 
-                vote.jqAjax('rank', "", function(res) {
-                    rankVm.list = res.data || [];
+                    if (rankVm.isMore) {
+                        rankVm.pageCfg.pageNo = rankVm.pageCfg.pageNo + 1;
+                    } else {
+                        rankVm.pageCfg.pageNo = rankVm.pageCfg.pageNo - 1;
+                    }
+
                     vote.loading.hide();
+                    callback && callback(res.data.list);
                 }, function(err) {
                     console.log(err)
                     vote.loading.hide();
@@ -86,9 +109,9 @@
             }
         };
         return {
+            queryRanks: opt.queryRanks,
             build: opt.build
         }
     })();
-
     rankOpt.build();
 })(Zepto)

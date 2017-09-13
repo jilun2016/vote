@@ -12,7 +12,6 @@
                 <title>排行榜</title>
                 <%@ include file="./common/header.jsp" %>
 
-
             </head>
 
             <body ms-controller="rank">
@@ -50,6 +49,9 @@
                                                 </div>
                                                 <div class="ticket" style="width:8rem;" ms-text=" item.voteCount + '票' "></div>
                                             </a>
+                                        </li>
+                                        <li ms-if="isMore">
+                                            <button type="button" class="btn btn-default btn-block" ms-click="methods.loadMore()">加载更多</button>
                                         </li>
                                     </ul>
                                 </div>
