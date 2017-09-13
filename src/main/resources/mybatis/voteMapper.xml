@@ -123,7 +123,7 @@
     <select id="queryUserGiftList_count" resultType="java.lang.Integer">
         SELECT COUNT(1)
         FROM t_t_user_gift_record a
-        WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.userId = #{userId} AND a.voteTimestamp &lt; #{voteTimestamp}
+        WHERE a.dataStatus = 1 AND a.chainId = #{chainId} AND a.userId = #{userId}
     </select>
     
     <update id="updateCampaignViewCount">
