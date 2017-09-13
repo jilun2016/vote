@@ -57,9 +57,9 @@
                     if (res.data.list.length === 0) {
                         userVm.pagecfg.pageNo--;
                     }
-                    var list = res.data.list;
-                    userVm.isMore = list.length == (userVm.pagecfg.pageSize * (userVm.pagecfg.pageNo - 1));
+                    userVm.isMore = !(res.data.totalCount == userVm.giftList.length);
 
+                    var list = res.data.list;
                     var len = list.length;
                     for (var i = 0; i < len; i++) {
                         var item = list[i];

@@ -70,13 +70,10 @@
                         rankVm.list = rankVm.list.concat(res.data.list);
                     }
                     rankVm.isMore = !(res.data.totalCount == rankVm.list.length);
-
-                    if (rankVm.isMore) {
-                        rankVm.pageCfg.pageNo = rankVm.pageCfg.pageNo + 1;
-                    } else {
-                        rankVm.pageCfg.pageNo = rankVm.pageCfg.pageNo - 1;
+                    rankVm.pageCfg.pageNo++;
+                    if (res.data.list.length === 0) {
+                        rankVm.pageCfg.pageNo--;
                     }
-
                     vote.loading.hide();
                     callback && callback(res.data.list);
                 }, function(err) {
