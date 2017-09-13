@@ -46,7 +46,7 @@
                     userId: userDetail.userId
                 }
                 if (userVm.pagecfg.pageNo > 1) {
-                    param.voteTimestamp = userVm.giftList[0].voteTimestamp;
+                    param.voteTimestamp = userVm.giftList[userVm.giftList.length - 1].voteTimestamp;
                 }
                 vote.jqAjax('../gifts', param, function(res) {
 
