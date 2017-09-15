@@ -528,8 +528,8 @@ public class CampaignServiceImpl implements ICampaignService {
 		if(keys != null && keys.size() > 0){
 			keys.forEach(a->{
 			    if(Objects.isNull(a)
-                        ||(a.indexOf(CacheConstants.CAMPAIGN_VOTER_COUNT) <=0)
-                        ||(a.indexOf(CacheConstants.CAMPAIGN_VOTER_USER_COUNT) <=0)){
+                        ||((a.indexOf(CacheConstants.CAMPAIGN_VOTER_COUNT) <=0)
+						&&(a.indexOf(CacheConstants.CAMPAIGN_VOTER_USER_COUNT) <=0))){
                     redisDaoSupport.del(a);
                 }
 			});
