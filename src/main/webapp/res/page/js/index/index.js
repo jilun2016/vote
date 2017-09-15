@@ -39,7 +39,7 @@
              rendered: function() {
                  $("#masonry").show();
                  indexVm.isLoadImg = true;
-                 indexVm.isShowMore = indexVm.userList.length == (indexVm.pagecfg.pageSize * (indexVm.pagecfg.pageNo - 1));
+
                  vote.loading.hide();
                  setTimeout(function() {
                      imagesLoaded('#masonry', function() {
@@ -73,6 +73,8 @@
                          indexVm.pagecfg.pageNo--;
                      }
                      indexVm.userList = indexVm.userList.concat(data.data.list);
+                     // !(res.data.totalCount == rankVm.list.length);
+                     indexVm.isShowMore = !(indexVm.userList.length == data.data.totalCount);
                  }, function(err) {
                      console.log(err)
                      vote.loading.hide();
