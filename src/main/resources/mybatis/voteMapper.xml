@@ -171,7 +171,7 @@
     <update id="updateUserVoteInfo">
         UPDATE t_t_user a
         LEFT JOIN t_t_campaign_vote b ON a.chainId = b.chainId
-        SET a.id = #{userId}
+        SET a.id = #{userId},a.created = NOW()
           <if test="giftPoint != null and giftPoint >0">
             ,a.giftPoint = a.giftPoint + #{giftPoint}
           </if>
@@ -185,7 +185,7 @@
         SELECT a.headPic,a.name,a.number,a.voteCount,a.giftPoint,a.id AS userId,a.declaration
         FROM t_t_user a
         WHERE a.dataStatus = 1 AND a.chainId = #{chainId}
-        ORDER BY a.voteCount DESC
+        ORDER BY a.voteCount DESC ,a.created DESC
         <if test="start != null and start >= 0 and pageSize != null and pageSize >= 0">
             LIMIT #{start},#{pageSize}
         </if>
