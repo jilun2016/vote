@@ -70,6 +70,9 @@
                         rankVm.list = rankVm.list.concat(res.data.list);
                     }
                     rankVm.isMore = !(res.data.totalCount == rankVm.list.length);
+                    if (res.data.list.length < rankVm.pagecfg.pageSize) {
+                        rankVm.isMore = false;
+                    }
                     rankVm.pageCfg.pageNo++;
                     if (res.data.list.length === 0) {
                         rankVm.pageCfg.pageNo--;

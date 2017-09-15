@@ -69,6 +69,9 @@
                     userVm.giftList = userVm.giftList.concat(res.data.list);
 
                     userVm.isMore = !(res.data.totalCount == userVm.giftList.length);
+                    if (res.data.list.length < userVm.pagecfg.pageSize) {
+                        userVm.isMore = false;
+                    }
                     vote.loading.hide();
                 }, function(err) {
                     console.log(err)

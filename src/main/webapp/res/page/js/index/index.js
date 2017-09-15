@@ -75,6 +75,9 @@
                      indexVm.userList = indexVm.userList.concat(data.data.list);
                      // !(res.data.totalCount == rankVm.list.length);
                      indexVm.isShowMore = !(indexVm.userList.length == data.data.totalCount);
+                     if (data.data.list.length < indexVm.pagecfg.pageSize) {
+                         indexVm.isShowMore = false;
+                     }
                  }, function(err) {
                      console.log(err)
                      vote.loading.hide();
