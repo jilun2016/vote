@@ -77,7 +77,7 @@
                                     <a href="javascript:;;" class="b-b-line"> <span class="icon-box "> 
                                         <img ms-attr="{src: @item.headImgUrl +'?x-oss-process=style/q_60'}"> </span>
                                         <div class="inner">
-                                            <div class="inner-title" ms-text="item|titleFilter"></div>
+                                            <div class="inner-title" ms-html="item|titleFilter"></div>
                                             <div class="inner-content" ms-html="item.voteTimeStr"></div>
                                         </div>
                                     </a>
